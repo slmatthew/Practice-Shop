@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\MainController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [ MainController::class, 'main' ]);
+Route::get('/categories', [ MainController::class, 'categories' ]);
+Route::get('/product/{product?}', [ MainController::class, 'product' ]);
+
