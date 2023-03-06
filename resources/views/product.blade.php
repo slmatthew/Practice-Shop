@@ -3,7 +3,7 @@
 @section('content')
     <main>
 
-        {{ $product }}
+        {{ $product->name ?? null }}
 
     </main>
 @endsection
