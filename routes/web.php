@@ -15,8 +15,8 @@ use App\Http\Controllers\MainController;
 |
 */
 
-Route::get('/', [ MainController::class, 'main' ]);
-Route::get('/categories', [ MainController::class, 'categories' ]);
-Route::get('/products', [ MainController::class, 'products' ]);
-Route::get('/product/{product?}', [ MainController::class, 'product' ]);
+Route::get('/', [ MainController::class, 'main' ])->name('main');
+Route::get('/categories', [ MainController::class, 'categories' ])->name('categories');
+Route::get('/products', [ MainController::class, 'products' ])->name('products');
+Route::get('/product/{product?}', [ MainController::class, 'product' ])->name('product');
 
