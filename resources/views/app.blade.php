@@ -9,6 +9,12 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
+    @if(isset($css))
+        @foreach($css as $cssfile)
+            <link href="{{ asset("css/{$cssfile}") }}" rel="stylesheet">
+        @endforeach
+    @endif
+
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
 
@@ -47,15 +53,15 @@
             </a>
 
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                <li><a href="{{ route('main') }}" class="nav-link px-2 link-secondary">Главная</a></li>
-                <li><a href="{{ route('products') }}" class="nav-link px-2 link-dark">Товары</a></li>
+                <li><a href="{{ route('main') }}" class="nav-link px-2 link-{{ $navbar == 'main' ? 'secondary' : 'dark' }}">Главная</a></li>
+                <li><a href="{{ route('products') }}" class="nav-link px-2 link-{{ $navbar == 'products' ? 'secondary' : 'dark' }}">Товары</a></li>
                 <li><a href="#" class="nav-link px-2 link-dark">Корзина</a></li>
                 <li><a href="#" class="nav-link px-2 link-dark">О нас</a></li>
             </ul>
 
-            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-                <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
-            </form>
+{{--            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">--}}
+{{--                <input type="search" class="form-control" placeholder="Search..." aria-label="Search">--}}
+{{--            </form>--}}
 
             @auth
                 <div class="dropdown text-end">
@@ -63,19 +69,17 @@
                         <img src="{{ auth()->user()->image }}" alt="mdo" width="32" height="32" class="rounded-circle">
                     </a>
                     <ul class="dropdown-menu text-small">
-                        <li><a class="dropdown-item" href="#">New project... {{ auth()->user()->username }}</a></li>
-                        <li><a class="dropdown-item" href="#">Settings</a></li>
-                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li><a class="dropdown-item" href="#">{{ auth()->user()->username }}</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a href="{{ route('logout.perform') }}" class="dropdown-item" href="#">Sign out</a></li>
+                        <li><a href="{{ route('logout.perform') }}" class="dropdown-item" href="#">Выйти</a></li>
                     </ul>
                 </div>
             @endauth
 
             @guest
                 <div class="text-end">
-                    <a href="{{ route('login.perform') }}" class="btn btn-secondary my-2">Login</a>
-                    <a href="{{ route('register.perform') }}" class="btn btn-primary my-2">Sign-up</a>
+                    <a href="{{ route('login.perform') }}" class="btn btn-outline-secondary my-2">Вход</a>
+                    <a href="{{ route('register.perform') }}" class="btn btn-outline-primary my-2">Регистрация</a>
                 </div>
             @endguest
         </div>
@@ -88,11 +92,11 @@
 
 <footer class="text-muted py-5">
     <div class="container">
-        <p class="float-end mb-1">
-            <a href="#">Вернуться в начало</a>
-        </p>
-        <p class="mb-1">&copy; slm.shop 2023</p>
-        <p class="mb-0">Ты пидор, что ли?</p>
+{{--        <p class="float-end mb-1">--}}
+{{--            <a href="#">Вернуться в начало</a>--}}
+{{--        </p>--}}
+        <p class="mb-1">&copy; slmatthew, 2023</p>
+        <p class="mb-0"><3</p>
     </div>
 </footer>
 

@@ -9,7 +9,8 @@ class MainController extends Controller
 {
     public function main(): \Illuminate\Contracts\View\View
     {
-        return view('welcome');
+        $products = Product::get();
+        return view('welcome', ['products' => $products]);
     }
 
     public function categories(): \Illuminate\Contracts\View\View

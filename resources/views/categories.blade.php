@@ -1,4 +1,4 @@
-@extends('app')
+@extends('app', ['navbar' => 'categories'])
 
 @section('content')
     <main>
