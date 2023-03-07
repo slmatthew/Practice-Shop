@@ -59,9 +59,9 @@
                 <li><a href="#" class="nav-link px-2 link-dark">О нас</a></li>
             </ul>
 
-{{--            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">--}}
-{{--                <input type="search" class="form-control" placeholder="Search..." aria-label="Search">--}}
-{{--            </form>--}}
+            {{--            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">--}}
+            {{--                <input type="search" class="form-control" placeholder="Search..." aria-label="Search">--}}
+            {{--            </form>--}}
 
             @auth
                 <div class="dropdown text-end">
@@ -71,7 +71,7 @@
                     <ul class="dropdown-menu text-small">
                         <li><a class="dropdown-item" href="#">{{ auth()->user()->username }}</a></li>
                         @if(auth()->user()->isAdmin())
-                            <li><a class="dropdown-item" href="{{ route('admin.home') }}">Управление</a></li>
+                            <li><a class="dropdown-item" href="#">Управление</a></li>
                         @endif
                         <li><hr class="dropdown-divider"></li>
                         <li><a href="{{ route('logout.perform') }}" class="dropdown-item" href="#">Выйти</a></li>
@@ -95,9 +95,9 @@
 
 <footer class="text-muted py-5">
     <div class="container">
-{{--        <p class="float-end mb-1">--}}
-{{--            <a href="#">Вернуться в начало</a>--}}
-{{--        </p>--}}
+        {{--        <p class="float-end mb-1">--}}
+        {{--            <a href="#">Вернуться в начало</a>--}}
+        {{--        </p>--}}
         <p class="mb-1">&copy; slmatthew, 2023</p>
         <p class="mb-0"><3</p>
     </div>

@@ -1,10 +1,14 @@
 <?php
 
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\LogoutController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\MainController;
-use App\Http\Controllers\RegisterController;
+use \App\Http\Controllers\AdminController;
 
+use \App\Http\Middleware\ValidateAdmin;
+
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,10 +22,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Auth::routes([
+    'reset' => false,
+    'confirm' => false
+]);
+
 Route::get('/', [ MainController::class, 'main' ])->name('main');
 Route::get('/categories', [ MainController::class, 'categories' ])->name('categories');
 Route::get('/products', [ MainController::class, 'products' ])->name('products');
-Route::get('/product/{product?}', [ MainController::class, 'product' ])->name('product');
+Route::get('/product/{product}', [ MainController::class, 'product' ])->name('product');
 
 Route::group(['middleware' => ['guest']], function() {
     /**
@@ -43,4 +52,8 @@ Route::group(['middleware' => ['auth']], function() {
      * Logout Routes
      */
     Route::get('/logout', [LogoutController::class, 'perform'])->name('logout.perform');
+});
+
+Route::group(['middleware' => ['auth', ValidateAdmin::class]], function() {
+   Route::get('/admin', [AdminController::class, 'home'])->name('admin.home');
 });

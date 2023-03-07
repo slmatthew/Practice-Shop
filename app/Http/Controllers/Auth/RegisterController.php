@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
-use App\Models\User;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterRequest;
+use App\Models\User;
 
 class RegisterController extends Controller
 {
@@ -31,6 +31,6 @@ class RegisterController extends Controller
 
         auth()->login($user);
 
-        return redirect('/')->with('success', "Account successfully registered.");
+        return redirect(route('main'))->with('success', "Account successfully registered.");
     }
 }
