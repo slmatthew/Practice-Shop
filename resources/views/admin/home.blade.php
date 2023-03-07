@@ -1,4 +1,4 @@
-@extends('layouts.admin-master', ['navbar' => 'main', 'css' => ['welcome.css']])
+@extends('layouts.admin-master', ['navbar' => 'home', 'css' => ['welcome.css']])
 
 @section('content')
     <main>

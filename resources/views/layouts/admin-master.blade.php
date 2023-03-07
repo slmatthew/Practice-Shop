@@ -53,38 +53,24 @@
             </a>
 
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                <li><a href="{{ route('main') }}" class="nav-link px-2 link-{{ $navbar == 'main' ? 'secondary' : 'dark' }}">Главная</a></li>
-                <li><a href="{{ route('products') }}" class="nav-link px-2 link-{{ $navbar == 'products' ? 'secondary' : 'dark' }}">Товары</a></li>
-                <li><a href="#" class="nav-link px-2 link-dark">Корзина</a></li>
-                <li><a href="#" class="nav-link px-2 link-dark">О нас</a></li>
+                <li><a href="{{ route('main') }}" class="nav-link px-2 link-dark">Главная</a></li>
+                <li><a href="{{ route('admin.home') }}" class="nav-link px-2 link-{{ $navbar == 'home' ? 'secondary' : 'dark' }}">Управление</a></li>
+                <li><a href="{{ route('admin.categories') }}" class="nav-link px-2 link-{{ $navbar == 'categories' ? 'secondary' : 'dark' }}">Категории</a></li>
+                <li><a href="{{ route('admin.products') }}" class="nav-link px-2 link-{{ $navbar == 'products' ? 'secondary' : 'dark' }}">Товары</a></li>
+                <li><a href="{{ route('admin.users') }}" class="nav-link px-2 link-{{ $navbar == 'users' ? 'secondary' : 'dark' }}">Пользователи</a></li>
+                <li><a href="{{ route('admin.orders') }}" class="nav-link px-2 link-{{ $navbar == 'orders' ? 'secondary' : 'dark' }}">Заказы</a></li>
             </ul>
 
-            {{--            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">--}}
-            {{--                <input type="search" class="form-control" placeholder="Search..." aria-label="Search">--}}
-            {{--            </form>--}}
-
-            @auth
-                <div class="dropdown text-end">
-                    <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="{{ auth()->user()->image }}" alt="mdo" width="32" height="32" class="rounded-circle">
-                    </a>
-                    <ul class="dropdown-menu text-small">
-                        <li><a class="dropdown-item" href="#">{{ auth()->user()->username }}</a></li>
-                        @if(auth()->user()->isAdmin())
-                            <li><a class="dropdown-item" href="#">Управление</a></li>
-                        @endif
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a href="{{ route('logout.perform') }}" class="dropdown-item" href="#">Выйти</a></li>
-                    </ul>
-                </div>
-            @endauth
-
-            @guest
-                <div class="text-end">
-                    <a href="{{ route('login.perform') }}" class="btn btn-outline-secondary my-2">Вход</a>
-                    <a href="{{ route('register.perform') }}" class="btn btn-outline-primary my-2">Регистрация</a>
-                </div>
-            @endguest
+            <div class="dropdown text-end">
+                <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="{{ auth()->user()->image }}" alt="mdo" width="32" height="32" class="rounded-circle">
+                </a>
+                <ul class="dropdown-menu text-small">
+                    <li><a class="dropdown-item" href="#">{{ auth()->user()->username }}</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a href="{{ route('logout.perform') }}" class="dropdown-item" href="#">Выйти</a></li>
+                </ul>
+            </div>
         </div>
     </div>
 </header>
