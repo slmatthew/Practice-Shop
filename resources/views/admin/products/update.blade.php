@@ -30,7 +30,7 @@
             <div class="mb-3 row">
                 <label class="col-sm-2 col-form-label" for="pPrice">Цена</label>
                 <div class="col-sm-10">
-                    <input name="price" type="number" class="form-control" value="{{ $product['price'] }}" id="pPrice">
+                    <input name="price" type="number" class="form-control" value="{{ $product['price'] }}" id="pPrice" step=".01">
                 </div>
             </div>
 
