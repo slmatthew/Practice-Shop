@@ -1,4 +1,4 @@
-@extends('layouts.admin-master', ['navbar' => 'products'])
+@extends('layouts.admin-master', ['navbar' => 'products', 'pageTitle' => 'Ошибка'])
 
 @section('content')
     <div class="container">
