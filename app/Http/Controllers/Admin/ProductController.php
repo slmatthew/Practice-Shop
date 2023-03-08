@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AddProductRequest;
 use App\Models\Category;
 use App\Models\Product;
+use Illuminate\Contracts\Validation\InvokableRule;
 
 class ProductController extends Controller
 {
@@ -63,7 +65,7 @@ class ProductController extends Controller
         if(!is_null($product)) {
             $product->name          = request()->get('name');
             $product->description   = request()->get('description');
-            $product->price         = request()->get('price');
+            $product->price         = (float)request()->get('price');
             $product->image_url     = request()->get('image_url');
             $product->category_id   = (int)request()->get('category_id') == 0 ? null : request()->get('category_id');
             $product->hidden        = (int)request()->get('hidden') ?? 0;
@@ -95,11 +97,13 @@ class ProductController extends Controller
 
     public function addProduct(): \Illuminate\Contracts\View\View
     {
-        return view('admin.home');
+        return view('admin.products.add', ['categories' => Category::get()->toArray()]);
     }
 
-    public function addProductAction(): \Illuminate\Contracts\View\View
+    public function addProductAction(AddProductRequest $request)
     {
-        return view('admin.home');
+        Product::create($request->getData());
+
+        return redirect()->route('admin.products');
     }
 }

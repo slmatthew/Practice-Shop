@@ -9,7 +9,7 @@
             </div>
         @endif
 
-            <a href="{{ route('admin.products') }}" role="button" class="btn btn-primary btn-sm">Добавить товар</a>
+            <a href="{{ route('admin.product.add') }}" role="button" class="btn btn-primary btn-sm">Добавить товар</a>
 
         <table class="table align-middle">
             <thead>

@@ -60,12 +60,13 @@ Route::group(['middleware' => ['auth', ValidateAdmin::class]], function() {
     /* товары */
     Route::get('/admin/products', [ProductController::class, 'getProducts'])->name('admin.products');
 
+    Route::get('/admin/product/add', [ProductController::class, 'addProduct'])->name('admin.product.add');
+    Route::post('/admin/product/add/action', [ProductController::class, 'addProductAction'])->name('admin.product.add.action');
+
     Route::get('/admin/product/{product}', [ProductController::class, 'updateProduct'])->name('admin.product');
     Route::post('/admin/product/update', [ProductController::class, 'updateProductAction'])->name('admin.product.update');
-    Route::post('/admin/product/delete', [ProductController::class, 'deleteProductAction'])->name('admin.product.delete');
 
-    Route::get('/admin/product/add', [ProductController::class, 'addProduct'])->name('admin.product.add');
-    Route::post('/admin/product/add', [ProductController::class, 'addProductAction'])->name('admin.product.add.post');
+    Route::post('/admin/product/delete', [ProductController::class, 'deleteProductAction'])->name('admin.product.delete');
 
     /* категории */
     Route::get('/admin/categories', [AdminController::class, 'categories'])->name('admin.categories');
