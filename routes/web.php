@@ -74,7 +74,7 @@ Route::group(['middleware' => ['auth', ValidateAdmin::class]], function() {
 
     Route::post('/admin/category/add', [CategoriesController::class, 'add'])->name('admin.category.add');
     Route::post('/admin/category/update', [CategoriesController::class, 'update'])->name('admin.category.update');
-    Route::post('/admin/category/delete', [CategoriesController::class, 'main'])->name('admin.category.delete');
+    Route::post('/admin/category/delete', [CategoriesController::class, 'delete'])->name('admin.category.delete');
 
     /* пользователи */
     Route::get('/admin/users', [AdminController::class, 'users'])->name('admin.users');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AddCategoriesRequest;
+use App\Http\Requests\DeleteCategoriesRequest;
 use App\Http\Requests\UpdateCategoriesRequest;
 use App\Models\Category;
 
@@ -25,6 +26,14 @@ class CategoriesController extends Controller
         $category = Category::find($request->getData()['id']);
         $category->name = $request->getData()['name'];
         $category->save();
+
+        return view('admin.categories.main', ['categories' => Category::get()->toArray()]);
+    }
+
+    public function delete(DeleteCategoriesRequest $request)
+    {
+        $category = Category::find($request->getId());
+        $category->delete();
 
         return view('admin.categories.main', ['categories' => Category::get()->toArray()]);
     }
