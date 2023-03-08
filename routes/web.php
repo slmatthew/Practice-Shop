@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Auth\LoginController;
@@ -69,8 +70,11 @@ Route::group(['middleware' => ['auth', ValidateAdmin::class]], function() {
     Route::post('/admin/product/delete', [ProductController::class, 'deleteProductAction'])->name('admin.product.delete');
 
     /* категории */
-    Route::get('/admin/categories', [AdminController::class, 'categories'])->name('admin.categories');
-    Route::get('/admin/category/{category}', [AdminController::class, 'category'])->name('admin.category');
+    Route::get('/admin/categories', [CategoriesController::class, 'main'])->name('admin.categories.main');
+
+    Route::post('/admin/category/add', [CategoriesController::class, 'add'])->name('admin.category.add');
+    Route::post('/admin/category/update', [CategoriesController::class, 'update'])->name('admin.category.update');
+    Route::post('/admin/category/delete', [CategoriesController::class, 'main'])->name('admin.category.delete');
 
     /* пользователи */
     Route::get('/admin/users', [AdminController::class, 'users'])->name('admin.users');

@@ -30,13 +30,12 @@
         @foreach($products as $product)
             <tr>
                 <th scope="row">
-                    <span class="placeholder"></span>
                     <img src="{{ $product['image_url'] }}" style="max-width: 5em;max-height: 5em" class="img-thumbnail rounded float-start">
                 </th>
                 <td>{{ $product['name'] }}</td>
                 <td>
                     @if($product['category'][0])
-                        <a href="{{ route('admin.category', $product['category'][1]->id) }}">{{ $product['category'][1]->name }}</a>
+                        {{ $product['category'][1]->name }}
                     @else
                         нет
                     @endif
@@ -45,7 +44,7 @@
                 <td>
                     <a href="{{ route('product', $product['id']) }}" target="_blank" role="button" class="btn btn-outline-secondary btn-sm">Открыть</a>
                     <a href="{{ route('admin.product', $product['id']) }}" role="button" class="btn btn-outline-primary btn-sm">Изменить</a>
-                    <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#{{ "mdp{$product['id']}" }}">
+                    <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#{{ "mdpc{$product['id']}" }}">
                         Удалить
                     </button>
                     {{--                        <a href="{{ route('admin.product.delete', $product['id']) }}" role="button" class="btn btn-outline-danger btn-sm">Удалить</a>--}}
@@ -56,6 +55,6 @@
     </table>
 
     @foreach($products as $product)
-        @include('admin.products.partials.modalDelete', ['id' => $product['id'], 'product' => $product])
+        @include('admin.partials.modalDelete', ['action' => route('admin.product.delete'), 'id' => $product['id'], 'product' => $product])
     @endforeach
 @endsection

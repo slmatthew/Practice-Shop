@@ -1,17 +1,20 @@
-<div class="modal fade" id="{{ "mdp{$id}" }}" tabindex="-1" aria-labelledby="{{ "mdp{$id}Label" }}" aria-hidden="true">
+<div class="modal fade" id="{{ "mdpc{$id}" }}" tabindex="-1" aria-labelledby="{{ "mdpc{$id}Label" }}" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
+            @php
+                $data = $product ?? $category;
+            @endphp
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="{{ "mdp{$id}Label" }}">{{ $product['name'] }}</h1>
+                <h1 class="modal-title fs-5" id="{{ "mdpc{$id}Label" }}">{{ $data['name'] }}</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
             </div>
-            <form method="post" action="{{ route('admin.product.delete') }}">
+            <form method="post" action="{{ $action }}">
                 @csrf
 
-                <input type="hidden" name="id" value="{{ $product['id'] }}" />
+                <input type="hidden" name="id" value="{{ $data['id'] }}" />
 
                 <div class="modal-body">
-                    Вы действительно хотите удалить товар #{{ $product['id'] }}?
+                    Вы действительно хотите удалить {{ isset($product) ? 'товар' : 'категорию' }} #{{ $data['id'] }}?
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Отмена</button>

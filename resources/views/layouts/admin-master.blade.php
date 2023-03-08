@@ -99,7 +99,7 @@
                         ],
                         [
                             'navItem' => 'categories',
-                            'route' => 'admin.categories',
+                            'route' => 'admin.categories.main',
                             'feather' => 'folder',
                             'text' => 'Категории'
                         ],
