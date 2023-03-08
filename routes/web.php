@@ -61,7 +61,7 @@ Route::group(['middleware' => ['auth', ValidateAdmin::class]], function() {
     Route::get('/admin/products', [ProductController::class, 'getProducts'])->name('admin.products');
 
     Route::get('/admin/product/{product}', [ProductController::class, 'updateProduct'])->name('admin.product');
-    Route::post('/admin/product/{product}/update', [ProductController::class, 'updateProductAction'])->name('admin.product.update');
+    Route::post('/admin/product/update', [ProductController::class, 'updateProductAction'])->name('admin.product.update');
     Route::get('/admin/product/{product}/delete', [ProductController::class, 'deleteProductAction'])->name('admin.product.delete');
 
     Route::get('/admin/product/add', [ProductController::class, 'addProduct'])->name('admin.product.add');
