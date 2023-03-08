@@ -26,7 +26,7 @@ class AddProductRequest extends FormRequest
             'name' => $this->get('name') ?? 'unknown',
             'description' => $this->get('description') ?? '',
             'price' => $this->get('price') ?? 0,
-            'image_url' => $this->get('description') ?? 'https://vk.com/images/camera_200.png',
+            'image_url' => $this->get('image_url') ?? 'https://vk.com/images/camera_200.png',
             'category_id' => $this->get('category_id'),
             'hidden' => $this->get('hidden') ?? 0,
             'available' => $this->get('available') ?? 0
