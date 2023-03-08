@@ -3,6 +3,14 @@
 @section('content')
     <div class="container">
 
+        @if(!empty($deleteResult))
+            <div class="alert alert-{{ $deleteResult[0] ? 'success' : 'danger' }}" role="alert">
+                Товар #{{ $deleteResult[1] }} ({{ $deleteResult[2] }}) {{ $deleteResult[0] ? '' : 'не' }} был удален
+            </div>
+        @endif
+
+            <a href="{{ route('admin.products') }}" role="button" class="btn btn-primary btn-sm">Добавить товар</a>
+
         <table class="table align-middle">
             <thead>
             <tr>
@@ -29,12 +37,19 @@
                     <td>
                         <a href="{{ route('product', $product['id']) }}" target="_blank" role="button" class="btn btn-outline-secondary btn-sm">Открыть</a>
                         <a href="{{ route('admin.product', $product['id']) }}" role="button" class="btn btn-outline-primary btn-sm">Изменить</a>
-                        <a href="{{ route('admin.product.delete', $product['id']) }}" role="button" class="btn btn-outline-danger btn-sm">Удалить</a>
+                        <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#{{ "mdp{$product['id']}" }}">
+                            Удалить
+                        </button>
+{{--                        <a href="{{ route('admin.product.delete', $product['id']) }}" role="button" class="btn btn-outline-danger btn-sm">Удалить</a>--}}
                     </td>
                 </tr>
             @endforeach
             </tbody>
         </table>
+
+        @foreach($products as $product)
+            @include('admin.products.partials.modalDelete', ['id' => $product['id'], 'product' => $product])
+        @endforeach
 
     </div>
 @endsection

@@ -24,7 +24,22 @@ class ProductController extends Controller
             ];
         }
 
-        return view('admin.products.all', ['products' => $products_result]);
+        $deleteResult = [];
+
+        if(
+            !is_null(request()->get('deleteAction')) &&
+            !is_null(request()->get('delSuccess')) &&
+            !is_null(request()->get('delId')) &&
+            !is_null(request()->get('delName'))
+        ) {
+            $deleteResult = [
+                (bool)(int)request()->get('delSuccess'),
+                (int)request()->get('delId'),
+                request()->get('delName')
+            ];
+        }
+
+        return view('admin.products.all', ['products' => $products_result, 'deleteResult' => $deleteResult]);
     }
 
     public function updateProduct($product_id)
@@ -41,24 +56,41 @@ class ProductController extends Controller
 
     public function updateProductAction(): \Illuminate\Contracts\View\View
     {
+        $result = false;
+
         $product = Product::find(request()->get('id'));
 
-        $product->name          = request()->get("name");
-        $product->description   = request()->get('description');
-        $product->price         = request()->get('price');
-        $product->image_url     = request()->get('image_url');
-        $product->category_id   = (int)request()->get('category_id') == 0 ? null : request()->get('category_id');
-        $product->hidden        = (int)request()->get('hidden') ?? 0;
-        $product->available     = (int)request()->get('available') ?? 0;
+        if(!is_null($product)) {
+            $product->name          = request()->get('name');
+            $product->description   = request()->get('description');
+            $product->price         = request()->get('price');
+            $product->image_url     = request()->get('image_url');
+            $product->category_id   = (int)request()->get('category_id') == 0 ? null : request()->get('category_id');
+            $product->hidden        = (int)request()->get('hidden') ?? 0;
+            $product->available     = (int)request()->get('available') ?? 0;
 
-        $result = $product->save();
+            $result = $product->save();
+        }
 
         return view('admin.products.updateResult', ['product' => (int)request()->get('id'), 'success' => $result]);
     }
 
-    public function deleteProductAction($product_id): \Illuminate\Contracts\View\View
+    public function deleteProductAction()
     {
-        return view('admin.home');
+        $product = Product::find(request()->get('id'));
+
+        if(is_null($product)) {
+            return redirect()->route('admin.products');
+        }
+
+        $product_data = $product->toArray();
+
+        return redirect()->route('admin.products', [
+            'deleteAction' => 1,
+            'delSuccess' => $product->delete(),
+            'delId' => $product_data['id'],
+            'delName' => $product_data['name']
+        ]);
     }
 
     public function addProduct(): \Illuminate\Contracts\View\View
