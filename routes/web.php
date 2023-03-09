@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\UserController as UserController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\AdminController;
@@ -52,6 +54,8 @@ Route::group(['middleware' => ['auth']], function() {
      * Logout Routes
      */
     Route::get('/logout', [LogoutController::class, 'perform'])->name('logout.perform');
+
+    Route::get('/me', [UserController::class, 'me'])->name('user.me');
 });
 
 Route::group(['middleware' => ['auth', ValidateAdmin::class]], function() {
@@ -77,7 +81,7 @@ Route::group(['middleware' => ['auth', ValidateAdmin::class]], function() {
     Route::post('/admin/category/delete', [CategoriesController::class, 'delete'])->name('admin.category.delete');
 
     /* пользователи */
-    Route::get('/admin/users', [AdminController::class, 'users'])->name('admin.users');
+    Route::get('/admin/users', [AdminUserController::class, 'main'])->name('admin.users.main');
     Route::get('/admin/user/{user}', [AdminController::class, 'user'])->name('admin.user');
 
     /* заказы */

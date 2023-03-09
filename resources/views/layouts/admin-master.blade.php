@@ -105,7 +105,7 @@
                         ],
                         [
                             'navItem' => 'users',
-                            'route' => 'admin.users',
+                            'route' => 'admin.users.main',
                             'feather' => 'users',
                             'text' => 'Пользователи'
                         ],

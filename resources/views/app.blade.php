@@ -69,7 +69,7 @@
                         <img src="{{ auth()->user()->image }}" alt="mdo" width="32" height="32" class="rounded-circle">
                     </a>
                     <ul class="dropdown-menu text-small">
-                        <li><a class="dropdown-item" href="#">{{ auth()->user()->username }}</a></li>
+                        <li><a class="dropdown-item" href="{{ route('user.me') }}">{{ auth()->user()->username }}</a></li>
                         @if(auth()->user()->isAdmin())
                             <li><a class="dropdown-item" href="{{ route('admin.home') }}">Управление</a></li>
                         @endif
