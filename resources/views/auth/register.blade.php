@@ -8,6 +8,22 @@
         <h1 class="h3 mb-3 fw-normal">Регистрация</h1>
 
         <div class="form-group form-floating mb-3">
+            <input type="text" class="form-control" name="name" value="{{ old('name') }}" placeholder="Денис" required="required" autofocus>
+            <label for="floatingName">Имя</label>
+            @if ($errors->has('name'))
+                <span class="text-danger text-left">{{ $errors->first('name') }}</span>
+            @endif
+        </div>
+
+        <div class="form-group form-floating mb-3">
+            <input type="text" class="form-control" name="surname" value="{{ old('surname') }}" placeholder="Петров" required="required" autofocus>
+            <label for="floatingName">Фамилия</label>
+            @if ($errors->has('surname'))
+                <span class="text-danger text-left">{{ $errors->first('surname') }}</span>
+            @endif
+        </div>
+
+        <div class="form-group form-floating mb-3">
             <input type="text" class="form-control" name="username" value="{{ old('username') }}" placeholder="Имя пользователя" required="required" autofocus>
             <label for="floatingName">Имя пользователя</label>
             @if ($errors->has('username'))

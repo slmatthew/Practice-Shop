@@ -21,12 +21,14 @@ class RegisterRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'username' => 'required|unique:users,username',
             'password' => 'required|min:8',
-            'password_confirmation' => 'required|same:password'
+            'password_confirmation' => 'required|same:password',
+            'name' => 'required|string|alpha:ascii',
+            'surname' => 'required|string|alpha:ascii'
         ];
     }
 }

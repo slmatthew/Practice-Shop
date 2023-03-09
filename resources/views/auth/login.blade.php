@@ -26,7 +26,7 @@
 
 {{--        <div class="checkbox mb-3">--}}
 {{--            <label>--}}
-{{--                <input type="checkbox" value="remember-me"> Remember me--}}
+{{--                <input type="checkbox" value="remember-me"> Запомнить--}}
 {{--            </label>--}}
 {{--        </div>--}}
 
