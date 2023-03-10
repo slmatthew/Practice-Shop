@@ -47,4 +47,8 @@ class User extends Authenticatable
     }
 
     public function isAdmin(): bool { return $this->role == 'admin'; }
+
+    public function scopeLike($query, $field, $value) {
+        return $query->where($field, 'LIKE', "%$value%");
+    }
 }

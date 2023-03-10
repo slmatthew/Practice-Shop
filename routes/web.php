@@ -55,8 +55,10 @@ Route::group(['middleware' => ['auth']], function() {
      */
     Route::get('/logout', [LogoutController::class, 'perform'])->name('logout.perform');
 
-    Route::get('/me', [UserController::class, 'me'])->name('user.me');
+    Route::get('/user/me', [UserController::class, 'userMe'])->name('user.me');
 });
+
+Route::get('/user/{user}', [UserController::class, 'user'])->name('user.user');
 
 Route::group(['middleware' => ['auth', ValidateAdmin::class]], function() {
 
