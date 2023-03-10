@@ -5,6 +5,9 @@
         <div class="btn-group me-2">
             <a role="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalAddCtg">Добавить</a>
         </div>
+        <div class="btn-group me-2">
+            <button type="button" class="btn btn-outline-secondary btn-sm">Открыть</button>
+        </div>
     </div>
 @endsection
 
@@ -36,11 +39,17 @@
                 <th scope="row">
                     <img src="{{ $user['image'] }}" width="32" height="32" class="rounded-circle float-start">
                 </th>
-                <td>{{ $user['username'] }}</td>
+                <td>{{ "" . $user['name'] . " " . mb_substr($user['surname'], 0, 1) . "." }}</td>
                 <td>{{ $user['role'] == 'user' ? 'обычный' : 'админ' }}</td>
                 <td>{{ date('d.m.Y H:i:s', strtotime($user['created_at'])) }}</td>
                 <td>{{ date('d.m.Y H:i:s', strtotime($user['updated_at'])) }}</td>
                 <td>
+                    <a href="{{ route('user.user', $user['id']) }}" target="_blank" role="button" class="btn btn-outline-secondary btn-sm">
+                        Открыть
+                    </a>
+                    <a role="button" class="btn btn-outline-dark btn-sm">
+                        Заказы
+                    </a>
                     <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#">
                         Изменить
                     </button>
