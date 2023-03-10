@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\UserController as UserController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\CategoriesController;
@@ -30,9 +31,10 @@ Auth::routes([
 ]);
 
 Route::get('/', [ MainController::class, 'main' ])->name('main');
-Route::get('/categories', [ MainController::class, 'categories' ])->name('categories');
 Route::get('/products', [ MainController::class, 'products' ])->name('products');
 Route::get('/product/{product}', [ MainController::class, 'product' ])->name('product');
+
+Route::get('/products/categories', [ ProductsController::class, 'allCategories' ])->name('products.categories');
 
 Route::group(['middleware' => ['guest']], function() {
     /**

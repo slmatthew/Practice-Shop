@@ -1,0 +1,41 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Category;
+use App\Models\Product;
+use Illuminate\Http\Request;
+
+class ProductsController extends Controller
+{
+    public function allCategories() {
+        $categories = Category::get()->toArray();
+
+        foreach($categories as $i => &$ctg) {
+            $products = Product::select('image_url')->
+                where('category_id', '=', $ctg['id'])->
+                where('hidden', '<>', 1)->
+                limit(3)->
+                get()->
+                toArray();
+
+            if(empty($products)) {
+                unset($categories[$i]);
+                continue;
+            }
+
+            $min_price = Product::select('price')->
+                where('category_id', '=', $ctg['id'])->
+                where('hidden', '<>', 1)->
+                orderBy('price', 'asc')->
+                limit(1)->
+                get()->
+                toArray();
+
+            $ctg['products'] = $products;
+            $ctg['min_price'] = $min_price[0]['price'];
+        }
+
+        return view('products.allCategories', ['categories' => $categories]);
+    }
+}
