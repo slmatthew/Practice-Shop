@@ -59,4 +59,17 @@ class ProductsController extends Controller
             'products' => $products
         ]);
     }
+
+    public function product($product_id) {
+        $product = Product::find($product_id);
+
+        if(is_null($product)) abort(404);
+
+        $category = null;
+        if(!is_null($product->category_id)) {
+            $category = Category::find($product->category_id);
+        }
+
+        return view('products.item', ['product' => $product, 'category' => $category]);
+    }
 }

@@ -19,7 +19,7 @@
             </p>
             <div>
                 <button type="button" class="btn btn-sm btn-primary" {{ (bool)$product->available ?: "disabled" }}>В корзину</button>
-                <a class="btn btn-sm btn-outline-secondary" href="{{ route('product', $product->id) }}">Подробнее</a>
+                <a class="btn btn-sm btn-outline-secondary" href="{{ route('products.item', $product->id) }}">Подробнее</a>
             </div>
         </div>
     </div>
