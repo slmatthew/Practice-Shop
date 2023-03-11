@@ -38,4 +38,25 @@ class ProductsController extends Controller
 
         return view('products.allCategories', ['categories' => $categories]);
     }
+
+    public function byCategory($category_id) {
+        $ctgName = '';
+
+        if($category_id == 'all') {
+            $products = Product::where('hidden', '=', 0)->get();
+        } else {
+            $category = Category::find($category_id);
+
+            if(is_null($category)) abort(404);
+
+            $products = Product::where('category_id', '=', $category_id)->where('hidden', '=', 0)->get();
+            $ctgName = $category->name;
+        }
+
+        return view('products.list', [
+            'ctgName' => $ctgName,
+            'all' => $category_id == 'all',
+            'products' => $products
+        ]);
+    }
 }

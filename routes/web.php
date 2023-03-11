@@ -35,6 +35,7 @@ Route::get('/products', [ MainController::class, 'products' ])->name('products')
 Route::get('/product/{product}', [ MainController::class, 'product' ])->name('product');
 
 Route::get('/products/categories', [ ProductsController::class, 'allCategories' ])->name('products.categories');
+Route::get('/products/{category}', [ ProductsController::class, 'byCategory' ])->name('products.byCategory');
 
 Route::group(['middleware' => ['guest']], function() {
     /**
