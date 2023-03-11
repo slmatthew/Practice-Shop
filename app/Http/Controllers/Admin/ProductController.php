@@ -4,9 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AddProductRequest;
+use App\Http\Requests\UpdateProductRequest;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Contracts\Validation\InvokableRule;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 class ProductController extends Controller
 {
@@ -56,9 +60,9 @@ class ProductController extends Controller
         return view('admin.products.update', ['product' => $product->toArray(), 'categories' => Category::get()->toArray()]);
     }
 
-    public function updateProductAction(): \Illuminate\Contracts\View\View
+    public function updateProductAction(UpdateProductRequest $request): \Illuminate\Contracts\View\View
     {
-        $result = false;
+        $success = false;
 
         $product = Product::find(request()->get('id'));
 
@@ -66,15 +70,42 @@ class ProductController extends Controller
             $product->name          = request()->get('name');
             $product->description   = request()->get('description');
             $product->price         = (float)request()->get('price');
-            $product->image_url     = request()->get('image_url');
             $product->category_id   = (int)request()->get('category_id') == 0 ? null : request()->get('category_id');
             $product->hidden        = (int)request()->get('hidden') ?? 0;
             $product->available     = (int)request()->get('available') ?? 0;
 
-            $result = $product->save();
+            $product->image_url = $product->image_url ?? 'https://vk.com/images/camera_200.png';
+
+            if(!is_null($request->get('delete_image')) && str_starts_with($product->image_url, '/storage/')) {
+                Storage::disk('public')->delete(mb_substr($product->image_url, 9));
+                $product->image_url = 'https://vk.com/images/camera_200.png';
+            }
+
+            $file = $request->file('image');
+            if($file) {
+                if(str_starts_with($product->image_url, '/storage/')) {
+                    Storage::disk('public')->delete(mb_substr($product->image_url, 9));
+                }
+
+                $path = $file->store('products', 'public');
+                $path_2 = Storage::disk('public')->path($path);
+
+                $image = Image::make($path_2)
+                    ->heighten(1500)
+                    ->resizeCanvas(1500, 1500, 'center', false, 'ffffff')
+                    ->crop(1500, 1500)
+                    ->encode($file->extension(), 100);
+
+                $image->save($path_2, 100, $file->extension());
+                $image->destroy();
+
+                $product->image_url = Storage::url($path);
+            }
+
+            $success = $product->save();
         }
 
-        return view('admin.products.updateResult', ['product' => (int)request()->get('id'), 'success' => $result]);
+        return view('admin.products.updateResult', ['product' => (int)request()->get('id'), 'success' => $success]);
     }
 
     public function deleteProductAction()
@@ -86,6 +117,10 @@ class ProductController extends Controller
         }
 
         $product_data = $product->toArray();
+
+        if(str_starts_with($product_data['image_url'], '/storage/')) {
+            Storage::disk('public')->delete(mb_substr($product_data['image_url'], 9));
+        }
 
         return redirect()->route('admin.products', [
             'deleteAction' => 1,
@@ -102,7 +137,17 @@ class ProductController extends Controller
 
     public function addProductAction(AddProductRequest $request)
     {
-        Product::create($request->getData());
+        $data = $request->getData();
+
+        $file = $request->file('image');
+        if($file) {
+            $path = $file->store('products', 'public');
+            $url = Storage::url($path);
+        }
+
+        $data['image_url'] = $url ?? 'https://vk.com/images/camera_200.png';
+
+        Product::create($data);
 
         return redirect()->route('admin.products');
     }

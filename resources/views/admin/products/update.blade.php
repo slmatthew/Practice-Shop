@@ -1,7 +1,17 @@
 @extends('layouts.admin-master', ['navbar' => 'products', 'pageTitle' => 'Редактирование'])
 
 @section('content')
-    <form method="post" action="{{ route('admin.product.update') }}">
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    <form method="post" action="{{ route('admin.product.update') }}" enctype="multipart/form-data">
 
         @csrf
 
@@ -36,11 +46,22 @@
         <div class="mb-3 row">
             <label class="col-sm-2 col-form-label" for="pImage">Адрес картинки</label>
             <div class="col-sm-10">
-                <input name="image_url" type="text" class="form-control" value="{{ $product['image_url'] }}" id="pImage">
+                <input name="image" type="file" accept="image/png, image/jpeg, image/jpg" class="form-control" id="pImage">
                 <br />
                 <img src="{{ $product['image_url'] }}" style="max-width: 20em;max-height: 20em" class="img-thumbnail rounded float-start" alt="...">
             </div>
         </div>
+
+        @if(mb_strlen($product['image_url']) > 0 && str_starts_with($product['image_url'], '/storage/'))
+            <div class="mb-3 row">
+                <label class="col-sm-2 col-form-label form-check-label" for="pDeleteImage">
+                    Удалить загруженное изображение
+                </label>
+                <div class="col-sm-10">
+                    <input name="delete_image" class="form-check-input" type="checkbox" value="1" id="pDeleteImage">
+                </div>
+            </div>
+        @endif
 
         <div class="mb-3 row">
             <label class="col-sm-2 col-form-label" for="pCategory">Категория</label>
