@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\ImageSaver;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AddProductRequest;
 use App\Http\Requests\UpdateProductRequest;
@@ -87,19 +88,7 @@ class ProductController extends Controller
                     Storage::disk('public')->delete(mb_substr($product->image_url, 9));
                 }
 
-                $path = $file->store('products', 'public');
-                $path_2 = Storage::disk('public')->path($path);
-
-                $image = Image::make($path_2)
-                    ->heighten(1500)
-                    ->resizeCanvas(1500, 1500, 'center', false, 'ffffff')
-                    ->crop(1500, 1500)
-                    ->encode($file->extension(), 100);
-
-                $image->save($path_2, 100, $file->extension());
-                $image->destroy();
-
-                $product->image_url = Storage::url($path);
+                $product->image_url = ImageSaver::upload($file, 'products', 1500);
             }
 
             $success = $product->save();
@@ -141,8 +130,7 @@ class ProductController extends Controller
 
         $file = $request->file('image');
         if($file) {
-            $path = $file->store('products', 'public');
-            $url = Storage::url($path);
+            $url = ImageSaver::upload($file, 'products', 1500);
         }
 
         $data['image_url'] = $url ?? 'https://vk.com/images/camera_200.png';
