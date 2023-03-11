@@ -22,10 +22,14 @@
                 </div>
 
                 <p class="lead">
-{{--                    <span class="me-1">--}}
-{{--                        <del>$200</del>--}}
-{{--                    </span>--}}
-                    <span>{{ number_format($product->price, 2, ',', ' ') }} ₽</span>
+                    @if($product->available)
+                        <span>{{ number_format($product->price, 2, ',', ' ') }} ₽</span>
+                    @else
+                        <span class="me-1">
+                            <del>{{ number_format($product->price, 2, ',', ' ') }} ₽</del>
+                        </span>
+                        <span>нет в наличии</span>
+                    @endif
                 </p>
 
                 <strong><p style="font-size: 20px;">{{ $product->name }}</p></strong>

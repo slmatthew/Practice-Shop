@@ -14,7 +14,7 @@ class ProductsController extends Controller
         foreach($categories as $i => &$ctg) {
             $products = Product::select('image_url')->
                 where('category_id', '=', $ctg['id'])->
-                where('hidden', '<>', 1)->
+                where('hidden', '=', 0)->
                 limit(3)->
                 get()->
                 toArray();
@@ -26,14 +26,14 @@ class ProductsController extends Controller
 
             $min_price = Product::select('price')->
                 where('category_id', '=', $ctg['id'])->
-                where('hidden', '<>', 1)->
+                where('hidden', '=', 0)->
                 orderBy('price', 'asc')->
                 limit(1)->
                 get()->
                 toArray();
 
             $ctg['products'] = $products;
-            $ctg['min_price'] = $min_price[0]['price'];
+            $ctg['min_price'] = $min_price[0]['price'] ?? $min_price['price'] ?? 0;
         }
 
         return view('products.allCategories', ['categories' => $categories]);
