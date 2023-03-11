@@ -5,12 +5,18 @@
                 <h1 class="modal-title fs-5" id="modalAddCtgLabel">Новая категория</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
             </div>
-            <form method="post" action="{{ route('admin.category.add') }}">
+            <form method="post" action="{{ route('admin.category.add') }}" enctype="multipart/form-data">
                 @csrf
 
                 <div class="modal-body">
-                    <label class="form-label" for="pName">Название</label>
-                    <input name="name" type="text" class="form-control" placeholder="Смартфоны" value="" id="pName" required>
+                    <div class="mb-3">
+                        <label class="form-label" for="pName">Название</label>
+                        <input name="name" type="text" class="form-control" placeholder="Смартфоны" value="" id="pName" required>
+                    </div>
+                    <div>
+                        <label class="form-label" for="pImage">Изображение</label>
+                        <input name="image" type="file" class="form-control" id="pImage">
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Отмена</button>

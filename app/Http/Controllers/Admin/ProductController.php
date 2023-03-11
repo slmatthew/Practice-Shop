@@ -88,7 +88,7 @@ class ProductController extends Controller
                     Storage::disk('public')->delete(mb_substr($product->image_url, 9));
                 }
 
-                $product->image_url = ImageSaver::upload($file, 'products', 1500);
+                $product->image_url = ImageSaver::upload($file, 'products', width: 1500);
             }
 
             $success = $product->save();
@@ -130,7 +130,7 @@ class ProductController extends Controller
 
         $file = $request->file('image');
         if($file) {
-            $url = ImageSaver::upload($file, 'products', 1500);
+            $url = ImageSaver::upload($file, 'products', width: 1500);
         }
 
         $data['image_url'] = $url ?? 'https://vk.com/images/camera_200.png';

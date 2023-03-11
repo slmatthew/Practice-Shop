@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Category;
+use Illuminate\Contracts\Validation\InvokableRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateCategoriesRequest extends FormRequest
@@ -15,7 +17,8 @@ class UpdateCategoriesRequest extends FormRequest
     {
         return [
             'id' => ['numeric', 'exists:categories,id'],
-            'name' => ['string', 'required', 'unique:categories,name']
+            'name' => ['string', 'required'],
+            'image' => ['file', 'mimes:jpeg,jpg,png', 'max:5000']
         ];
     }
 

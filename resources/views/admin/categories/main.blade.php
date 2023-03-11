@@ -23,6 +23,7 @@
         <thead>
         <tr>
             <th scope="col">#</th>
+            <th scope="col">Обложка</th>
             <th scope="col">Название</th>
             <th scope="col">Действия</th>
         </tr>
@@ -33,6 +34,9 @@
                 <th scope="row">
                     {{ $ctg['id'] }}
                 </th>
+                <td>
+                    <img src="{{ $ctg['image_url'] }}" style="max-width: 5em;max-height: 5em" class="img-thumbnail rounded float-start">
+                </td>
                 <td>{{ $ctg['name'] }}</td>
                 <td>
                     <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#{{ "MUP{$ctg['id']}" }}">

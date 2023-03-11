@@ -15,7 +15,8 @@ class AddCategoriesRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['string', 'required', 'unique:categories,name']
+            'name' => ['string', 'required', 'unique:categories,name'],
+            'image' => ['file', 'mimes:jpeg,jpg,png', 'max:5000']
         ];
     }
 

@@ -7,15 +7,19 @@
                 <div class="col-md-4 col-sm-6">
                     <div class="card mb-30"><a class="card-img-tiles" href="#" data-abc="true">
                             <div class="inner">
-                                <div class="main-img"><img src="{{ $ctg['products'][0]['image_url'] }}" alt="Category"></div>
-                                @isset($ctg['products'][1])
-                                    <div class="thumblist">
-                                        <img src="{{ $ctg['products'][1]['image_url'] }}" alt="Category">
-                                        @isset($ctg['products'][2])
-                                            <img src="{{ $ctg['products'][2]['image_url'] }}" alt="Category">
-                                        @endisset
-                                    </div>
-                                @endisset
+                                @if(!is_null($ctg['image_url']))
+                                    <div class="main-img"><img src="{{ $ctg['image_url'] }}" alt="Category"></div>
+                                @else
+                                    <div class="main-img"><img src="{{ $ctg['products'][0]['image_url'] }}" alt="Category"></div>
+                                    @isset($ctg['products'][1])
+                                        <div class="thumblist">
+                                            <img src="{{ $ctg['products'][1]['image_url'] }}" alt="Category">
+                                            @isset($ctg['products'][2])
+                                                <img src="{{ $ctg['products'][2]['image_url'] }}" alt="Category">
+                                            @endisset
+                                        </div>
+                                    @endisset
+                                @endif
                             </div></a>
                         <div class="card-body text-center">
                             <h4 class="card-title">{{ $ctg['name'] }}</h4>
