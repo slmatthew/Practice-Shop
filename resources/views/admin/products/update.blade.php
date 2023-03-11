@@ -37,6 +37,13 @@
         </div>
 
         <div class="mb-3 row">
+            <label class="col-sm-2 col-form-label" for="pDescCounter">Символов в описании (идеал до 160):</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control-plaintext" value="{{ mb_strlen($product['description']) }}" id="pDescCounter" readonly>
+            </div>
+        </div>
+
+        <div class="mb-3 row">
             <label class="col-sm-2 col-form-label" for="pPrice">Стоимость</label>
             <div class="col-sm-10">
                 <input name="price" type="number" class="form-control" value="{{ $product['price'] }}" id="pPrice" step=".01" required>
@@ -99,4 +106,10 @@
         </div>
 
     </form>
+
+    <script>
+        document.getElementById('pDesc').onkeyup = function () {
+            document.getElementById('pDescCounter').value = this.value.length;
+        };
+    </script>
 @endsection
