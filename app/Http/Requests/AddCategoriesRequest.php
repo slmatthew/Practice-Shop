@@ -16,7 +16,7 @@ class AddCategoriesRequest extends FormRequest
     {
         return [
             'name' => ['string', 'required', 'unique:categories,name'],
-            'image' => ['file', 'mimes:jpeg,jpg,png', 'max:5000']
+            'image' => ['required', 'file', 'mimes:jpeg,jpg,png', 'max:5000']
         ];
     }
 

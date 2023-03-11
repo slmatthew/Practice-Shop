@@ -17,6 +17,12 @@ class CategoriesController extends Controller
         return view('admin.categories.main', ['categories' => Category::get()->toArray()]);
     }
 
+    /**
+     * @todo сделать проверку на уникальность названия категория
+     *
+     * @param AddCategoriesRequest $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function add(AddCategoriesRequest $request)
     {
         $data = $request->getData();
