@@ -6,7 +6,7 @@
             <div class="col-lg-6 col-md-8 mx-auto">
                 <h1 class="fw-light">Категории</h1>
                 <p class="lead text-muted">
-                    pedik
+                    Обзор категорий товаров: найдите все, что вам нужно, из широкого ассортимента продуктов в нашем каталоге категорий
                 </p>
                 <p>
                     <a href="{{ route('products.byCategory', 'all') }}" class="btn btn-outline-secondary">Все товары</a>
