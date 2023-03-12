@@ -30,7 +30,7 @@ Auth::routes([
     'confirm' => false
 ]);
 
-Route::view('/', 'welcome')->name('main');
+Route::get('/', [ MainController::class, 'main' ])->name('main');
 Route::get('/products', [ MainController::class, 'products' ])->name('products');
 
 Route::get('/products/categories', [ ProductsController::class, 'allCategories' ])->name('products.categories');
