@@ -10,7 +10,7 @@
                     <p class="lead text-muted">Современный магазин электроники и компьютерной периферии</p>
                     @auth
                         <p>
-                            <a href="{{ route('products') }}" role="button" class="btn btn-outline-primary my-2">Перейти в каталог</a>
+                            <a href="{{ route('products.categories') }}" role="button" class="btn btn-outline-primary my-2">Перейти в каталог</a>
                         </p>
                     @endauth
                 </div>
