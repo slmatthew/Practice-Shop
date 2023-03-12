@@ -53,7 +53,7 @@ class ProductsController extends Controller
             $ctgName = $category->name;
         }
 
-        $paginator = $products->paginate(9);
+        $paginator = $products->paginate(6);
         $products = $products->get();
 
         return view('products.list', [
