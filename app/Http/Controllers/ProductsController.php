@@ -42,21 +42,25 @@ class ProductsController extends Controller
     public function byCategory($category_id) {
         $ctgName = '';
 
-        if($category_id == 'all') {
-            $products = Product::where('hidden', '=', 0)->get();
-        } else {
+        $products = Product::orderBy('id')->where('hidden', '=', 0);
+
+        if($category_id != 'all') {
             $category = Category::find($category_id);
 
             if(is_null($category)) abort(404);
 
-            $products = Product::where('category_id', '=', $category_id)->where('hidden', '=', 0)->get();
+            $products = $products->where('category_id', '=', $category_id);
             $ctgName = $category->name;
         }
+
+        $paginator = $products->paginate(9);
+        $products = $products->get();
 
         return view('products.list', [
             'ctgName' => $ctgName,
             'all' => $category_id == 'all',
-            'products' => $products
+            'products' => $products,
+            'paginator' => $paginator
         ]);
     }
 
