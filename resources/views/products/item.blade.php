@@ -36,12 +36,16 @@
 
                 <p>{{ $product->description }}</p>
 
-                <form class="d-flex justify-content-left">
-                    <!-- Default input -->
+                <form class="d-flex justify-content-left" action="{{ route('basket.addProduct') }}" method="post">
+                    @csrf
+                    @method('PUT')
+
+                    <input type="hidden" name="product_id" value="{{ $product->id }}" />
+
                     <div class="form-outline me-1" style="width: 100px;">
-                        <input type="number" value="1" class="form-control" />
+                        <input type="number" name="quantity" value="1" class="form-control" {{ $product->available ? '' : 'disabled' }}/>
                     </div>
-                    <button class="btn btn-primary ms-1" type="submit">
+                    <button class="btn btn-primary ms-1" type="submit" {{ $product->available ? '' : 'disabled' }}>
                         В корзину
                     </button>
                     @if(Auth::check() && Auth::user()->isAdmin())
@@ -50,6 +54,19 @@
                         </a>
                     @endif
                 </form>
+                @if ($errors->get('quantity'))
+                    <div class="alert alert-danger mt-3" role="alert">
+                        В корзину можно добавить от 1 до 10 товаров
+                    </div>
+                @elseif($errors->any())
+                    <div class="alert alert-danger mt-3" role="alert">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
             </div>
             <!--Content-->
         </div>

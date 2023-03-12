@@ -18,8 +18,16 @@
                 @endif
             </p>
             <div>
-                <button type="button" class="btn btn-sm btn-primary" {{ (bool)$product->available ?: "disabled" }}>В корзину</button>
-                <a class="btn btn-sm btn-outline-secondary" href="{{ route('products.item', $product->id) }}">Подробнее</a>
+                <form action="{{ route('basket.addProduct') }}" method="post">
+                    @csrf
+                    @method('PUT')
+
+                    <input type="hidden" name="product_id" value="{{ $product->id }}" />
+                    <input type="hidden" name="quantity" value="1" />
+
+                    <button type="submit" class="btn btn-sm btn-primary" {{ (bool)$product->available ?: "disabled" }}>В корзину</button>
+                    <a class="btn btn-sm btn-outline-secondary" href="{{ route('products.item', $product->id) }}">Подробнее</a>
+                </form>
             </div>
         </div>
     </div>

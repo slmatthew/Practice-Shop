@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BasketController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\UserController as UserController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
@@ -59,6 +60,13 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/logout', [LogoutController::class, 'perform'])->name('logout.perform');
 
     Route::get('/user/me', [UserController::class, 'userMe'])->name('user.me');
+
+    Route::get('/basket', [BasketController::class, 'index'])->name('basket.index');
+    Route::get('/basket/checkout', [BasketController::class, 'index'])->name('basket.checkout');
+
+    Route::put('/basket/add', [BasketController::class, 'addProduct'])->name('basket.addProduct');
+    Route::post('/basket/edit', [BasketController::class, 'editProduct'])->name('basket.editProduct');
+    Route::delete('/basket/delete', [BasketController::class, 'deleteProduct'])->name('basket.deleteProduct');
 });
 
 Route::get('/user/{user}', [UserController::class, 'user'])->name('user.user');
