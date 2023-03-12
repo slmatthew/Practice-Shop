@@ -61,8 +61,14 @@ Route::group(['middleware' => ['auth']], function() {
 
     Route::get('/user/me', [UserController::class, 'userMe'])->name('user.me');
 
+    /**
+     * Корзина
+     */
     Route::get('/basket', [BasketController::class, 'index'])->name('basket.index');
+
     Route::get('/basket/checkout', [BasketController::class, 'index'])->name('basket.checkout');
+
+    Route::get('/basket/clear', [BasketController::class, 'clear'])->name('basket.clear');
 
     Route::put('/basket/add', [BasketController::class, 'addProduct'])->name('basket.addProduct');
     Route::post('/basket/edit', [BasketController::class, 'editProduct'])->name('basket.editProduct');

@@ -18,7 +18,7 @@ class BasketController extends Controller
         if(!$order->count()) {
             return Order::create([
                 'user_id' => $user_id,
-                'total' => 0.0
+                'checkout' => 0
             ])->get()[0];
         }
 
@@ -57,6 +57,16 @@ class BasketController extends Controller
         return view('basket.index', $this->getBasket());
     }
 
+    public function clear() {
+        $basket = $this->findOrCreate();
+
+        foreach(OrderItem::where('order_id', '=', $basket->id)->get() as $item) {
+            $item->delete();
+        }
+
+        return redirect()->to(route('basket.index'));
+    }
+
     public function addProduct(ProductRequest $request) {
         $basket = $this->findOrCreate();
         if($this->hasProduct($basket, $request->product_id)) {
@@ -79,9 +89,6 @@ class BasketController extends Controller
     public function editProduct(ProductRequest $request) {
         $basket = $this->findOrCreate();
         if($this->hasProduct($basket, $request->product_id)) {
-            $data = $request->safe()->toArray();
-            $data['order_id'] = $basket->id;
-
             $basketItem = OrderItem::where('order_id', '=', $basket->id)->where('product_id', '=', $request->product_id)->first();
             $basketItem->quantity = $request->quantity;
 
