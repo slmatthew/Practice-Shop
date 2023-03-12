@@ -44,6 +44,11 @@
                     <button class="btn btn-primary ms-1" type="submit">
                         В корзину
                     </button>
+                    @if(Auth::check() && Auth::user()->isAdmin())
+                        <a class="btn btn-outline-secondary ms-1" href="{{ route('admin.product', $product->id) }}" target="_blank" role="button">
+                            Редактировать
+                        </a>
+                    @endif
                 </form>
             </div>
             <!--Content-->
