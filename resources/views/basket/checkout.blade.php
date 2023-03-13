@@ -60,7 +60,7 @@
 {{--                </form>--}}
             </div>
             <div class="col-md-7 col-lg-8">
-                <h4 class="mb-3">Billing address</h4>
+                <h4 class="mb-3">Контактная информация</h4>
                 <form action="{{ route('basket.doCheckout') }}" method="post" class="needs-validation {{ $errors->any() ? 'was-validated' : '' }}" novalidate>
                     @csrf
                     @method('POST')

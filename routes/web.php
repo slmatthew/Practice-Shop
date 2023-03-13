@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\OrdersController;
 use App\Http\Controllers\BasketController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\UserController as UserController;
@@ -82,7 +83,9 @@ Route::group(['middleware' => ['auth', ValidateAdmin::class]], function() {
 
     Route::get('/admin', [AdminController::class, 'home'])->name('admin.home');
 
-    /* товары */
+    /**
+     * товары
+     */
     Route::get('/admin/products', [ProductController::class, 'getProducts'])->name('admin.products');
 
     Route::get('/admin/product/add', [ProductController::class, 'addProduct'])->name('admin.product.add');
@@ -93,19 +96,30 @@ Route::group(['middleware' => ['auth', ValidateAdmin::class]], function() {
 
     Route::post('/admin/product/delete', [ProductController::class, 'deleteProductAction'])->name('admin.product.delete');
 
-    /* категории */
+    /**
+     * категории
+     */
     Route::get('/admin/categories', [CategoriesController::class, 'main'])->name('admin.categories.main');
 
     Route::post('/admin/category/add', [CategoriesController::class, 'add'])->name('admin.category.add');
     Route::post('/admin/category/update', [CategoriesController::class, 'update'])->name('admin.category.update');
     Route::post('/admin/category/delete', [CategoriesController::class, 'delete'])->name('admin.category.delete');
 
-    /* пользователи */
+    /**
+     * пользователи
+     */
     Route::get('/admin/users', [AdminUserController::class, 'main'])->name('admin.users.main');
     Route::get('/admin/user/{user}', [AdminController::class, 'user'])->name('admin.user');
 
-    /* заказы */
-    Route::get('/admin/orders', [AdminController::class, 'orders'])->name('admin.orders');
-    Route::get('/admin/order/{order}', [AdminController::class, 'order'])->name('admin.order');
+    /**
+     * заказы
+     */
+    Route::get('/admin/orders', [OrdersController::class, 'index'])->name('admin.orders');
+
+    Route::post('/admin/order/confirm', [OrdersController::class, 'confirm'])->name('admin.orders.confirm');
+    Route::post('/admin/order/cancel', [OrdersController::class, 'cancel'])->name('admin.orders.cancel');
+    Route::delete('/admin/order/delete', [OrdersController::class, 'delete'])->name('admin.orders.delete');
+
+    Route::get('/admin/order/{order}', [AdminController::class, 'order'])->name('admin.orders.item');
 
 });
