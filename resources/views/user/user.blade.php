@@ -48,20 +48,22 @@
                                             </thead>
                                             <tbody>
                                                 @foreach($orders['items'] as $order)
-                                                    <th scope="row">
-                                                        {{ $order['id'] }}
-                                                    </th>
-                                                    <td>
-                                                        {{ number_format($orders['prices'][$order['id']], 2, ',', ' ') }} ₽
-                                                    </td>
-                                                    <td>
-                                                        {{ date('d.m.Y H:i:s', strtotime($order['updated_at'])) }}
-                                                    </td>
-                                                    <td>
-                                                        <a role="button" class="btn btn-outline-secondary btn-sm">
-                                                            Открыть
-                                                        </a>
-                                                    </td>
+                                                    <tr>
+                                                        <th scope="row">
+                                                            {{ $order['id'] }}
+                                                        </th>
+                                                        <td>
+                                                            {{ number_format($orders['prices'][$order['id']], 2, ',', ' ') }} ₽
+                                                        </td>
+                                                        <td>
+                                                            {{ date('d.m.Y H:i:s', strtotime($order['updated_at'])) }}
+                                                        </td>
+                                                        <td>
+                                                            <a role="button" class="btn btn-outline-secondary btn-sm">
+                                                                Открыть
+                                                            </a>
+                                                        </td>
+                                                    </tr>
                                                 @endforeach
                                             </tbody>
                                         </table>
