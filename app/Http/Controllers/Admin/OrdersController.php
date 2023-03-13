@@ -34,6 +34,9 @@ class OrdersController extends Controller
         return view('admin.orders.index', ['orders' => $orders, 'prices' => $prices]);
     }
 
+    /**
+     * @todo сделать сохранение изменений
+     */
     public function item(Order $order) {
         $orderItems = OrderItem::where('order_id', '=', $order->id)->orderBy('updated_at', 'desc')->get()->toArray();
         if(count($orderItems) > 0) {
