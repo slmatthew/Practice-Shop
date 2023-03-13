@@ -19,7 +19,7 @@ class BasketController extends Controller
             return Order::create([
                 'user_id' => $user_id,
                 'checkout' => 0
-            ])->get()[0];
+            ]);
         }
 
         return $order[0];
@@ -55,6 +55,10 @@ class BasketController extends Controller
 
     public function index() {
         return view('basket.index', $this->getBasket());
+    }
+
+    public function checkout() {
+        return view('basket.checkout', $this->getBasket());
     }
 
     public function clear() {
