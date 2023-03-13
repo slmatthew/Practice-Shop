@@ -25,10 +25,26 @@
                         </div>
                         <div class="p-4 text-black" style="background-color: #f8f9fa;">
                             <div class="d-flex justify-content-end text-center py-1">
-                                <div>
-                                    <p class="mb-1 h5">{{ number_format($orders['count'], 0, '', ' ') }}</p>
-                                    <p class="small text-muted mb-0">{{ trans_choice('заказ|заказа|заказов', $orders['count']) }}</p>
-                                </div>
+                                @if(Auth::check() && $user['id'] == Auth::user()->id)
+                                    <a href="{{ route('user.orders') }}" style="text-decoration: none; color: inherit">
+                                        <div>
+                                            <p class="mb-1 h5">{{ number_format($orders['count'], 0, '', ' ') }}</p>
+                                            <p class="small text-muted mb-0">{{ trans_choice('заказ|заказа|заказов', $orders['count']) }}</p>
+                                        </div>
+                                    </a>
+                                @elseif(Auth::check() && Auth::user()->isAdmin())
+                                    <a href="{{ route('admin.orders.main', ['user_id' => $user['id']]) }}" style="text-decoration: none; color: inherit">
+                                        <div>
+                                            <p class="mb-1 h5">{{ number_format($orders['count'], 0, '', ' ') }}</p>
+                                            <p class="small text-muted mb-0">{{ trans_choice('заказ|заказа|заказов', $orders['count']) }}</p>
+                                        </div>
+                                    </a>
+                                @else
+                                    <div>
+                                        <p class="mb-1 h5">{{ number_format($orders['count'], 0, '', ' ') }}</p>
+                                        <p class="small text-muted mb-0">{{ trans_choice('заказ|заказа|заказов', $orders['count']) }}</p>
+                                    </div>
+                                @endif
                             </div>
                         </div>
 
@@ -59,7 +75,7 @@
                                                             {{ date('d.m.Y H:i:s', strtotime($order['updated_at'])) }}
                                                         </td>
                                                         <td>
-                                                            <a role="button" class="btn btn-outline-secondary btn-sm">
+                                                            <a href="{{ route('user.order', ['order' => $order['id']]) }}" target="_blank" role="button" class="btn btn-outline-secondary btn-sm">
                                                                 Открыть
                                                             </a>
                                                         </td>

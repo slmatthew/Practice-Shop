@@ -13,7 +13,7 @@ class OrdersController extends Controller
 {
     private function getValidOrder(SimpleOrderRequest $request) {
         $order = Order::find($request->get('order_id'));
-        if(!$order->exists() || $order->user_id != Auth::user()->id) abort(403);
+        if(!$order->exists()) abort(403);
 
         return $order;
     }

@@ -64,6 +64,9 @@ Route::group(['middleware' => ['auth']], function() {
         return to_route('user.user', ['user' => Auth::user()->id]);
     })->name('user.me');
 
+    Route::get('/user/orders', [UserController::class, 'orders'])->name('user.orders');
+    Route::get('/user/order/{order}', [UserController::class, 'order'])->name('user.order');
+
     /**
      * Корзина
      */

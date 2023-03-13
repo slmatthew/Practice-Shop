@@ -66,7 +66,7 @@
                         <a href="{{ route('admin.orders.item', ['order' => $order]) }}" role="button" class="btn btn-outline-secondary btn-sm">
                             Открыть
                         </a>
-                        @if($order->checkout != 2)
+                        @if($order->checkout != 2 && $order->checkout != 3)
                             <form style="display: inline-block" action="{{ route('admin.orders.confirm') }}" method="post">
                                 @csrf
                                 @method('POST')

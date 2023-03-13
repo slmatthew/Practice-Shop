@@ -22,7 +22,7 @@ class UserController extends Controller
         $orders_prices = [];
 
         if(Auth::check() && Auth::user()->id == $user->id) {
-            $orders_items = Order::where('checkout', '>', 0)->orderBy('updated_at', 'desc')->limit(5)->get()->toArray();
+            $orders_items = Order::where('checkout', '>', 0)->where('user_id', '=', $user->id)->orderBy('updated_at', 'desc')->limit(3)->get()->toArray();
 
             foreach($orders_items as $order) {
                 $products = OrderItem::select('product_id', 'quantity')->where('order_id', '=', $order['id'])->orderBy('updated_at', 'desc')->get()->toArray();
@@ -41,5 +41,34 @@ class UserController extends Controller
                 'prices' => $orders_prices,
                 'count' => $orders_count
             ]]);
+    }
+
+    public function orders() {
+        $orders = Order::where('checkout', '>', 0)->where('user_id', '=', Auth::user()->id)->orderBy('submitted_at', 'desc')->paginate(9);
+        $prices = [];
+
+        foreach($orders as $order) {
+            $products = OrderItem::select('product_id', 'quantity')->where('order_id', '=', $order->id)->orderBy('updated_at', 'desc')->get()->toArray();
+            foreach($products as $product) {
+                $product_db = Product::find($product['product_id']);
+
+                isset($prices[$order->id]) ? $prices[$order->id] += $product_db->price * $product['quantity'] : $prices[$order->id] = $product_db->price * $product['quantity'];
+            }
+        }
+
+        return view('user.orders', ['orders' => $orders, 'prices' => $prices]);
+    }
+
+    public function order(Order $order) {
+        if($order->user_id != Auth::user()->id) abort(404);
+
+        $orderItems = OrderItem::where('order_id', '=', $order->id)->orderBy('updated_at', 'desc')->get()->toArray();
+        if(count($orderItems) > 0) {
+            foreach($orderItems as $n => $item) {
+                $orderItems[$n]['product'] = Product::find($item['product_id'])->toArray();
+            }
+        }
+
+        return view('user.order', ['order' => $order, 'orderItems' => $orderItems]);
     }
 }
