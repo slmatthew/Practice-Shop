@@ -7,10 +7,14 @@
                 <div class="row py-lg-5">
                     <div class="col-lg-6 col-md-8 mx-auto">
                         <h1 class="fw-light">Ваша корзина пуста</h1>
-                        <p class="lead text-muted">Хорошо, что это исправимо, правда?</p>
+                        <p class="lead text-muted">
+                            {{ Request::has('checkout') ? 'Спасибо! Номер вашего заказа: '.Request::get('checkout') : 'Хорошо, что это исправимо, правда?' }}
+                        </p>
                         @auth
                             <p>
-                                <a href="{{ route('products.categories') }}" role="button" class="btn btn-outline-primary my-2">Исправить это!</a>
+                                <a href="{{ route('products.categories') }}" role="button" class="btn btn-outline-primary my-2">
+                                    {{ Request::has('checkout') ? 'Вернуться к товарам' : 'Исправить это!' }}
+                                </a>
                             </p>
                         @endauth
                     </div>

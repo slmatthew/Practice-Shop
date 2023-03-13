@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Basket\ProductRequest;
+use App\Http\Requests\CheckoutRequest;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -59,6 +61,34 @@ class BasketController extends Controller
 
     public function checkout() {
         return view('basket.checkout', $this->getBasket());
+    }
+
+    public function doCheckout(CheckoutRequest $request) {
+        if($request->has('saveData')) {
+            $user = User::find(Auth::user()->id);
+
+            $user->name = $request->get('name');
+            $user->surname = $request->get('surname');
+            $user->phone = $request->get('phone');
+
+            $user->save();
+        }
+
+        $order = Order::find($this->findOrCreate()->id);
+
+        $order->checkout = 1;
+        $order->name = $request->get('name');
+        $order->surname = $request->get('surname');
+        $order->phone = $request->get('phone');
+
+        $order->save();
+
+        Order::create([
+            'user_id' => Auth::user()->id,
+            'checkout' => 0
+        ]);
+
+        return redirect()->to(route('basket.index', ['checkout' => $order->id]));
     }
 
     public function clear() {

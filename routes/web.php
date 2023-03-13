@@ -66,7 +66,8 @@ Route::group(['middleware' => ['auth']], function() {
      */
     Route::get('/basket', [BasketController::class, 'index'])->name('basket.index');
 
-    Route::get('/basket/checkout', [BasketController::class, 'index'])->name('basket.checkout');
+    Route::get('/basket/checkout', [BasketController::class, 'checkout'])->name('basket.checkout');
+    Route::post('/basket/checkout', [BasketController::class, 'doCheckout'])->name('basket.doCheckout');
 
     Route::get('/basket/clear', [BasketController::class, 'clear'])->name('basket.clear');
 
