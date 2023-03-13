@@ -79,6 +79,7 @@ class BasketController extends Controller
         $order->name = $request->get('name');
         $order->surname = $request->get('surname');
         $order->phone = $request->get('phone');
+        $order->submitted_at = \Carbon\Carbon::now('Europe/Moscow')->toDateTimeString();
 
         $order->save();
 

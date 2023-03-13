@@ -19,7 +19,7 @@ class OrdersController extends Controller
     }
 
     public function index() {
-        $orders = Order::where('checkout', '>', 0)->orderBy('updated_at', 'desc')->paginate(2);
+        $orders = Order::where('checkout', '>', 0)->orderBy('submitted_at', 'desc')->paginate(15);
         $prices = [];
 
         foreach($orders as $order) {
@@ -40,7 +40,7 @@ class OrdersController extends Controller
         $order->checkout = 2;
         $order->save();
 
-        return redirect()->to(route('admin.orders'));
+        return redirect()->to(route('admin.orders.main'));
     }
 
     public function cancel(SimpleOrderRequest $request) {
@@ -49,7 +49,7 @@ class OrdersController extends Controller
         $order->checkout = 3;
         $order->save();
 
-        return redirect()->to(route('admin.orders'));
+        return redirect()->to(route('admin.orders.main'));
     }
 
     public function delete(SimpleOrderRequest $request) {
@@ -60,6 +60,6 @@ class OrdersController extends Controller
 
         $order->delete();
 
-        return redirect()->to(route('admin.orders'));
+        return redirect()->to(route('admin.orders.main'));
     }
 }

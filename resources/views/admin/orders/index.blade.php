@@ -34,14 +34,14 @@
                         {{ number_format($prices[$order->id], 2, ',', ' ') }} ₽
                     </td>
                     <td>
-                        {{ date('d.m.Y H:i:s', strtotime($order->created_at)) }}
+                        {{ date('d.m.Y H:i:s', strtotime($order->submitted_at)) }}
                     </td>
                     <td>
                         {{ date('d.m.Y H:i:s', strtotime($order->updated_at)) }}
                     </td>
                     <td>
                         @switch($order->checkout)
-                            @case(0) @case(3)
+                            @case(0)
                                 <span data-feather="x" style="stroke: #ff0000" class="align-text-bottom"></span>
                                 @break
 
@@ -51,6 +51,10 @@
 
                             @case(2)
                                 <span data-feather="check" style="stroke: #1c7430" class="align-text-bottom"></span>
+                                @break
+
+                            @case(3)
+                                <span data-feather="eye-off" class="align-text-bottom"></span>
                                 @break
 
                             @default
@@ -86,7 +90,7 @@
                                 </button>
                             </form>
                         @endif
-                        <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#{{ "MDOL{$order->id}" }}">
+                        <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#{{ "MDO{$order->id}" }}">
                             Удалить
                         </button>
                     </td>
