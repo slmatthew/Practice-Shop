@@ -60,66 +60,79 @@ Route::group(['middleware' => ['auth']], function() {
      */
     Route::get('/logout', [LogoutController::class, 'perform'])->name('logout.perform');
 
-    Route::get('/user/me', [UserController::class, 'userMe'])->name('user.me');
+    Route::get('/user/me', [UserController::class, 'user'])->name('user.me');
 
     /**
      * Корзина
      */
-    Route::get('/basket', [BasketController::class, 'index'])->name('basket.index');
+    Route::prefix('basket')->group(function () {
+        Route::name('basket.')->group(function () {
 
-    Route::get('/basket/checkout', [BasketController::class, 'checkout'])->name('basket.checkout');
-    Route::post('/basket/checkout', [BasketController::class, 'doCheckout'])->name('basket.doCheckout');
+            Route::get('', [BasketController::class, 'index'])->name('index');
 
-    Route::get('/basket/clear', [BasketController::class, 'clear'])->name('basket.clear');
+            Route::get('/checkout', [BasketController::class, 'checkout'])->name('checkout');
+            Route::post('/checkout', [BasketController::class, 'doCheckout'])->name('doCheckout');
 
-    Route::put('/basket/add', [BasketController::class, 'addProduct'])->name('basket.addProduct');
-    Route::post('/basket/edit', [BasketController::class, 'editProduct'])->name('basket.editProduct');
-    Route::delete('/basket/delete', [BasketController::class, 'deleteProduct'])->name('basket.deleteProduct');
+            Route::get('/clear', [BasketController::class, 'clear'])->name('clear');
+
+            Route::put('/add', [BasketController::class, 'addProduct'])->name('addProduct');
+            Route::post('/edit', [BasketController::class, 'editProduct'])->name('editProduct');
+            Route::delete('/delete', [BasketController::class, 'deleteProduct'])->name('deleteProduct');
+
+        });
+    });
+
 });
 
 Route::get('/user/{user}', [UserController::class, 'user'])->name('user.user');
 
 Route::group(['middleware' => ['auth', ValidateAdmin::class]], function() {
 
-    Route::get('/admin', [AdminController::class, 'home'])->name('admin.home');
+    Route::prefix('admin')->group(function () {
+        Route::name('admin.')->group(function () {
 
-    /**
-     * товары
-     */
-    Route::get('/admin/products', [ProductController::class, 'getProducts'])->name('admin.products');
+            Route::get('', [AdminController::class, 'home'])->name('home');
 
-    Route::get('/admin/product/add', [ProductController::class, 'addProduct'])->name('admin.product.add');
-    Route::post('/admin/product/add/action', [ProductController::class, 'addProductAction'])->name('admin.product.add.action');
+            /**
+             * товары
+             */
+            Route::get('/products', [ProductController::class, 'getProducts'])->name('products.main');
 
-    Route::get('/admin/product/{product}', [ProductController::class, 'updateProduct'])->name('admin.product');
-    Route::post('/admin/product/update', [ProductController::class, 'updateProductAction'])->name('admin.product.update');
+            Route::get('/product/add', [ProductController::class, 'addProduct'])->name('product.add');
+            Route::post('/product/add/action', [ProductController::class, 'addProductAction'])->name('product.add.action');
 
-    Route::post('/admin/product/delete', [ProductController::class, 'deleteProductAction'])->name('admin.product.delete');
+            Route::get('/product/{product}', [ProductController::class, 'updateProduct'])->name('product');
+            Route::post('/product/update', [ProductController::class, 'updateProductAction'])->name('product.update');
 
-    /**
-     * категории
-     */
-    Route::get('/admin/categories', [CategoriesController::class, 'main'])->name('admin.categories.main');
+            Route::post('/product/delete', [ProductController::class, 'deleteProductAction'])->name('product.delete');
 
-    Route::post('/admin/category/add', [CategoriesController::class, 'add'])->name('admin.category.add');
-    Route::post('/admin/category/update', [CategoriesController::class, 'update'])->name('admin.category.update');
-    Route::post('/admin/category/delete', [CategoriesController::class, 'delete'])->name('admin.category.delete');
+            /**
+             * категории
+             */
+            Route::get('/categories', [CategoriesController::class, 'main'])->name('categories.main');
 
-    /**
-     * пользователи
-     */
-    Route::get('/admin/users', [AdminUserController::class, 'main'])->name('admin.users.main');
-    Route::get('/admin/user/{user}', [AdminController::class, 'user'])->name('admin.user');
+            Route::post('/category/add', [CategoriesController::class, 'add'])->name('category.add');
+            Route::post('/category/update', [CategoriesController::class, 'update'])->name('category.update');
+            Route::post('/category/delete', [CategoriesController::class, 'delete'])->name('category.delete');
 
-    /**
-     * заказы
-     */
-    Route::get('/admin/orders', [OrdersController::class, 'index'])->name('admin.orders');
+            /**
+             * пользователи
+             */
+            Route::get('/users', [AdminUserController::class, 'main'])->name('users.main');
+            Route::get('/user/{user}', [AdminController::class, 'user'])->name('user');
 
-    Route::post('/admin/order/confirm', [OrdersController::class, 'confirm'])->name('admin.orders.confirm');
-    Route::post('/admin/order/cancel', [OrdersController::class, 'cancel'])->name('admin.orders.cancel');
-    Route::delete('/admin/order/delete', [OrdersController::class, 'delete'])->name('admin.orders.delete');
+            /**
+             * заказы
+             */
+            Route::get('/orders', [OrdersController::class, 'index'])->name('orders.main');
 
-    Route::get('/admin/order/{order}', [AdminController::class, 'order'])->name('admin.orders.item');
+            Route::post('/order/confirm', [OrdersController::class, 'confirm'])->name('orders.confirm');
+            Route::post('/order/cancel', [OrdersController::class, 'cancel'])->name('orders.cancel');
+            Route::delete('/order/delete', [OrdersController::class, 'delete'])->name('orders.delete');
+
+            Route::get('/order/{order}', [AdminController::class, 'order'])->name('orders.item');
+
+        });
+    });
 
 });

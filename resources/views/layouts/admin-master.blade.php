@@ -93,7 +93,7 @@
                         ],
                         [
                             'navItem' => 'products',
-                            'route' => 'admin.products',
+                            'route' => 'admin.products.main',
                             'feather' => 'layers',
                             'text' => 'Товары'
                         ],
@@ -111,7 +111,7 @@
                         ],
                         [
                             'navItem' => 'orders',
-                            'route' => 'admin.orders',
+                            'route' => 'admin.orders.main',
                             'feather' => 'file',
                             'text' => 'Заказы'
                         ],

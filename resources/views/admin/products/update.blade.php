@@ -102,7 +102,7 @@
 
         <div class="d-grid gap-2">
             <button class="w-100 btn btn-lg btn-outline-primary" type="submit">Сохранить</button>
-            <a href="{{ route('admin.products') }}" role="link" class="w-100 btn btn-lg btn-outline-danger" type="submit">Отменить</a>
+            <a href="{{ route('admin.products.main') }}" role="link" class="w-100 btn btn-lg btn-outline-danger" type="submit">Отменить</a>
         </div>
 
     </form>
