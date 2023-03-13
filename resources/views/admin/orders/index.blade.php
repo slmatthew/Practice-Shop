@@ -63,10 +63,10 @@
                         @endswitch
                     </td>
                     <td>
-                        <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#">
+                        <a href="{{ route('admin.orders.item', ['order' => $order]) }}" role="button" class="btn btn-outline-secondary btn-sm">
                             Открыть
-                        </button>
-                        @if($order->checkout == 1)
+                        </a>
+                        @if($order->checkout != 2)
                             <form style="display: inline-block" action="{{ route('admin.orders.confirm') }}" method="post">
                                 @csrf
                                 @method('POST')

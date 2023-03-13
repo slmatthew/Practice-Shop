@@ -34,6 +34,17 @@ class OrdersController extends Controller
         return view('admin.orders.index', ['orders' => $orders, 'prices' => $prices]);
     }
 
+    public function item(Order $order) {
+        $orderItems = OrderItem::where('order_id', '=', $order->id)->orderBy('updated_at', 'desc')->get()->toArray();
+        if(count($orderItems) > 0) {
+            foreach($orderItems as $n => $item) {
+                $orderItems[$n]['product'] = Product::find($item['product_id'])->toArray();
+            }
+        }
+
+        return view('admin.orders.item', ['order' => $order, 'orderItems' => $orderItems]);
+    }
+
     public function confirm(SimpleOrderRequest $request) {
         $order = $this->getValidOrder($request);
 

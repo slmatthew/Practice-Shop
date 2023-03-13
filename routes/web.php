@@ -132,7 +132,7 @@ Route::group(['middleware' => ['auth', ValidateAdmin::class]], function() {
             Route::post('/order/cancel', [OrdersController::class, 'cancel'])->name('orders.cancel');
             Route::delete('/order/delete', [OrdersController::class, 'delete'])->name('orders.delete');
 
-            Route::get('/order/{order}', [AdminController::class, 'order'])->name('orders.item');
+            Route::get('/order/{order}', [OrdersController::class, 'item'])->name('orders.item');
 
         });
     });
