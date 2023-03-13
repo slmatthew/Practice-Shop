@@ -26,11 +26,49 @@
                         <div class="p-4 text-black" style="background-color: #f8f9fa;">
                             <div class="d-flex justify-content-end text-center py-1">
                                 <div>
-                                    <p class="mb-1 h5">0</p>
-                                    <p class="small text-muted mb-0">заказов</p>
+                                    <p class="mb-1 h5">{{ number_format($orders['count'], 0, '', ' ') }}</p>
+                                    <p class="small text-muted mb-0">{{ trans_choice('заказ|заказа|заказов', $orders['count']) }}</p>
                                 </div>
                             </div>
                         </div>
+
+                        @if(!empty($orders['items']))
+                            <div class="card-body p-4 text-black">
+                                <div>
+                                    <p class="lead fw-normal mb-1">Недавние заказы</p>
+                                    <div class="p-4" style="background-color: #f8f9fa;">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">#</th>
+                                                    <th scope="col">Сумма</th>
+                                                    <th scope="col">Дата</th>
+                                                    <th scope="col">Действия</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach($orders['items'] as $order)
+                                                    <th scope="row">
+                                                        {{ $order['id'] }}
+                                                    </th>
+                                                    <td>
+                                                        {{ number_format($orders['prices'][$order['id']], 2, ',', ' ') }} ₽
+                                                    </td>
+                                                    <td>
+                                                        {{ date('d.m.Y H:i:s', strtotime($order['updated_at'])) }}
+                                                    </td>
+                                                    <td>
+                                                        <a role="button" class="btn btn-outline-secondary btn-sm">
+                                                            Открыть
+                                                        </a>
+                                                    </td>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
 {{--                        <div class="card-body p-4 text-black">--}}
 {{--                            <div>--}}
 {{--                                <p class="lead fw-normal mb-1">About</p>--}}

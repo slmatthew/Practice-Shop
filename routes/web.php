@@ -60,7 +60,9 @@ Route::group(['middleware' => ['auth']], function() {
      */
     Route::get('/logout', [LogoutController::class, 'perform'])->name('logout.perform');
 
-    Route::get('/user/me', [UserController::class, 'user'])->name('user.me');
+    Route::get('/user/me', function () {
+        return to_route('user.user', ['user' => Auth::user()->id]);
+    })->name('user.me');
 
     /**
      * Корзина
