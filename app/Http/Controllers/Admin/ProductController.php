@@ -17,18 +17,10 @@ class ProductController extends Controller
 {
     public function getProducts(): \Illuminate\Contracts\View\View
     {
-        $products = Product::get();
-        $products_result = [];
+        $products = Product::sortable()->orderBy('category_id')->paginate(8);
 
-        foreach($products as $product) {
-            $products_result[] = [
-                'id' => $product['id'],
-                'name' => $product['name'],
-                'image_url' => $product['image_url'],
-                'hidden' => (bool)$product['hidden'],
-                'available' => (bool)$product['available'],
-                'category' => is_null($product['category_id']) ? [false] : [true, Category::find($product['category_id'])]
-            ];
+        foreach($products as $i => &$val) {
+            $val->category = is_null($val->category_id) ? [false] : [true, Category::find($val->category_id)];
         }
 
         $deleteResult = [];
@@ -46,7 +38,7 @@ class ProductController extends Controller
             ];
         }
 
-        return view('admin.products.all', ['products' => $products_result, 'deleteResult' => $deleteResult]);
+        return view('admin.products.all', ['products' => $products, 'deleteResult' => $deleteResult]);
     }
 
     public function updateProduct($product_id)
