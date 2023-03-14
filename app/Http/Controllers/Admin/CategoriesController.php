@@ -19,6 +19,7 @@ class CategoriesController extends Controller
 
     /**
      * @todo сделать проверку на уникальность названия категория
+     * @todo чекнуть почему не загружается картинка
      *
      * @param AddCategoriesRequest $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View

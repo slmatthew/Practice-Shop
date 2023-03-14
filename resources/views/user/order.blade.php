@@ -16,6 +16,9 @@
                 <li class="breadcrumb-item active" aria-current="page">Заказ {{ $order->id }}</li>
             </ol>
         </nav>
+
+        <h2 class="h3">Товары</h2>
+
         <table class="table table-responsive align-middle">
             <thead>
             <tr>

@@ -22,6 +22,14 @@
             </tr>
         </thead>
         <tbody>
+            @if($orders->count() == 0)
+                <tr>
+                    <td colspan="7">
+                        Нет заказов
+                    </td>
+                </tr>
+            @endif
+
             @foreach($orders as $order)
                 <tr>
                     <th scope="row">
