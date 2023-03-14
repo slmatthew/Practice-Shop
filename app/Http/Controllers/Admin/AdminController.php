@@ -3,44 +3,39 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
+use App\Models\Product;
+use App\Models\User;
 
 class AdminController extends Controller
 {
     public function home(): \Illuminate\Contracts\View\View
     {
-        return view('admin.home');
-    }
+        $orders = [0, 0, 0, 0];
 
-    /* категории */
-    public function categories(): \Illuminate\Contracts\View\View
-    {
-        return view('admin.home');
-    }
+        $orders[0] = Order::where('checkout', '>', 0)->count();
 
-    public function category($category_id): \Illuminate\Contracts\View\View
-    {
-        return view('admin.home');
-    }
+        if($orders[0] != 0) {
+            $orders[1] = Order::where('checkout', '=', 1)->count() / $orders[0] * 100;
+            $orders[2] = Order::where('checkout', '=', 2)->count() / $orders[0] * 100;
+            $orders[3] = Order::where('checkout', '=', 3)->count() / $orders[0] * 100;
+        }
 
-    /* пользователи */
-    public function users(): \Illuminate\Contracts\View\View
-    {
-        return view('admin.home');
-    }
+        $users = User::count();
 
-    public function user($user_id): \Illuminate\Contracts\View\View
-    {
-        return view('admin.home');
-    }
+        $products = [0, 0, 0];
 
-    /* заказы */
-    public function orders(): \Illuminate\Contracts\View\View
-    {
-        return view('admin.home');
-    }
+        $products[0] = Product::count();
 
-    public function order($order_id): \Illuminate\Contracts\View\View
-    {
-        return view('admin.home');
+        if($products[0] != 0) {
+            $products[1] = Product::where('hidden', '=', 1)->count() / $products[0] * 100;
+            $products[2] = Product::where('hidden', '=', 0)->where('available', '=', 0)->count() / $products[0] * 100;
+        }
+
+        return view('admin.home', [
+            'orders' => $orders,
+            'users' => $users,
+            'products' => $products
+        ]);
     }
 }
