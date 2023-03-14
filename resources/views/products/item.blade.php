@@ -2,6 +2,17 @@
 
 @section('content')
 <div class="container">
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('products.categories') }}">Все категории</a></li>
+            @if($category)
+                <li class="breadcrumb-item"><a href="{{ route('products.byCategory', $category->id) }}">{{ $category->name }}</a></li>
+            @endif
+            <li class="breadcrumb-item active" aria-current="page">{{ $product->name }}</li>
+        </ol>
+    </nav>
+
     <div class="row">
         <!--Grid column-->
         <div class="col-md-6">
