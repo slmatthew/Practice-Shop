@@ -196,6 +196,8 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         Intervention\Image\ImageServiceProvider::class,
+
+        Kyslik\ColumnSortable\ColumnSortableServiceProvider::class,
     ],
 
     /*

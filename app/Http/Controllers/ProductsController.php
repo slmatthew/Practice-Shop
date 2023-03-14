@@ -42,7 +42,7 @@ class ProductsController extends Controller
     public function byCategory($category_id) {
         $ctgName = '';
 
-        $products = Product::orderBy('id')->where('hidden', '=', 0);
+        $products = Product::sortable()->orderBy('category_id')->where('hidden', '=', 0);
 
         if($category_id != 'all') {
             $category = Category::find($category_id);
@@ -59,9 +59,8 @@ class ProductsController extends Controller
         return view('products.list', [
             'ctgName' => $ctgName,
             'all' => $category_id == 'all',
-            'products' => $products,
-            'paginator' => $paginator
-        ]);
+            'products' => $products
+        ])->with('paginator', $paginator);
     }
 
     public function product($product_id) {
