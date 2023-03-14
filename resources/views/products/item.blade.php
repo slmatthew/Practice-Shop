@@ -19,6 +19,13 @@
                             {{ $category->name }}
                         </a>
                     @endif
+                    @php(date_default_timezone_set ('Europe/Moscow'))
+                    @php($time_now = time())
+                    @if($time_now - strtotime($product->created_at) - 10800 <= 86400)
+                        <span class="badge bg-danger me-1">
+                            Новинка!
+                        </span>
+                    @endif
                 </div>
 
                 <p class="lead">
