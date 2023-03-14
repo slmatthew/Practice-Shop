@@ -102,7 +102,7 @@ class ProductController extends Controller
         $product = Product::find(request()->get('id'));
 
         if(is_null($product)) {
-            return redirect()->route('admin.products');
+            return redirect()->route('admin.products.main');
         }
 
         $product_data = $product->toArray();
@@ -111,7 +111,7 @@ class ProductController extends Controller
             Storage::disk('public')->delete(mb_substr($product_data['image_url'], 9));
         }
 
-        return redirect()->route('admin.products', [
+        return redirect()->route('admin.products.main', [
             'deleteAction' => 1,
             'delSuccess' => $product->delete(),
             'delId' => $product_data['id'],
@@ -137,6 +137,6 @@ class ProductController extends Controller
 
         Product::create($data);
 
-        return redirect()->route('admin.products');
+        return redirect()->route('admin.products.main');
     }
 }
