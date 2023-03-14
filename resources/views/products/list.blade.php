@@ -51,7 +51,7 @@
                 </ul>
             </div>
 
-            {!! $paginator->links() !!}
+            {!! $paginator->appends(Request::except('page'))->render() !!}
 
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 mb-3">
                 @foreach($products as $product)
@@ -60,7 +60,7 @@
                     @endif
                 @endforeach
             </div>
-            {!! $paginator->links() !!}
+            {!! $paginator->appends(Request::except('page'))->render() !!}
         </div>
     </div>
 @endsection
