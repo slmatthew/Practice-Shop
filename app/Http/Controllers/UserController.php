@@ -15,9 +15,6 @@ use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
-    /**
-     * @todo редактирование профиля
-     */
     public function user($user_id): \Illuminate\Contracts\View\View
     {
         $user = User::find($user_id);
