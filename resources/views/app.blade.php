@@ -56,7 +56,7 @@
                 <li><a href="{{ route('main') }}" class="nav-link px-2 link-{{ $navbar == 'main' ? 'secondary' : 'dark' }}">Главная</a></li>
                 <li><a href="{{ route('products.categories') }}" class="nav-link px-2 link-{{ $navbar == 'products' ? 'secondary' : 'dark' }}">Товары</a></li>
                 <li><a href="{{ route('basket.index') }}" class="nav-link px-2 link-{{ $navbar == 'basket' ? 'secondary' : 'dark' }}">Корзина</a></li>
-                <li><a href="#" class="nav-link px-2 link-dark">О нас</a></li>
+                <li><a href="{{ route('about') }}" class="nav-link px-2 link-{{ $navbar == 'about' ? 'secondary' : 'dark' }}">О нас</a></li>
             </ul>
 
 {{--            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">--}}

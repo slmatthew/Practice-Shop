@@ -39,6 +39,8 @@ Route::get('/products/categories', [ ProductsController::class, 'allCategories' 
 Route::get('/products/{category}', [ ProductsController::class, 'byCategory' ])->name('products.byCategory');
 Route::get('/product/{product}', [ ProductsController::class, 'product' ])->name('products.item');
 
+Route::view('/about', 'about')->name('about');
+
 Route::group(['middleware' => ['guest']], function() {
     /**
      * Register Routes
