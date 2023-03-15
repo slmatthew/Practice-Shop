@@ -23,9 +23,56 @@
 <body>
 
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-    <symbol id="bootstrap" viewBox="0 0 118 94">
-        <title>Bootstrap</title>
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M24.509 0c-6.733 0-11.715 5.893-11.492 12.284.214 6.14-.064 14.092-2.066 20.577C8.943 39.365 5.547 43.485 0 44.014v5.972c5.547.529 8.943 4.649 10.951 11.153 2.002 6.485 2.28 14.437 2.066 20.577C12.794 88.106 17.776 94 24.51 94H93.5c6.733 0 11.714-5.893 11.491-12.284-.214-6.14.064-14.092 2.066-20.577 2.009-6.504 5.396-10.624 10.943-11.153v-5.972c-5.547-.529-8.934-4.649-10.943-11.153-2.002-6.484-2.28-14.437-2.066-20.577C105.214 5.894 100.233 0 93.5 0H24.508zM80 57.863C80 66.663 73.436 72 62.543 72H44a2 2 0 01-2-2V24a2 2 0 012-2h18.437c9.083 0 15.044 4.92 15.044 12.474 0 5.302-4.01 10.049-9.119 10.88v.277C75.317 46.394 80 51.21 80 57.863zM60.521 28.34H49.948v14.934h8.905c6.884 0 10.68-2.772 10.68-7.727 0-4.643-3.264-7.207-9.012-7.207zM49.948 49.2v16.458H60.91c7.167 0 10.964-2.876 10.964-8.281 0-5.406-3.903-8.178-11.425-8.178H49.948z"></path>
+    <svg id="slmshop" viewBox="0 0 36 36">
+        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="0.6479999999999999"></g>
+        <g id="SVGRepo_iconCarrier">
+            <path fill="#000000" d="M36 32a4 4 0 0 1-4 4H4a4 4 0 0 1-4-4V4a4 4 0 0 1 4-4h28a4 4 0 0 1 4 4v28z"></path>
+            <path fill="#ffffff" d="M24.125 9.652c0 1.209-.806 2.294-2.076 2.294c-1.271 0-2.264-.93-4.125-.93c-1.333 0-2.542.713-2.542 2.016c0 3.193 10.357 1.147 10.357 9.146c0 4.434-3.659 7.193-7.938 7.193c-2.388 0-7.534-.558-7.534-3.473c0-1.209.806-2.201 2.077-2.201c1.457 0 3.193 1.209 5.209 1.209c2.046 0 3.163-1.147 3.163-2.667c0-3.658-10.356-1.457-10.356-8.65c0-4.341 3.565-7.038 7.689-7.038c1.736.001 6.076.652 6.076 3.101z"></path>
+        </g>
+    </svg>
+    <symbol id="redHeart" viewBox="0 0 24 24">
+        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+        <g id="SVGRepo_iconCarrier">
+            <path d="M16.1315 3.71436C14.4172 3.71436 12.9029 4.57721 12 5.8915C11.0972 4.57721 9.58289 3.71436 7.86861 3.71436C5.10289 3.71436 2.85718 5.96007 2.85718 8.72578C2.85718 14.8344 12 20.3258 12 20.3258C12 20.3258 21.1429 14.8344 21.1429 8.72578C21.1429 5.96007 18.8972 3.71436 16.1315 3.71436Z" fill="url(#paint0_radial)"></path>
+            <path opacity="0.5" d="M18.2056 4.16016C20.9485 8.53158 18.4228 14.2687 15.3885 15.8973C12.0399 17.6973 9.74847 16.8516 5.00562 14.1602C7.70847 17.743 11.9999 20.3202 11.9999 20.3202C11.9999 20.3202 21.1428 14.8287 21.1428 8.72016C21.1428 6.6973 19.937 4.94873 18.2056 4.16016Z" fill="url(#paint1_radial)"></path>
+            <path opacity="0.5" d="M16.1315 3.71436C14.4172 3.71436 12.9029 4.57721 12 5.8915C11.0972 4.57721 9.58289 3.71436 7.86861 3.71436C5.10289 3.71436 2.85718 5.96007 2.85718 8.72578C2.85718 14.8344 12 20.3258 12 20.3258C12 20.3258 21.1429 14.8344 21.1429 8.72578C21.1429 5.96007 18.8972 3.71436 16.1315 3.71436Z" fill="url(#paint2_radial)"></path>
+            <path opacity="0.5" d="M16.1315 3.71436C14.4172 3.71436 12.9029 4.57721 12 5.8915C11.0972 4.57721 9.58289 3.71436 7.86861 3.71436C5.10289 3.71436 2.85718 5.96007 2.85718 8.72578C2.85718 14.8344 12 20.3258 12 20.3258C12 20.3258 21.1429 14.8344 21.1429 8.72578C21.1429 5.96007 18.8972 3.71436 16.1315 3.71436Z" fill="url(#paint3_radial)"></path>
+            <path opacity="0.24" d="M10.7486 5.74883C11.2514 6.93169 10.1371 8.5374 8.25714 9.33169C6.37714 10.126 4.45143 9.8174 3.94857 8.64026C3.44571 7.46312 4.56 5.85169 6.44 5.0574C8.32 4.26312 10.2457 4.56597 10.7486 5.74883Z" fill="url(#paint4_radial)"></path>
+            <path opacity="0.24" d="M16.8742 4.78885C17.5885 5.57742 17.1485 7.13742 15.8971 8.26885C14.6456 9.40028 13.0513 9.68028 12.3371 8.8917C11.6228 8.10313 12.0628 6.54313 13.3142 5.41171C14.5656 4.28028 16.1599 4.00028 16.8742 4.78885Z" fill="url(#paint5_radial)"></path>
+            <path opacity="0.32" d="M16.2229 5.04578C18.7372 5.90293 21.1372 9.61721 17.0801 14.2458C14.6515 17.0172 12.0001 18.4172 8.62866 17.8686C10.4515 19.3886 12.0058 20.3258 12.0058 20.3258C12.0058 20.3258 21.1487 14.8344 21.1487 8.72578C21.1429 5.96007 18.8972 3.71436 16.1315 3.71436C14.4172 3.71436 12.9029 4.57721 12.0001 5.8915C12.0001 5.8915 14.3829 4.41721 16.2229 5.04578Z" fill="url(#paint6_linear)"></path>
+            <defs>
+                <radialGradient id="paint0_radial" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(9.38479 8.34769) rotate(-29.408) scale(14.3064 11.3486)">
+                    <stop offset="0.2479" stop-color="#FF0000"></stop>
+                    <stop offset="0.8639" stop-color="#FF0000"></stop>
+                </radialGradient>
+                <radialGradient id="paint1_radial" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(9.7385 7.47018) rotate(-29.408) scale(12.3173 9.77078)">
+                    <stop offset="0.2479" stop-color="#FF0000"></stop>
+                    <stop offset="1" stop-color="#FF0000"></stop>
+                </radialGradient>
+                <radialGradient id="paint2_radial" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(9.38479 8.34769) rotate(-29.408) scale(14.3064 11.3486)">
+                    <stop stop-color="white" stop-opacity="0.25"></stop>
+                    <stop offset="1" stop-color="white" stop-opacity="0"></stop>
+                </radialGradient>
+                <radialGradient id="paint3_radial" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(14.5277 13.2044) rotate(-26.296) scale(10.4431 5.16038)">
+                    <stop stop-color="#FF0000" stop-opacity="0.25"></stop>
+                    <stop offset="1" stop-color="#FF0000" stop-opacity="0"></stop>
+                </radialGradient>
+                <radialGradient id="paint4_radial" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(7.34746 7.19453) rotate(-21.6908) scale(3.71252 2.30616)">
+                    <stop stop-color="white"></stop>
+                    <stop offset="1" stop-color="white" stop-opacity="0"></stop>
+                </radialGradient>
+                <radialGradient id="paint5_radial" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(14.6004 6.84619) rotate(-40.7634) scale(3.07376 1.9095)">
+                    <stop stop-color="white"></stop>
+                    <stop offset="1" stop-color="white" stop-opacity="0"></stop>
+                </radialGradient>
+                <linearGradient id="paint6_linear" x1="13.8868" y1="26.8498" x2="15.6583" y2="2.96408" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#FF0000"></stop>
+                    <stop offset="1" stop-color="#FF0000" stop-opacity="0"></stop>
+                </linearGradient>
+            </defs>
+        </g>
     </symbol>
     <symbol id="home" viewBox="0 0 16 16">
         <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z"/>
@@ -49,7 +96,7 @@
     <div class="container">
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
             <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
-                <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"/></svg>
+                <svg class="bi me-2" width="32" height="32" role="img" aria-label="slm.shop"><use xlink:href="#slmshop"/></svg>
             </a>
 
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
@@ -98,8 +145,7 @@
 {{--        <p class="float-end mb-1">--}}
 {{--            <a href="#">Вернуться в начало</a>--}}
 {{--        </p>--}}
-        <p class="mb-1">&copy; slmatthew, 2023</p>
-        <p class="mb-0"><3</p>
+        <p class="mb-1">&copy; slmatthew, 2023 <svg class="bi me-2" width="20" height="20" role="img" aria-label="heart"><use xlink:href="#redHeart"/></svg></p>
     </div>
 </footer>
 
