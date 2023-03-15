@@ -83,8 +83,11 @@
                         </div>
 
                         <div class="col-12">
-                            <label for="phone" class="form-label">Номер телефона <span class="text-muted">(только российские номера, цифры после 7)</span></label>
-                            <input type="tel" class="form-control" name="phone" id="phone" pattern="[0-9]{10}" placeholder="9991234567" value="{{ old('phone') ?? $basket->phone ?? \Illuminate\Support\Facades\Auth::user()->phone ?? '' }}">
+                            <label for="phone" class="form-label">Номер телефона <span class="text-muted">(только российские номера)</span></label>
+                            <div class="input-group">
+                                <span class="input-group-text">7</span>
+                                <input type="tel" class="form-control" name="phone" id="phone" pattern="[0-9]{10}" placeholder="9991234567" value="{{ old('phone') ?? $basket->phone ?? \Illuminate\Support\Facades\Auth::user()->phone ?? '' }}">
+                            </div>
                             <div class="invalid-feedback">
                                 Введите корректный номер телефона
                             </div>
