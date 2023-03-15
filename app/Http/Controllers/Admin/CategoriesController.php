@@ -30,7 +30,7 @@ class CategoriesController extends Controller
             $url = ImageSaver::upload($file, 'categories', false, 1920, 1200);
         }
 
-        $data['image_url'] = $url ?? 'https://vk.com/images/camera_200.png';
+        $data['image_url'] = $url ?? '/img/camera_200.png';
 
         Category::create($data);
 
@@ -43,7 +43,7 @@ class CategoriesController extends Controller
         $category->name = $request->getData()['name'];
 
         if(is_null($category->image_url)) {
-            $category->image_url = 'https://vk.com/images/camera_200.png';
+            $category->image_url = '/img/camera_200.png';
         }
 
         $file = $request->file('image');

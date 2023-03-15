@@ -67,11 +67,11 @@ class ProductController extends Controller
             $product->hidden        = (int)request()->get('hidden') ?? 0;
             $product->available     = (int)request()->get('available') ?? 0;
 
-            $product->image_url = $product->image_url ?? 'https://vk.com/images/camera_200.png';
+            $product->image_url = $product->image_url ?? '/img/camera_200.png';
 
             if(!is_null($request->get('delete_image')) && str_starts_with($product->image_url, '/storage/')) {
                 Storage::disk('public')->delete(mb_substr($product->image_url, 9));
-                $product->image_url = 'https://vk.com/images/camera_200.png';
+                $product->image_url = '/img/camera_200.png';
             }
 
             $file = $request->file('image');
@@ -125,7 +125,7 @@ class ProductController extends Controller
             $url = ImageSaver::upload($file, 'products', width: 1500);
         }
 
-        $data['image_url'] = $url ?? 'https://vk.com/images/camera_200.png';
+        $data['image_url'] = $url ?? '/img/camera_200.png';
 
         Product::create($data);
 

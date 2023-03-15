@@ -38,7 +38,7 @@ class UserController extends Controller
                 Storage::disk('public')->delete(mb_substr($user->image, 9));
             }
 
-            $user->image = 'https://vk.com/images/camera_200.png';
+            $user->image = '/img/camera_200.png';
         }
 
         $user->name = $request->get('name');
