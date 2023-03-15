@@ -108,7 +108,7 @@ class UserController extends Controller
         }
 
         if($request->has('new_password') && $request->has('new_password_confirmation')) {
-            $user->password = Hash::make($request->get('new_password'));
+            $user->setPasswordAttribute($request->get('new_password'));
         }
 
         $user->save();
