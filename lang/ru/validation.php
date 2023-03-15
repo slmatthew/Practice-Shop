@@ -212,5 +212,8 @@ return [
         'updated_at'               => 'обновлено в',
         'username'                 => 'никнейм',
         'year'                     => 'год',
+
+        'new_password'                 => 'новый пароль',
+        'new_password_confirmation'    => 'подтверждение пароля',
     ],
 ];

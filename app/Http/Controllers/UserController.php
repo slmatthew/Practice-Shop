@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ImageSaver;
+use App\Http\Requests\UserEditRequest;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -73,5 +77,42 @@ class UserController extends Controller
         }
 
         return view('user.order', ['order' => $order, 'orderItems' => $orderItems]);
+    }
+
+    public function edit() {
+        return view('user.edit')
+            ->with('user', Auth::user())
+            ->with('orders_count', Order::select('id')->where('user_id', '=', Auth::user()->id)->where('checkout', '>', 0)->count());
+    }
+
+    public function doEdit(UserEditRequest $request) {
+        if(!Auth::check() || $request->get('_user_id') != Auth::user()->id) abort(403);
+
+        $user = User::find(Auth::user()->id);
+
+        $user->name = $request->get('name');
+        $user->surname = $request->get('surname');
+        $user->phone = $request->get('phone');
+
+        if($request->has('username') && $request->get('username') != $user->username) {
+            $user->username = $request->get('username');
+        }
+
+        $file = $request->file('image');
+        if($file) {
+            if(str_starts_with($user->image, '/storage/')) {
+                Storage::disk('public')->delete(mb_substr($user->image, 9));
+            }
+
+            $user->image = ImageSaver::upload($file, 'users', width: 500);
+        }
+
+        if($request->has('new_password') && $request->has('new_password_confirmation')) {
+            $user->password = Hash::make($request->get('new_password'));
+        }
+
+        $user->save();
+
+        return to_route('user.edit');
     }
 }

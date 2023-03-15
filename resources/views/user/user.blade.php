@@ -12,10 +12,10 @@
                                      alt="{{ "@{$user['username']}" }} image" class="img-fluid img-thumbnail mt-4 mb-2"
                                      style="width: 150px; z-index: 1">
                                 @if(Auth::check() && auth()->user()->toArray()['id'] == $user['id'])
-                                    <button type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
+                                    <a role="button" href="{{ route('user.edit') }}" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
                                             style="z-index: 1;">
                                         Редактировать
-                                    </button>
+                                    </a>
                                 @endif
                             </div>
                             <div class="ms-3" style="margin-top: 130px;">

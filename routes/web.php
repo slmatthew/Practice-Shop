@@ -60,12 +60,24 @@ Route::group(['middleware' => ['auth']], function() {
      */
     Route::get('/logout', [LogoutController::class, 'perform'])->name('logout.perform');
 
-    Route::get('/user/me', function () {
-        return to_route('user.user', ['user' => Auth::user()->id]);
-    })->name('user.me');
+    /**
+     * Пользователь
+     */
+    Route::prefix('user')->group(function () {
+        Route::name('user.')->group(function () {
 
-    Route::get('/user/orders', [UserController::class, 'orders'])->name('user.orders');
-    Route::get('/user/order/{order}', [UserController::class, 'order'])->name('user.order');
+            Route::get('/me', function () {
+                return to_route('user.user', ['user' => Auth::user()->id]);
+            })->name('me');
+
+            Route::get('/orders', [UserController::class, 'orders'])->name('orders');
+            Route::get('/order/{order}', [UserController::class, 'order'])->name('order');
+
+            Route::get('/edit', [UserController::class, 'edit'])->name('edit');
+            Route::post('/edit', [UserController::class, 'doEdit'])->name('edit.action');
+
+        });
+    });
 
     /**
      * Корзина
@@ -124,7 +136,7 @@ Route::group(['middleware' => ['auth', ValidateAdmin::class]], function() {
              * пользователи
              */
             Route::get('/users', [AdminUserController::class, 'main'])->name('users.main');
-            Route::get('/user/{user}', [AdminController::class, 'user'])->name('user');
+            Route::get('/user/{user}', [AdminUserController::class, 'user'])->name('user');
 
             /**
              * заказы
