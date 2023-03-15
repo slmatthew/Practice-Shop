@@ -7,6 +7,7 @@
             </div>
             <form method="post" action="{{ route('admin.category.update') }}" enctype="multipart/form-data">
                 @csrf
+                @method('POST')
 
                 <input type="hidden" name="id" value="{{ $id }}" />
 

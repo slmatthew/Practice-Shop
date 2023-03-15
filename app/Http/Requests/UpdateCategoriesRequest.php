@@ -17,7 +17,14 @@ class UpdateCategoriesRequest extends FormRequest
     {
         return [
             'id' => ['numeric', 'exists:categories,id'],
-            'name' => ['string', 'required'],
+            'name' => ['string', 'required', function ($attr, $val, $fail) {
+                $category = Category::where($attr, '=', $val)->limit(1)->get();
+                if($category->count() > 0) {
+                    if($category[0]->id != $this->get('id')) {
+                        $fail(__('validation.unique', ['attribute' => $attr]));
+                    }
+                }
+            }],
             'image' => ['file', 'mimes:jpeg,jpg,png', 'max:5000']
         ];
     }
