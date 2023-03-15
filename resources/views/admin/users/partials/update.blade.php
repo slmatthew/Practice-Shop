@@ -39,6 +39,18 @@
                         </div>
                     </div>
 
+                    @if($user->id != 1)
+                        <hr class="my-4" />
+
+                        <div class="mb-3">
+                            <label class="form-label" for="{{ "u{$user->id}-role" }}">Роль</label>
+                            <select name="role" class="form-select" id="{{ "u{$user->id}-role" }}">
+                                <option value="user" {{ $user->role == 'user' ? 'selected' : '' }}>Пользователь</option>
+                                <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Админ</option>
+                            </select>
+                        </div>
+                    @endif
+
                     @if($user->image != 'https://vk.com/images/camera_200.png')
                         <hr class="my-4" />
 

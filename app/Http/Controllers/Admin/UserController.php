@@ -45,6 +45,10 @@ class UserController extends Controller
         $user->surname = $request->get('surname');
         $user->phone = $request->get('phone');
 
+        if($request->has('role') && $user->id != 1) {
+            $user->role = $request->get('role');
+        }
+
         $user->save();
 
         return to_route('admin.users.main');
