@@ -104,7 +104,7 @@ class UserController extends Controller
                 Storage::disk('public')->delete(mb_substr($user->image, 9));
             }
 
-            $user->image = ImageSaver::upload($file, 'users', width: 500);
+            $user->image = ImageSaver::upload($file, 'users', true, 300, 300);
         }
 
         if($request->has('new_password') && $request->has('new_password_confirmation')) {
