@@ -136,12 +136,15 @@ Route::group(['middleware' => ['auth', ValidateAdmin::class]], function() {
              * пользователи
              */
             Route::get('/users', [AdminUserController::class, 'main'])->name('users.main');
-            Route::get('/user/{user}', [AdminUserController::class, 'user'])->name('user');
+
+            Route::post('/users/{user}', [AdminUserController::class, 'update'])->name('users.update');
+            Route::post('/users/{user}/resetPassword', [AdminUserController::class, 'resetPassword'])->name('users.resetPassword');
+            Route::delete('/users/{user}', [AdminUserController::class, 'delete'])->name('users.delete');
 
             /**
              * заказы
              */
-            Route::get('/orders', [OrdersController::class, 'index'])->name('orders.main');
+            Route::get('/orders/{user?}', [OrdersController::class, 'index'])->name('orders.main');
 
             Route::post('/order/confirm', [OrdersController::class, 'confirm'])->name('orders.confirm');
             Route::post('/order/cancel', [OrdersController::class, 'cancel'])->name('orders.cancel');

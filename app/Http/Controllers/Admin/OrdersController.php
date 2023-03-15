@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\SimpleOrderRequest;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class OrdersController extends Controller
@@ -18,8 +19,14 @@ class OrdersController extends Controller
         return $order;
     }
 
-    public function index() {
-        $orders = Order::where('checkout', '>', 0)->orderBy('submitted_at', 'desc')->paginate(15);
+    public function index(?User $user) {
+        $orders = Order::where('checkout', '>', 0)->orderBy('submitted_at', 'desc');
+
+        if($user->exists) {
+            $orders = $orders->where('user_id', '=', $user->id);
+        }
+
+        $orders = $orders->paginate(15);
         $prices = [];
 
         foreach($orders as $order) {
