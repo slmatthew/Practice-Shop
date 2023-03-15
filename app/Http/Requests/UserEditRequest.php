@@ -18,14 +18,17 @@ class UserEditRequest extends FormRequest
             'image'                         => ['file', 'mimes:jpeg,jpg,png', 'max:5000'],
             'username'                      => [
                 'alpha:ascii',
-                'min:5',
                 function ($attribute, $value, $fail) {
                     $user = User::find(Auth::user()->id);
 
+                    if($value == $user->username) return;
+
                     if(!is_null($value) && $value != $user->username) {
-                        if(User::where('username', '=', $value)) {
-                            $fail(__('validation.unique', ['attribute' => $attribute]));
-                        }
+                        if(mb_strlen($value) >= 5) {
+                            if(User::where('username', '=', $value)->count() > 0) {
+                                $fail(__('validation.unique', ['attribute' => $attribute]));
+                            }
+                        } else $fail(__('validation.min.string', ['min' => 5]));
                     }
                 }
             ],
