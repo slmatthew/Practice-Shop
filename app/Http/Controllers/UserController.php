@@ -15,12 +15,8 @@ use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
-    public function user($user_id): \Illuminate\Contracts\View\View
+    public function user(User $user): \Illuminate\Contracts\View\View
     {
-        $user = User::find($user_id);
-
-        if(is_null($user)) abort(404);
-
         $orders_count = Order::select('id')->where('user_id', '=', $user->id)->where('checkout', '>', 0)->count();
         $orders_items = [];
         $orders_prices = [];
