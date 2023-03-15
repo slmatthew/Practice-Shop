@@ -15,7 +15,7 @@
                     </div>
                     <div>
                         <label class="form-label" for="pImage">Изображение</label>
-                        <input name="image" type="file" class="form-control" id="pImage">
+                        <input name="image" type="file" accept="image/png, image/jpeg, image/jpg" class="form-control" id="pImage">
                     </div>
                 </div>
                 <div class="modal-footer">
