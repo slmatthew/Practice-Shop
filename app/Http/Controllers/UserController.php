@@ -79,6 +79,9 @@ class UserController extends Controller
         return view('user.order', ['order' => $order, 'orderItems' => $orderItems]);
     }
 
+    /**
+     * @todo дальняя перспектива: редактирование цвета обложки
+     */
     public function edit() {
         return view('user.edit')
             ->with('user', Auth::user())
