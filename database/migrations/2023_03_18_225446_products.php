@@ -16,12 +16,13 @@ return new class extends Migration
             $table->decimal('price', 10, 2);
             $table->string('image_url')->default('/img/camera_200.png');
             $table->timestamps();
-            $table->foreignId('category_id')->nullable()->constrained('categories');
+            $table->foreignIdFor(\App\Models\Category::class)->nullable()->constrained('categories');
+            $table->foreignIdFor(\App\Models\Brand::class)->nullable()->constrained('brands')->cascadeOnUpdate()->onDelete('set null');
             $table->tinyInteger('hidden')->default(0);
             $table->tinyInteger('available')->default(1);
         });
 
-        DB::table('products')->inset([
+        DB::table('products')->insert([
             ['id' => 2, 'name' => 'Apple iPhone 13 128GB Midnight', 'description' => 'Невероятно яркий дисплей в прочном корпусе. Режим «Киноэффект», который делает из вашего видео настоящее кино. Супербыстрый чип. И неутомимый аккумулятор.', 'price' => '79890.00', 'image_url' => '/storage/products/bDUIxuLSas99pGp25e9OWIKhQxcl49fzCg0Kflec.jpg', 'created_at' => '2023-03-06 15:24:58', 'updated_at' => '2023-03-14 18:23:52', 'category_id' => '1', 'hidden' => '0', 'available' => '1'],
             ['id' => 3, 'name' => 'Apple iPhone 14 Pro 128 ГБ Deep Purple', 'description' => 'Волшебный способ взаимодействия с вашим iPhone. Революционные функции безопасности, разработанные для спасения жизней. Инновационная основная камера 48 Мп. И дисплей, который до 2 раз ярче на солнце. Все это работает на новейшем чипе для смартфонов.', 'price' => '112990.00', 'image_url' => '/storage/products/At6eaVwVJI8vICCfYqCTuZiJMxtDou6FS8uvwg0o.jpg', 'created_at' => '2023-03-06 16:11:26', 'updated_at' => '2023-03-14 18:23:52', 'category_id' => '1', 'hidden' => '0', 'available' => '1'],
             ['id' => 4, 'name' => 'Samsung Galaxy S23 Ultra 512GB Green', 'description' => 'Новые естественные оттенки Galaxy вдохновлены красотой природы. Цвет корпуса и глянцевой алюминиевой рамки созданы с использованием натуральных красителей.', 'price' => '125990.00', 'image_url' => '/storage/products/IGXNqCUwBKaDiiPoRvI0cMEL2DrKhP6HCoXU9WR6.jpg', 'created_at' => '2023-03-06 17:20:39', 'updated_at' => '2023-03-14 18:23:52', 'category_id' => '1', 'hidden' => '0', 'available' => '1'],
@@ -45,6 +46,8 @@ return new class extends Migration
 
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('products');
+        Schema::enableForeignKeyConstraints();
     }
 };
