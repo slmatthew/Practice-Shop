@@ -104,6 +104,12 @@
                             'text' => 'Категории'
                         ],
                         [
+                            'navItem' => 'brands',
+                            'route' => 'admin.brands.main',
+                            'feather' => 'server',
+                            'text' => 'Бренды'
+                        ],
+                        [
                             'navItem' => 'users',
                             'route' => 'admin.users.main',
                             'feather' => 'users',

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\BrandsController;
 use App\Http\Controllers\Admin\OrdersController;
 use App\Http\Controllers\BasketController;
 use App\Http\Controllers\ProductsController;
@@ -133,6 +134,11 @@ Route::group(['middleware' => ['auth', ValidateAdmin::class]], function() {
             Route::post('/category/add', [CategoriesController::class, 'add'])->name('category.add');
             Route::post('/category/update', [CategoriesController::class, 'update'])->name('category.update');
             Route::post('/category/delete', [CategoriesController::class, 'delete'])->name('category.delete');
+
+            /**
+             * бренды
+             */
+            Route::get('/brands', [BrandsController::class, 'main'])->name('brands.main');
 
             /**
              * пользователи
