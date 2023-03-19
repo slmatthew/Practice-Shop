@@ -25,11 +25,18 @@
             <!--Content-->
             <div class="p-4">
                 <div class="mb-3">
+                    @if($brand)
+                        <a href="{{ route('products.brand', $brand) }}" class="badge bg-primary me-1" style="text-decoration: none">
+                            {{ $brand->name }}
+                        </a>
+                    @endif
+
                     @if($category)
                         <a href="{{ route('products.byCategory', $category->id) }}" class="badge bg-dark me-1" style="text-decoration: none">
                             {{ $category->name }}
                         </a>
                     @endif
+
                     @php(date_default_timezone_set ('Europe/Moscow'))
                     @php($time_now = time())
                     @if($time_now - strtotime($product->created_at) - 10800 <= 86400)
