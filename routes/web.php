@@ -140,6 +140,10 @@ Route::group(['middleware' => ['auth', ValidateAdmin::class]], function() {
              */
             Route::get('/brands', [BrandsController::class, 'main'])->name('brands.main');
 
+            Route::put('/brand', [BrandsController::class, 'add'])->name('brand.add');
+            Route::post('/brand', [BrandsController::class, 'update'])->name('brand.update');
+            Route::delete('/brand', [BrandsController::class, 'delete'])->name('brand.delete');
+
             /**
              * пользователи
              */
