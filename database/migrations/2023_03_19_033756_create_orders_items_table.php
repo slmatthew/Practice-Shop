@@ -13,16 +13,17 @@ return new class extends Migration
     {
         Schema::create('orders_items', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Order::class)->constrained('orders')->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreignIdFor(Product::class)->constrained('products')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignIdFor(Order::class);
+            $table->foreignIdFor(Product::class);
             $table->unsignedInteger('quantity');
-            $table->timestamp('created_at')->useCurrent()->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->useCurrentOnUpdate()->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+            $table->timestamps();
         });
     }
 
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('orders_items');
+        Schema::enableForeignKeyConstraints();
     }
 };
