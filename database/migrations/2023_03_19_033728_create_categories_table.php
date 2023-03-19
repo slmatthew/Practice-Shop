@@ -58,7 +58,7 @@ return new class extends Migration
                 'updated_at' => now()
             ],
             [
-                'id' => 8,
+                'id' => 6,
                 'name' => 'Смарт-часы и браслеты',
                 'image_url' => '/storage/categories/S4mbcu0QXx0s79M2PAX8ggeTrh8GUfByLahre2uL.jpg',
                 'created_at' => now(),
