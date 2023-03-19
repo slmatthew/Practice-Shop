@@ -15,7 +15,8 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->decimal('price', 10, 2);
             $table->string('image_url')->default('/img/camera_200.png');
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent()->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->useCurrentOnUpdate()->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
             $table->foreignIdFor(\App\Models\Category::class)->nullable()->constrained('categories')->cascadeOnUpdate()->onDelete('set null');
             $table->foreignIdFor(\App\Models\Brand::class)->nullable()->constrained('brands')->cascadeOnUpdate()->onDelete('set null');
             $table->tinyInteger('hidden')->default(0);
