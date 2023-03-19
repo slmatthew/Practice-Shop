@@ -13,6 +13,7 @@ class AddProductRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'price' => ['required', 'decimal:0,2'],
             'category_id' => ['exists:categories,id'],
+            'brand_id' => ['exists_or_null:brands,id'],
             'hidden' => ['boolean'],
             'available' => ['boolean'],
             'image' => ['file', 'mimes:jpeg,jpg,png', 'max:5000']
@@ -26,6 +27,7 @@ class AddProductRequest extends FormRequest
             'description' => $this->get('description') ?? '',
             'price' => $this->get('price') ?? 0,
             'category_id' => $this->get('category_id'),
+            'brand_id' => $this->get('brand_id'),
             'hidden' => $this->get('hidden') ?? 0,
             'available' => $this->get('available') ?? 0
         ];

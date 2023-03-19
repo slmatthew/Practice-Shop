@@ -61,7 +61,7 @@
                 <th scope="row">
                     <img src="{{ $product->image_url }}" style="max-width: 5em;max-height: 5em" class="img-thumbnail rounded float-start">
                 </th>
-                <td>{{ $product->name }}</td>
+                <td>{{ $product->brand[0] ? "{$product->brand[1]->name} | " : '' }}{{ $product->name }}</td>
                 <td>
                     @if($product->category[0])
                         {{ $product->category[1]->name }}

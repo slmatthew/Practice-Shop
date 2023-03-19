@@ -64,6 +64,18 @@
         </div>
 
         <div class="mb-3 row">
+            <label class="col-sm-2 col-form-label" for="pBrand">Бренд</label>
+            <div class="col-sm-10">
+                <select name="brand_id" class="form-select" aria-label="Default select example" id="pBrand">
+                    <option value="" selected>Нет значения</option>
+                    @foreach($brands as $brand)
+                        <option value="{{ $brand->id }}" {{ old('brand_id') == $brand->id ? 'selected' : '' }}>{{ $brand->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+
+        <div class="mb-3 row">
             <label class="col-sm-2 col-form-label form-check-label" for="pHidden">
                 Скрыть
             </label>
