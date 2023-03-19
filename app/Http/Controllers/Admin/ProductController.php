@@ -50,7 +50,12 @@ class ProductController extends Controller
             abort(404);
         }
 
-        return view('admin.products.update', ['product' => $product->toArray(), 'categories' => Category::get()->toArray()]);
+        $nextPrev = [];
+
+        $nextPrev['next'] = Product::where('id', '>', $product_id)->orderBy('id')->first()->id ?? 0;
+        $nextPrev['prev'] = Product::where('id', '<', $product_id)->orderBy('id', 'desc')->first()->id ?? 0;
+
+        return view('admin.products.update', ['product' => $product->toArray(), 'categories' => Category::get()->toArray(), 'brands' => Brand::get(), 'nextPrev' => $nextPrev]);
     }
 
     public function updateProductAction(UpdateProductRequest $request): \Illuminate\Contracts\View\View
