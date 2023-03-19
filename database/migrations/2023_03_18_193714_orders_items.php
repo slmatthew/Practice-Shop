@@ -12,7 +12,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('orders_items', function (Blueprint $table) {
-            $table->id()->primary();
+            $table->id();
             $table->foreignIdFor(Order::class);
             $table->foreignIdFor(Product::class);
             $table->unsignedInteger('quantity');
@@ -22,6 +22,8 @@ return new class extends Migration
 
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('orders_items');
+        Schema::enableForeignKeyConstraints();
     }
 };

@@ -10,8 +10,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->id()->autoIncrement();
-            $table->foreignIdFor(User::class);
+            $table->id();
+            $table->foreignIdFor(\App\Models\User::class);
             $table->string('name')->nullable();
             $table->string('surname')->nullable();
             $table->string('phone')->nullable();
@@ -23,6 +23,8 @@ return new class extends Migration
 
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('orders');
+        Schema::enableForeignKeyConstraints();
     }
 };

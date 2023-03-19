@@ -15,7 +15,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('categories', function (Blueprint $table) {
-            $table->bigIncrements('id')->primary();
+            $table->bigIncrements('id');
             $table->string('name')->unique();
             $table->string('image_url')->default('/img/camera_200.png');
             $table->timestamps();
@@ -74,6 +74,8 @@ return new class extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('categories');
+        Schema::enableForeignKeyConstraints();
     }
 };
