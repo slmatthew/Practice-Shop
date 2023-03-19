@@ -6,6 +6,7 @@ use App\Helpers\ImageSaver;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AddProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Contracts\Validation\InvokableRule;
@@ -21,6 +22,7 @@ class ProductController extends Controller
 
         foreach($products as $i => &$val) {
             $val->category = is_null($val->category_id) ? [false] : [true, Category::find($val->category_id)];
+            $val->brand = is_null($val->brand_id) ? [false] : [true, Brand::find($val->brand_id)];
         }
 
         $deleteResult = [];
@@ -50,7 +52,12 @@ class ProductController extends Controller
             abort(404);
         }
 
-        return view('admin.products.update', ['product' => $product->toArray(), 'categories' => Category::get()->toArray()]);
+        $nextPrev = [];
+
+        $nextPrev['next'] = Product::where('id', '>', $product_id)->orderBy('id')->first()->id ?? 0;
+        $nextPrev['prev'] = Product::where('id', '<', $product_id)->orderBy('id', 'desc')->first()->id ?? 0;
+
+        return view('admin.products.update', ['product' => $product->toArray(), 'categories' => Category::get()->toArray(), 'brands' => Brand::get(), 'nextPrev' => $nextPrev]);
     }
 
     public function updateProductAction(UpdateProductRequest $request): \Illuminate\Contracts\View\View
@@ -64,6 +71,7 @@ class ProductController extends Controller
             $product->description   = request()->get('description');
             $product->price         = (float)request()->get('price');
             $product->category_id   = (int)request()->get('category_id') == 0 ? null : request()->get('category_id');
+            $product->brand_id      = (int)request()->get('brand_id') == 0 ? null : request()->get('brand_id');
             $product->hidden        = (int)request()->get('hidden') ?? 0;
             $product->available     = (int)request()->get('available') ?? 0;
 
@@ -113,7 +121,7 @@ class ProductController extends Controller
 
     public function addProduct(): \Illuminate\Contracts\View\View
     {
-        return view('admin.products.add', ['categories' => Category::get()->toArray()]);
+        return view('admin.products.add', ['categories' => Category::get()->toArray(), 'brands' => Brand::get()]);
     }
 
     public function addProductAction(AddProductRequest $request)

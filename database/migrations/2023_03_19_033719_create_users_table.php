@@ -15,13 +15,14 @@ return new class extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id()->primary();
+            $table->id();
             $table->string('username')->unique();
             $table->string('password');
             $table->enum('role', ['user', 'admin'])->default('user');
             $table->string('name')->nullable();
             $table->string('surname')->nullable();
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent()->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->useCurrentOnUpdate()->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
             $table->string('phone')->nullable();
             $table->string('image')->default('/img/camera_200.png');
             $table->integer('logout')->default(0);

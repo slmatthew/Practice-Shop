@@ -15,6 +15,8 @@
         @endforeach
     @endif
 
+    <link type="image/png" rel="icon" href="{{ asset('favicon/1080x1080.png') }}">
+
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
 

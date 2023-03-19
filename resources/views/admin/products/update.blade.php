@@ -1,5 +1,22 @@
 @extends('layouts.admin-master', ['navbar' => 'products', 'pageTitle' => 'Редактирование'])
 
+@section('header')
+    @if($nextPrev['next'] || $nextPrev['prev'])
+        <div class="btn-toolbar mb-2 mb-md-0">
+            <div class="btn-group me-2">
+                <div class="dropdown mb-3">
+                    @if($nextPrev['prev'])
+                        <a href="{{ route('admin.product', $nextPrev['prev']) }}" role="button" class="btn btn-outline-secondary btn-sm">Назад</a>
+                    @endif
+                    @if($nextPrev['next'])
+                        <a href="{{ route('admin.product', $nextPrev['next']) }}" role="button" class="btn btn-outline-secondary btn-sm">Вперед</a>
+                    @endif
+                </div>
+            </div>
+        </div>
+    @endif
+@endsection
+
 @section('content')
     @if ($errors->any())
         <div class="alert alert-danger">
@@ -74,9 +91,21 @@
             <label class="col-sm-2 col-form-label" for="pCategory">Категория</label>
             <div class="col-sm-10">
                 <select name="category_id" class="form-select" aria-label="Default select example" id="pCategory">
-                    <option value="0" {{ !is_null($product['category_id']) ?: 'selected' }}>Не выбрано</option>
+                    <option value="" {{ !is_null($product['category_id']) ?: 'selected' }}>Не выбрано</option>
                     @foreach($categories as $ctg)
                         <option value="{{ $ctg['id'] }}" {{ $product['category_id'] != $ctg['id'] ?: 'selected' }}>{{ $ctg['name'] }}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+
+        <div class="mb-3 row">
+            <label class="col-sm-2 col-form-label" for="pBrand">Бренд</label>
+            <div class="col-sm-10">
+                <select name="brand_id" class="form-select" aria-label="Default select example" id="pBrand">
+                    <option value="0" {{ is_null($product['brand_id']) ? 'selected' : '' }}>Нет значения</option>
+                    @foreach($brands as $brand)
+                        <option value="{{ $brand->id }}" {{ $brand->id == $product['brand_id'] ? 'selected' : '' }}>{{ $brand->name }}</option>
                     @endforeach
                 </select>
             </div>

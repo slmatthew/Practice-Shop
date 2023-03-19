@@ -12,11 +12,12 @@ return new class extends Migration
     public function up()
     {
         Schema::create('orders_items', function (Blueprint $table) {
-            $table->id()->primary();
-            $table->foreignIdFor(Order::class);
-            $table->foreignIdFor(Product::class);
+            $table->id();
+            $table->foreignIdFor(Order::class)->constrained('orders')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignIdFor(Product::class)->constrained('products')->cascadeOnUpdate()->cascadeOnDelete();
             $table->unsignedInteger('quantity');
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent()->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->useCurrentOnUpdate()->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
         });
     }
 
