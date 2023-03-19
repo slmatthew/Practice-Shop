@@ -15,6 +15,10 @@
                         <input name="name" type="text" class="form-control" placeholder="Apple" value="{{ old('name') }}" id="pName" required>
                     </div>
                     <div class="mb-3">
+                        <label class="form-label" for="pSlug">ЧПУ</label>
+                        <input name="slug" type="text" class="form-control" placeholder="apple" value="{{ old('slug') }}" id="pSlug" required>
+                    </div>
+                    <div class="mb-3">
                         <label class="form-label" for="pDesc">Описание</label>
                         <textarea name="description" style="resize: none" class="form-control" placeholder="Это мы, да-да" rows="3" id="pDesc">{{ old('description') }}</textarea>
                     </div>

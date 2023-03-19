@@ -24,6 +24,14 @@ class UpdateBrandRequest extends FormRequest
                     }
                 }
             }],
+            'slug' => ['string', 'required', 'min:1', function ($attr, $val, $fail) {
+                $brand = Brand::where($attr, '=', $val)->limit(1)->get();
+                if($brand->count() > 0) {
+                    if($brand[0]->id != $this->get('id')) {
+                        $fail(__('validation.unique', ['attribute' => $attr]));
+                    }
+                }
+            }],
             'description' => ['string', 'max:1024'],
             'image' => ['file', 'mimes:jpeg,jpg,png', 'max:5000']
         ];
@@ -31,6 +39,6 @@ class UpdateBrandRequest extends FormRequest
 
     public function getData(): array
     {
-        return $this->only(['id', 'name', 'description']);
+        return $this->only(['id', 'name', 'slug', 'description']);
     }
 }

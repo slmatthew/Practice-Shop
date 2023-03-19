@@ -37,10 +37,10 @@ Route::get('/', [ MainController::class, 'main' ])->name('main');
 Route::get('/products', [ MainController::class, 'products' ])->name('products');
 
 Route::get('/products/categories', [ ProductsController::class, 'allCategories' ])->name('products.categories');
-Route::get('/products/{category}/{brand?}', [ ProductsController::class, 'byCategory' ])->name('products.byCategory');
+Route::get('/products/{category}/{brand:slug?}', [ ProductsController::class, 'byCategory' ])->name('products.byCategory');
 Route::get('/product/{product}', [ ProductsController::class, 'product' ])->name('products.item');
 
-Route::get('/brand/{brand}', [ ProductsController::class, 'brand' ])->name('products.brand');
+Route::get('/brand/{brand:slug}', [ ProductsController::class, 'brand' ])->name('products.brand');
 // Route::get('/brand/{brand:name}', [ ProductsController::class, 'brand' ])->name('products.brand');
 
 Route::view('/about', 'about')->name('about');
