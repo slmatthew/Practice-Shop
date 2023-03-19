@@ -15,10 +15,11 @@ return new class extends Migration
     public function up()
     {
         Schema::create('categories', function (Blueprint $table) {
-            $table->bigIncrements('id')->primary();
+            $table->bigIncrements('id');
             $table->string('name')->unique();
             $table->string('image_url')->default('/img/camera_200.png');
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent()->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->useCurrentOnUpdate()->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
         });
 
         DB::table('categories')->insert([
@@ -58,7 +59,7 @@ return new class extends Migration
                 'updated_at' => now()
             ],
             [
-                'id' => 8,
+                'id' => 6,
                 'name' => 'Смарт-часы и браслеты',
                 'image_url' => '/storage/categories/S4mbcu0QXx0s79M2PAX8ggeTrh8GUfByLahre2uL.jpg',
                 'created_at' => now(),
