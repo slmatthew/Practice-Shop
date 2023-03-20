@@ -28,6 +28,12 @@
         </div>
     @endif
 
+    @if(isset($success))
+        <div class="alert alert-{{ $success ? 'success' : 'danger' }}" role="alert">
+            Товар {{ $success ? 'был' : 'не был' }} успешно обновлен
+        </div>
+    @endif
+
     <form method="post" action="{{ route('admin.product.update') }}" enctype="multipart/form-data">
 
         @csrf

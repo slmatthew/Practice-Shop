@@ -11,6 +11,7 @@ use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Contracts\Validation\InvokableRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 
@@ -43,7 +44,7 @@ class ProductController extends Controller
         return view('admin.products.all', ['products' => $products, 'deleteResult' => $deleteResult]);
     }
 
-    public function updateProduct($product_id)
+    public function updateProduct(Request $request, $product_id)
     {
         $product_id = (int)$product_id;
         $product = Product::find($product_id);
@@ -57,10 +58,15 @@ class ProductController extends Controller
         $nextPrev['next'] = Product::where('id', '>', $product_id)->orderBy('id')->first()->id ?? 0;
         $nextPrev['prev'] = Product::where('id', '<', $product_id)->orderBy('id', 'desc')->first()->id ?? 0;
 
-        return view('admin.products.update', ['product' => $product->toArray(), 'categories' => Category::get()->toArray(), 'brands' => Brand::get(), 'nextPrev' => $nextPrev]);
+        $data = ['product' => $product->toArray(), 'categories' => Category::get()->toArray(), 'brands' => Brand::get(), 'nextPrev' => $nextPrev];
+        if($request->has('success')) {
+            $data['success'] = (bool)$request->get('success');
+        }
+
+        return view('admin.products.update', $data);
     }
 
-    public function updateProductAction(UpdateProductRequest $request): \Illuminate\Contracts\View\View
+    public function updateProductAction(UpdateProductRequest $request)
     {
         $success = false;
 
@@ -95,7 +101,7 @@ class ProductController extends Controller
             $success = $product->save();
         }
 
-        return view('admin.products.updateResult', ['product' => (int)request()->get('id'), 'success' => $success]);
+        return to_route('admin.product', ['product' => $product, 'success' => $success]);
     }
 
     public function deleteProductAction()
