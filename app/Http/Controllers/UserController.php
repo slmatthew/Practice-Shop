@@ -62,10 +62,10 @@ class UserController extends Controller
     public function order(Order $order) {
         if($order->user_id != Auth::user()->id) abort(404);
 
-        $orderItems = OrderItem::where('order_id', '=', $order->id)->orderBy('updated_at', 'desc')->get()->toArray();
+        $orderItems = OrderItem::where('order_id', '=', $order->id)->orderBy('updated_at', 'desc')->get();
         if(count($orderItems) > 0) {
             foreach($orderItems as $n => $item) {
-                $orderItems[$n]['product'] = Product::find($item['product_id'])->toArray();
+                $orderItems[$n]['product'] = Product::find($item['product_id']);
             }
         }
 

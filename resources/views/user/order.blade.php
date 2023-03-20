@@ -11,7 +11,7 @@
     <div class="container">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('user.user', ['user' => Auth::user()->id]) }}">{{ Auth::user()->username }}</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('user.user', ['user' => Auth::user()]) }}">{{ Auth::user()->username }}</a></li>
                 <li class="breadcrumb-item"><a href="{{ route('user.orders') }}">Заказы</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Заказ {{ $order->id }}</li>
             </ol>
@@ -35,9 +35,9 @@
             @endphp
             @foreach($orderItems as $item)
                 @php
-                    if($item['product']['available']) {
-                        $total_cost += $item['product']['price'] * $item['quantity'];
-                        $total_quantity += $item['quantity'];
+                    if($item->product->available) {
+                        $total_cost += $item->product->price * $item->quantity;
+                        $total_quantity += $item->quantity;
                     }
                 @endphp
                 <tr>
@@ -45,21 +45,21 @@
                     @method('POST')
 
                     <th scope="row">
-                        <a href="{{ route('products.item', $item['product']['id']) }}" target="_blank">
-                            <img src="{{ $item['product']['image_url'] }}" style="max-width: 5em;max-height: 5em" class="img-thumbnail rounded float-start">
+                        <a href="{{ route('products.item', $item->product) }}" target="_blank">
+                            <img src="{{ $item->product->image_url }}" style="max-width: 5em;max-height: 5em" class="img-thumbnail rounded float-start">
                         </a>
                     </th>
                     <td class="align-middle">
-                        <a href="{{ route('products.item', $item['product']['id']) }}" target="_blank">
-                            {{ $item['product']['name'] }}
+                        <a href="{{ route('products.item', $item->product) }}" target="_blank">
+                            {{ $item->product->name }}
                         </a>
                     </td>
                     <td class="align-middle">
-                        {{ $item['quantity'] }}
+                        {{ $item->quantity }}
                     </td>
                     <td class="align-middle">
-                        @if($item['product']['available'])
-                            <span>{{ number_format($item['product']['price'] * $item['quantity'], 2, ',', ' ') }} ₽</span>
+                        @if($item->product->available)
+                            <span>{{ number_format($item->product->price * $item->quantity, 2, ',', ' ') }} ₽</span>
                         @else
                             <span>нет в наличии</span>
                         @endif

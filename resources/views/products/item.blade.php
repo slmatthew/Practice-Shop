@@ -7,7 +7,7 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('products.categories') }}">Все категории</a></li>
             @if($category)
-                <li class="breadcrumb-item"><a href="{{ route('products.byCategory', $category->id) }}">{{ $category->name }}</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('products.byCategory', $category) }}">{{ $category->name }}</a></li>
             @endif
             <li class="breadcrumb-item active" aria-current="page">{{ $product->name }}</li>
         </ol>
@@ -32,7 +32,7 @@
                     @endif
 
                     @if($category)
-                        <a href="{{ route('products.byCategory', $category->id) }}" class="badge bg-dark me-1" style="text-decoration: none">
+                        <a href="{{ route('products.byCategory', $category) }}" class="badge bg-dark me-1" style="text-decoration: none">
                             {{ $category->name }}
                         </a>
                     @endif
