@@ -23,19 +23,19 @@
                         <div class="card mb-30">
                             <a class="card-img-tiles" href="#" data-abc="true">
                                 <div class="inner">
-                                    <div class="main-img"><img src="{{ $ctg['image_url'] }}" alt="{{ $ctg['name'] }}"></div>
+                                    <div class="main-img"><img src="{{ $ctg->image_url }}" alt="{{ $ctg->name }}"></div>
                                 </div>
                             </a>
                             <div class="card-body text-center">
                                 <h4 class="card-title">
-                                    {{ $ctg['name'] }}
+                                    {{ $ctg->name }}
                                 </h4>
 
                                 <p class="text-muted">
-                                    От {{ number_format((float)$ctg['min_price'], 2, ',', ' ') }} ₽
+                                    От {{ number_format((float)$ctg->min_price, 2, ',', ' ') }} ₽
                                 </p>
 
-                                <a class="btn btn-outline-primary btn-sm" href="{{ route('products.byCategory', $ctg['id']) }}" data-abc="true">
+                                <a class="btn btn-outline-primary btn-sm" href="{{ route('products.byCategory', $ctg) }}" data-abc="true">
                                     Смотреть
                                 </a>
                             </div>

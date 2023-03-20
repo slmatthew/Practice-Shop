@@ -10,11 +10,11 @@ use Illuminate\Http\Request;
 class ProductsController extends Controller
 {
     public function allCategories() {
-        $categories = Category::get()->toArray();
+        $categories = Category::get();
 
         foreach($categories as $i => &$ctg) {
             $products = Product::select('image_url')->
-                where('category_id', '=', $ctg['id'])->
+                where('category_id', '=', $ctg->id)->
                 where('hidden', '=', 0)->
                 limit(3)->
                 get()->
@@ -26,7 +26,7 @@ class ProductsController extends Controller
             }
 
             $min_price = Product::select('price')->
-                where('category_id', '=', $ctg['id'])->
+                where('category_id', '=', $ctg->id)->
                 where('hidden', '=', 0)->
                 orderBy('price', 'asc')->
                 limit(1)->
@@ -40,21 +40,20 @@ class ProductsController extends Controller
         return view('products.allCategories', ['categories' => $categories]);
     }
 
-    public function byCategory($category_id, Brand $brand = null) {
+    public function byCategory(Category $category, $brand = null) {
         $ctgName = '';
 
         $products = Product::sortable()->orderBy('category_id')->where('hidden', '=', 0);
 
-        if($category_id != 'all') {
-            $category = Category::find($category_id);
-
-            if(is_null($category)) abort(404);
-
-            $products = $products->where('category_id', '=', $category_id);
+        if($category->slug != 'all') {
+            $products = $products->where('category_id', '=', $category->id);
             $ctgName = $category->name;
         }
 
         if(!is_null($brand)) {
+            $brand = Brand::where('slug', '=', $brand)->first();
+            if(is_null($brand)) abort(404);
+
             $products = $products->where('brand_id', '=', $brand->id);
         }
 
@@ -70,16 +69,12 @@ class ProductsController extends Controller
 
         return view('products.list', [
             'ctgName' => $ctgName,
-            'all' => $category_id == 'all',
+            'all' => $category->slug == 'all',
             'products' => $products
         ])->with('paginator', $paginator)->with('brand', $brand)->with('brands', $brands);
     }
 
-    public function product($product_id) {
-        $product = Product::find($product_id);
-
-        if(is_null($product)) abort(404);
-
+    public function product(Product $product) {
         $category = null;
         if(!is_null($product->category_id)) {
             $category = Category::find($product->category_id);

@@ -13,6 +13,10 @@
                         <label class="form-label" for="pName">Название</label>
                         <input name="name" type="text" class="form-control" placeholder="Смартфоны" value="" id="pName" required>
                     </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="pSlug">ЧПУ</label>
+                        <input name="slug" type="text" class="form-control" placeholder="smartphones" value="{{ old('slug') }}" id="pSlug" required>
+                    </div>
                     <div>
                         <label class="form-label" for="pImage">Изображение</label>
                         <input name="image" type="file" accept="image/png, image/jpeg, image/jpg" class="form-control" id="pImage">

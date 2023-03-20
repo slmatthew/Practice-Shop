@@ -71,7 +71,7 @@
                 </td>
                 <td>{{ $product->hidden ? 'да' : 'нет' }} / {{ $product->available ? 'да' : 'нет' }}</td>
                 <td>
-                    <a href="{{ route('products.item', $product->id) }}" target="_blank" role="button" class="btn btn-outline-secondary btn-sm">Открыть</a>
+                    <a href="{{ route('products.item', $product) }}" target="_blank" role="button" class="btn btn-outline-secondary btn-sm">Открыть</a>
                     <a href="{{ route('admin.product', $product->id) }}" role="button" class="btn btn-outline-primary btn-sm">Изменить</a>
                     <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#{{ "mdpc{$product->id}" }}">
                         Удалить

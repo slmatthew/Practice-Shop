@@ -16,6 +16,7 @@ class AddBrandRequest extends FormRequest
     {
         return [
             'name' => ['string', 'required', 'unique:brands,name'],
+            'slug' => ['string', 'required', 'min:1', 'unique:brands,slug'],
             'description' => ['string', 'max:1024'],
             'image' => ['required', 'file', 'mimes:jpeg,jpg,png', 'max:5000']
         ];
@@ -23,6 +24,6 @@ class AddBrandRequest extends FormRequest
 
     public function getData(): array
     {
-        return $this->only(['name', 'description', 'image']);
+        return $this->only(['name', 'slug', 'description', 'image']);
     }
 }

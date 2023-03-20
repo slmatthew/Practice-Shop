@@ -16,8 +16,16 @@ class UpdateCategoriesRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => ['numeric', 'exists:categories,id'],
+            'id' => ['numeric', 'exists:categories,id', 'not_in:0'],
             'name' => ['string', 'required', function ($attr, $val, $fail) {
+                $category = Category::where($attr, '=', $val)->limit(1)->get();
+                if($category->count() > 0) {
+                    if($category[0]->id != $this->get('id')) {
+                        $fail(__('validation.unique', ['attribute' => $attr]));
+                    }
+                }
+            }],
+            'slug' => ['string', 'required', 'min:1',  function ($attr, $val, $fail) {
                 $category = Category::where($attr, '=', $val)->limit(1)->get();
                 if($category->count() > 0) {
                     if($category[0]->id != $this->get('id')) {
@@ -31,9 +39,6 @@ class UpdateCategoriesRequest extends FormRequest
 
     public function getData(): array
     {
-        return [
-            'id' => $this->get('id'),
-            'name' => $this->get('name')
-        ];
+        return $this->only(['id', 'name', 'slug']);
     }
 }

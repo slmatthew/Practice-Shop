@@ -16,14 +16,13 @@ class AddCategoriesRequest extends FormRequest
     {
         return [
             'name' => ['string', 'required', 'unique:categories,name'],
+            'slug' => ['string', 'required', 'min:1', 'unique:categories,slug'],
             'image' => ['required', 'file', 'mimes:jpeg,jpg,png', 'max:5000']
         ];
     }
 
     public function getData(): array
     {
-        return [
-            'name' => $this->get('name') ?? 'unknown'
-        ];
+        return $this->only('name', 'slug');
     }
 }

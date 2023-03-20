@@ -38,6 +38,7 @@ class BrandsController extends Controller
     {
         $brand = Brand::find($request->getData()['id']);
         $brand->name = $request->getData()['name'];
+        $brand->slug = $request->getData()['slug'];
         $brand->description = $request->getData()['description'];
 
         if(is_null($brand->image)) {
