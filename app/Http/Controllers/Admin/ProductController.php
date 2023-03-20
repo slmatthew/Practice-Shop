@@ -68,6 +68,7 @@ class ProductController extends Controller
 
         if(!is_null($product)) {
             $product->name          = request()->get('name');
+            $product->slug          = request()->get('slug');
             $product->description   = request()->get('description');
             $product->price         = (float)request()->get('price');
             $product->category_id   = (int)request()->get('category_id') == 0 ? null : request()->get('category_id');

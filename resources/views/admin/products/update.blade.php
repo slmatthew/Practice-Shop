@@ -47,6 +47,13 @@
         </div>
 
         <div class="mb-3 row">
+            <label class="col-sm-2 col-form-label" for="pSlug">ЧПУ</label>
+            <div class="col-sm-10">
+                <input name="slug" type="text" class="form-control" placeholder="smartphone" value="{{ $product['slug'] }}" id="pSlug" required>
+            </div>
+        </div>
+
+        <div class="mb-3 row">
             <label class="col-sm-2 col-form-label" for="pDesc">Описание</label>
             <div class="col-sm-10">
                 <textarea name="description" style="resize: none" class="form-control" placeholder="Крутой смартфон" rows="3" id="pDesc">{{ $product['description'] }}</textarea>
