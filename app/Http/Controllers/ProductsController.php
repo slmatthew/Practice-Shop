@@ -75,11 +75,7 @@ class ProductsController extends Controller
         ])->with('paginator', $paginator)->with('brand', $brand)->with('brands', $brands);
     }
 
-    public function product($product_id) {
-        $product = Product::find($product_id);
-
-        if(is_null($product)) abort(404);
-
+    public function product(Product $product) {
         $category = null;
         if(!is_null($product->category_id)) {
             $category = Category::find($product->category_id);
