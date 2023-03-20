@@ -73,7 +73,7 @@ Route::group(['middleware' => ['auth']], function() {
         Route::name('user.')->group(function () {
 
             Route::get('/me', function () {
-                return to_route('user.user', ['user' => Auth::user()->id]);
+                return to_route('user.user', ['user' => Auth::user()]);
             })->name('me');
 
             Route::get('/orders', [UserController::class, 'orders'])->name('orders');
@@ -107,7 +107,8 @@ Route::group(['middleware' => ['auth']], function() {
 
 });
 
-Route::get('/user/{user}', [UserController::class, 'user'])->name('user.user');
+Route::get('/user/id{user:id}', [UserController::class, 'user'])->name('user.user');
+Route::get('/user/@{user:username}', [UserController::class, 'user'])->name('user.user');
 
 Route::group(['middleware' => ['auth', ValidateAdmin::class]], function() {
 
