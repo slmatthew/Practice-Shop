@@ -52,7 +52,7 @@
                                     От {{ number_format((float)$ctg->min_price, 2, ',', ' ') }} ₽
                                 </p>
 
-                                <a class="btn btn-outline-primary btn-sm" href="{{ route('products.byCategory', ['category' => $ctg, 'brand' => $brand]) }}" data-abc="true">
+                                <a class="btn btn-outline-primary btn-sm" href="{{ route('products.byCategory', ['category' => $ctg, 'brand' => $brand->slug]) }}" data-abc="true">
                                     Смотреть
                                 </a>
                             </div>

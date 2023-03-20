@@ -14,7 +14,7 @@ class DeleteCategoriesRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => ['numeric', 'exists:categories,id']
+            'id' => ['numeric', 'exists:categories,id', 'not_in:0']
         ];
     }
 

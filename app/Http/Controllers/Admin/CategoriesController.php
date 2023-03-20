@@ -14,7 +14,7 @@ class CategoriesController extends Controller
 {
     public function main(): \Illuminate\Contracts\View\View
     {
-        return view('admin.categories.main', ['categories' => Category::get()->toArray()]);
+        return view('admin.categories.main', ['categories' => Category::get()]);
     }
 
     /**
@@ -34,13 +34,14 @@ class CategoriesController extends Controller
 
         Category::create($data);
 
-        return view('admin.categories.main', ['categories' => Category::get()->toArray()]);
+        return to_route('admin.categories.main');
     }
 
     public function update(UpdateCategoriesRequest $request)
     {
         $category = Category::find($request->getData()['id']);
         $category->name = $request->getData()['name'];
+        $category->slug = $request->getData()['slug'];
 
         if(is_null($category->image_url)) {
             $category->image_url = '/img/camera_200.png';
@@ -57,7 +58,7 @@ class CategoriesController extends Controller
 
         $category->save();
 
-        return view('admin.categories.main', ['categories' => Category::get()->toArray()]);
+        return to_route('admin.categories.main');
     }
 
     public function delete(DeleteCategoriesRequest $request)
@@ -65,6 +66,6 @@ class CategoriesController extends Controller
         $category = Category::find($request->getId());
         $category->delete();
 
-        return view('admin.categories.main', ['categories' => Category::get()->toArray()]);
+        return to_route('admin.categories.main');
     }
 }
