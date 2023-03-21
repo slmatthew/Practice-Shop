@@ -14,7 +14,7 @@ class CategoriesController extends Controller
 {
     public function main(): \Illuminate\Contracts\View\View
     {
-        return view('admin.categories.main', ['categories' => Category::get()]);
+        return view('admin.categories.main', ['categories' => Category::paginate(10)]);
     }
 
     /**
@@ -34,7 +34,7 @@ class CategoriesController extends Controller
 
         Category::create($data);
 
-        return to_route('admin.categories.main');
+        return redirect()->back();
     }
 
     public function update(UpdateCategoriesRequest $request)
@@ -58,7 +58,7 @@ class CategoriesController extends Controller
 
         $category->save();
 
-        return to_route('admin.categories.main');
+        return redirect()->back();
     }
 
     public function delete(DeleteCategoriesRequest $request)
@@ -71,6 +71,6 @@ class CategoriesController extends Controller
 
         $category->delete();
 
-        return to_route('admin.categories.main');
+        return redirect()->back();
     }
 }
