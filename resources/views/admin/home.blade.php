@@ -16,7 +16,7 @@
         }
     </style>
     <div class="col-md-10 ">
-        <div class="row">
+        <div class="row mb-3">
             <div class="col-xl-3 col-lg-6">
                 <a href="{{ route('admin.users.main') }}" class="card-link-custom">
                     <div class="card l-bg-cherry">
@@ -85,6 +85,19 @@
                     </div>
                 </a>
             </div>
+        </div>
+        <div class="row">
+            <p>
+                Режим:
+                <span class="badge text-bg-{{ env('APP_ENV', 'production') == 'production' ? 'primary' : 'dark' }}">{{ env('APP_ENV', 'production') }}</span>
+            </p>
+            <p>
+                Дебаг:
+                <span class="badge text-bg-{{ (bool) env('APP_DEBUG', false) ? 'danger' : 'secondary' }}">{{ (bool) env('APP_DEBUG', false) ? 'да' : 'нет' }}</span>
+            </p>
+            <p>
+                URL: {{ env('APP_URL', 'default') }}
+            </p>
         </div>
     </div>
 @endsection
