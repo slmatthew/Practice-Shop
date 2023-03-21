@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c011ff89dbcba8ab9b030dac3bbc0f52",
+    "content-hash": "0bd74988e7559ca9c0f0ed97b89644bc",
     "packages": [
         {
             "name": "brick/math",
@@ -980,6 +980,66 @@
                 }
             ],
             "time": "2021-10-07T12:57:01+00:00"
+        },
+        {
+            "name": "hnhdigital-os/laravel-git-info",
+            "version": "v1.04",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hnhdigital-os/laravel-git-info.git",
+                "reference": "0d61be683f82dad77c333f59509477fcf2b8bb68"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hnhdigital-os/laravel-git-info/zipball/0d61be683f82dad77c333f59509477fcf2b8bb68",
+                "reference": "0d61be683f82dad77c333f59509477fcf2b8bb68",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6.0"
+            },
+            "require-dev": {
+                "codeclimate/php-test-reporter": "dev-master",
+                "mockery/mockery": "0.9.*",
+                "phpmd/phpmd": "@stable",
+                "phpunit/phpunit": "5.*",
+                "squizlabs/php_codesniffer": "^2.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Bluora\\LaravelGitInfo\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Bluora\\LaravelGitInfo\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Rocco Howard",
+                    "email": "rocco@hnh.digital"
+                }
+            ],
+            "description": "Get information about the current git state.",
+            "keywords": [
+                "branch",
+                "git",
+                "laravel",
+                "version"
+            ],
+            "support": {
+                "issues": "https://github.com/hnhdigital-os/laravel-git-info/issues",
+                "source": "https://github.com/hnhdigital-os/laravel-git-info/tree/v1.04"
+            },
+            "time": "2022-10-28T13:33:35+00:00"
         },
         {
             "name": "intervention/image",
