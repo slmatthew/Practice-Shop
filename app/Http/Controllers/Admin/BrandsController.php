@@ -47,7 +47,7 @@ class BrandsController extends Controller
 
         $file = $request->file('image');
         if($file) {
-            if(str_starts_with($brand->image_url, '/storage/')) {
+            if(str_starts_with($brand->image_url, env('APP_URL', 'https://shop.slmatthew.ru').'/storage/')) {
                 Storage::disk('public')->delete(mb_substr($brand->image_url, 9));
             }
 
@@ -62,6 +62,11 @@ class BrandsController extends Controller
     public function delete(DeleteBrandRequest $request)
     {
         $brand = Brand::find($request->getId());
+
+        if(str_starts_with($brand->image_url, env('APP_URL', 'https://shop.slmatthew.ru').'/storage/')) {
+            Storage::disk('public')->delete(mb_substr($brand->image_url, 9));
+        }
+
         $brand->delete();
 
         return to_route('admin.brands.main');

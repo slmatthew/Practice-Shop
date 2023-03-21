@@ -34,7 +34,7 @@ class UserController extends Controller
 
     public function update(UserUpdateRequest $request, User $user) {
         if($request->has('deleteImage')) {
-            if(str_starts_with($user->image, '/storage/')) {
+            if(str_starts_with($user->image, env('APP_URL', 'https://shop.slmatthew.ru').'/storage/')) {
                 Storage::disk('public')->delete(mb_substr($user->image, 9));
             }
 
@@ -80,6 +80,10 @@ class UserController extends Controller
 
             $order->delete();
         });
+
+        if(str_starts_with($user->image, env('APP_URL', 'https://shop.slmatthew.ru').'/storage/')) {
+            Storage::disk('public')->delete(mb_substr($user->image, 9));
+        }
 
         $user->delete();
 

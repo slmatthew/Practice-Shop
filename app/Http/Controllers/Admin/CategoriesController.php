@@ -49,7 +49,7 @@ class CategoriesController extends Controller
 
         $file = $request->file('image');
         if($file) {
-            if(str_starts_with($category->image_url, '/storage/')) {
+            if(str_starts_with($category->image_url, env('APP_URL', 'https://shop.slmatthew.ru').'/storage/')) {
                 Storage::disk('public')->delete(mb_substr($category->image_url, 9));
             }
 
@@ -64,6 +64,11 @@ class CategoriesController extends Controller
     public function delete(DeleteCategoriesRequest $request)
     {
         $category = Category::find($request->getId());
+
+        if(str_starts_with($category->image_url, env('APP_URL', 'https://shop.slmatthew.ru').'/storage/')) {
+            Storage::disk('public')->delete(mb_substr($category->image_url, 9));
+        }
+
         $category->delete();
 
         return to_route('admin.categories.main');

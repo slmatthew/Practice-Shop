@@ -84,14 +84,14 @@ class ProductController extends Controller
 
             $product->image_url = $product->image_url ?? '/img/camera_200.png';
 
-            if(!is_null($request->get('delete_image')) && str_starts_with($product->image_url, '/storage/')) {
+            if(!is_null($request->get('delete_image')) && str_starts_with($product->image_url, env('APP_URL', 'https://shop.slmatthew.ru').'/storage/')) {
                 Storage::disk('public')->delete(mb_substr($product->image_url, 9));
                 $product->image_url = '/img/camera_200.png';
             }
 
             $file = $request->file('image');
             if($file) {
-                if(str_starts_with($product->image_url, '/storage/')) {
+                if(str_starts_with($product->image_url, env('APP_URL', 'https://shop.slmatthew.ru').'/storage/')) {
                     Storage::disk('public')->delete(mb_substr($product->image_url, 9));
                 }
 
@@ -114,7 +114,7 @@ class ProductController extends Controller
 
         $product_data = $product->toArray();
 
-        if(str_starts_with($product_data['image_url'], '/storage/')) {
+        if(str_starts_with($product_data['image_url'], env('APP_URL', 'https://shop.slmatthew.ru').'/storage/')) {
             Storage::disk('public')->delete(mb_substr($product_data['image_url'], 9));
         }
 

@@ -96,7 +96,7 @@ class UserController extends Controller
 
         $file = $request->file('image');
         if($file) {
-            if(str_starts_with($user->image, '/storage/')) {
+            if(str_starts_with($user->image, env('APP_URL', 'https://shop.slmatthew.ru').'/storage/')) {
                 Storage::disk('public')->delete(mb_substr($user->image, 9));
             }
 

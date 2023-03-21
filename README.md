@@ -86,3 +86,7 @@ server
     error_log  /www/logs/example.com.error.log;
 }
 ```
+
+## .env
+
+Не забудьте поменять значение `APP_URL`! Оно используется для сохранения в БД полного адреса загружаемых изображений, по умолчанию - `https://shop.slmatthew.ru`
