@@ -3,7 +3,7 @@
 @section('header')
     <div class="btn-toolbar mb-2 mb-md-0">
         <div class="btn-group me-2">
-            <a role="button" class="btn btn-outline-primary btn-sm" href="{{ route('user.user', ['user' => $order->user_id]) }}" target="_blank">
+            <a role="button" class="btn btn-outline-primary btn-sm" href="{{ route('user.user', ['user' => $user]) }}" target="_blank">
                 Открыть профиль
             </a>
         </div>

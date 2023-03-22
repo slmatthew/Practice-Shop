@@ -62,10 +62,10 @@ class UserController extends Controller
     public function order(Order $order) {
         if($order->user_id != Auth::user()->id) abort(404);
 
-        $orderItems = OrderItem::where('order_id', '=', $order->id)->orderBy('updated_at', 'desc')->get()->toArray();
+        $orderItems = OrderItem::where('order_id', '=', $order->id)->orderBy('updated_at', 'desc')->get();
         if(count($orderItems) > 0) {
             foreach($orderItems as $n => $item) {
-                $orderItems[$n]['product'] = Product::find($item['product_id'])->toArray();
+                $orderItems[$n]['product'] = Product::find($item['product_id']);
             }
         }
 
@@ -96,7 +96,7 @@ class UserController extends Controller
 
         $file = $request->file('image');
         if($file) {
-            if(str_starts_with($user->image, '/storage/')) {
+            if(str_starts_with($user->image, env('APP_URL', 'https://shop.slmatthew.ru').'/storage/')) {
                 Storage::disk('public')->delete(mb_substr($user->image, 9));
             }
 

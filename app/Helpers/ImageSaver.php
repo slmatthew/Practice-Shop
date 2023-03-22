@@ -34,7 +34,7 @@ class ImageSaver {
         $image->save($absolute_path, 100, $file->extension());
         $image->destroy();
 
-        return Storage::url($stored);
+        return env('APP_URL', 'https://shop.slmatthew.ru').Storage::url($stored);
     }
 
 }

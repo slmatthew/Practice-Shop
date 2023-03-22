@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\BrandsController;
 use App\Http\Controllers\Admin\OrdersController;
 use App\Http\Controllers\BasketController;
 use App\Http\Controllers\ProductsController;
@@ -36,8 +37,11 @@ Route::get('/', [ MainController::class, 'main' ])->name('main');
 Route::get('/products', [ MainController::class, 'products' ])->name('products');
 
 Route::get('/products/categories', [ ProductsController::class, 'allCategories' ])->name('products.categories');
-Route::get('/products/{category}', [ ProductsController::class, 'byCategory' ])->name('products.byCategory');
-Route::get('/product/{product}', [ ProductsController::class, 'product' ])->name('products.item');
+Route::get('/products/{category:slug}/{brand?}', [ ProductsController::class, 'byCategory' ])->name('products.byCategory');
+Route::get('/product/{product:slug}', [ ProductsController::class, 'product' ])->name('products.item');
+
+Route::get('/brand/{brand:slug}', [ ProductsController::class, 'brand' ])->name('products.brand');
+// Route::get('/brand/{brand:name}', [ ProductsController::class, 'brand' ])->name('products.brand');
 
 Route::view('/about', 'about')->name('about');
 
@@ -69,7 +73,7 @@ Route::group(['middleware' => ['auth']], function() {
         Route::name('user.')->group(function () {
 
             Route::get('/me', function () {
-                return to_route('user.user', ['user' => Auth::user()->id]);
+                return to_route('user.user', ['user' => Auth::user()]);
             })->name('me');
 
             Route::get('/orders', [UserController::class, 'orders'])->name('orders');
@@ -103,7 +107,8 @@ Route::group(['middleware' => ['auth']], function() {
 
 });
 
-Route::get('/user/{user}', [UserController::class, 'user'])->name('user.user');
+Route::get('/user/id{user:id}', [UserController::class, 'user'])->name('user.user');
+Route::get('/user/@{user:username}', [UserController::class, 'user'])->name('user.user');
 
 Route::group(['middleware' => ['auth', ValidateAdmin::class]], function() {
 
@@ -133,6 +138,15 @@ Route::group(['middleware' => ['auth', ValidateAdmin::class]], function() {
             Route::post('/category/add', [CategoriesController::class, 'add'])->name('category.add');
             Route::post('/category/update', [CategoriesController::class, 'update'])->name('category.update');
             Route::post('/category/delete', [CategoriesController::class, 'delete'])->name('category.delete');
+
+            /**
+             * бренды
+             */
+            Route::get('/brands', [BrandsController::class, 'main'])->name('brands.main');
+
+            Route::put('/brand', [BrandsController::class, 'add'])->name('brand.add');
+            Route::post('/brand', [BrandsController::class, 'update'])->name('brand.update');
+            Route::delete('/brand', [BrandsController::class, 'delete'])->name('brand.delete');
 
             /**
              * пользователи

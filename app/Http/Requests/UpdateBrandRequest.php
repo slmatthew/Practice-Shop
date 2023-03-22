@@ -2,11 +2,10 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Category;
-use Illuminate\Contracts\Validation\InvokableRule;
+use App\Models\Brand;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateCategoriesRequest extends FormRequest
+class UpdateBrandRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -16,29 +15,30 @@ class UpdateCategoriesRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => ['numeric', 'exists:categories,id', 'not_in:0'],
+            'id' => ['numeric', 'exists:brands,id'],
             'name' => ['string', 'required', function ($attr, $val, $fail) {
-                $category = Category::where($attr, '=', $val)->limit(1)->get();
-                if($category->count() > 0) {
-                    if($category[0]->id != $this->get('id')) {
+                $brand = Brand::where($attr, '=', $val)->limit(1)->get();
+                if($brand->count() > 0) {
+                    if($brand[0]->id != $this->get('id')) {
                         $fail(__('validation.unique', ['attribute' => $attr]));
                     }
                 }
             }],
-            'slug' => ['string', 'required', 'min:1',  function ($attr, $val, $fail) {
-                $category = Category::where($attr, '=', $val)->limit(1)->get();
-                if($category->count() > 0) {
-                    if($category[0]->id != $this->get('id')) {
+            'slug' => ['string', 'required', 'min:1', function ($attr, $val, $fail) {
+                $brand = Brand::where($attr, '=', $val)->limit(1)->get();
+                if($brand->count() > 0) {
+                    if($brand[0]->id != $this->get('id')) {
                         $fail(__('validation.unique', ['attribute' => $attr]));
                     }
                 }
             }],
+            'description' => ['string', 'max:1024'],
             'image' => ['file', 'mimes:jpeg,jpg,png', 'max:5000']
         ];
     }
 
     public function getData(): array
     {
-        return $this->only(['id', 'name', 'slug']);
+        return $this->only(['id', 'name', 'slug', 'description']);
     }
 }

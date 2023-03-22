@@ -52,7 +52,7 @@ class OrdersController extends Controller
             }
         }
 
-        return view('admin.orders.item', ['order' => $order, 'orderItems' => $orderItems]);
+        return view('admin.orders.item', ['order' => $order, 'orderItems' => $orderItems, 'user' => User::find($order->user_id)]);
     }
 
     public function confirm(SimpleOrderRequest $request) {

@@ -198,6 +198,7 @@ return [
         Intervention\Image\ImageServiceProvider::class,
 
         Kyslik\ColumnSortable\ColumnSortableServiceProvider::class,
+        Bluora\LaravelGitInfo\ServiceProvider::class,
     ],
 
     /*
@@ -214,6 +215,7 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
         'Image' => Intervention\Image\Facades\Image::class,
+        'Git' => Bluora\LaravelGitInfo\Facade::class,
     ])->toArray(),
 
 ];

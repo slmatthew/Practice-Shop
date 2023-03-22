@@ -14,7 +14,7 @@ class CategoriesController extends Controller
 {
     public function main(): \Illuminate\Contracts\View\View
     {
-        return view('admin.categories.main', ['categories' => Category::get()->toArray()]);
+        return view('admin.categories.main', ['categories' => Category::get()]);
     }
 
     /**
@@ -34,13 +34,14 @@ class CategoriesController extends Controller
 
         Category::create($data);
 
-        return view('admin.categories.main', ['categories' => Category::get()->toArray()]);
+        return to_route('admin.categories.main');
     }
 
     public function update(UpdateCategoriesRequest $request)
     {
         $category = Category::find($request->getData()['id']);
         $category->name = $request->getData()['name'];
+        $category->slug = $request->getData()['slug'];
 
         if(is_null($category->image_url)) {
             $category->image_url = '/img/camera_200.png';
@@ -48,7 +49,7 @@ class CategoriesController extends Controller
 
         $file = $request->file('image');
         if($file) {
-            if(str_starts_with($category->image_url, '/storage/')) {
+            if(str_starts_with($category->image_url, env('APP_URL', 'https://shop.slmatthew.ru').'/storage/')) {
                 Storage::disk('public')->delete(mb_substr($category->image_url, 9));
             }
 
@@ -57,14 +58,19 @@ class CategoriesController extends Controller
 
         $category->save();
 
-        return view('admin.categories.main', ['categories' => Category::get()->toArray()]);
+        return to_route('admin.categories.main');
     }
 
     public function delete(DeleteCategoriesRequest $request)
     {
         $category = Category::find($request->getId());
+
+        if(str_starts_with($category->image_url, env('APP_URL', 'https://shop.slmatthew.ru').'/storage/')) {
+            Storage::disk('public')->delete(mb_substr($category->image_url, 9));
+        }
+
         $category->delete();
 
-        return view('admin.categories.main', ['categories' => Category::get()->toArray()]);
+        return to_route('admin.categories.main');
     }
 }

@@ -23,6 +23,13 @@
         </div>
 
         <div class="mb-3 row">
+            <label class="col-sm-2 col-form-label" for="pSlug">ЧПУ</label>
+            <div class="col-sm-10">
+                <input name="slug" type="text" class="form-control" placeholder="smartphone" value="{{ old('slug') }}" id="pSlug" required>
+            </div>
+        </div>
+
+        <div class="mb-3 row">
             <label class="col-sm-2 col-form-label" for="pDesc">Описание</label>
             <div class="col-sm-10">
                 <textarea name="description" style="resize: none" class="form-control" placeholder="Крутой смартфон" rows="3" id="pDesc">{{ old('description') }}</textarea>
@@ -58,6 +65,18 @@
                 <select name="category_id" class="form-select" aria-label="Default select example" id="pCategory">
                     @foreach($categories as $ctg)
                         <option value="{{ $ctg['id'] }}" {{ old('category_id') == $ctg['id'] ? 'selected' : '' }}>{{ $ctg['name'] }}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+
+        <div class="mb-3 row">
+            <label class="col-sm-2 col-form-label" for="pBrand">Бренд</label>
+            <div class="col-sm-10">
+                <select name="brand_id" class="form-select" aria-label="Default select example" id="pBrand">
+                    <option value="" selected>Нет значения</option>
+                    @foreach($brands as $brand)
+                        <option value="{{ $brand->id }}" {{ old('brand_id') == $brand->id ? 'selected' : '' }}>{{ $brand->name }}</option>
                     @endforeach
                 </select>
             </div>

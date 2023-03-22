@@ -32,19 +32,22 @@
         @foreach($categories as $ctg)
             <tr>
                 <th scope="row">
-                    {{ $ctg['id'] }}
+                    {{ $ctg->id }}
                 </th>
                 <td>
-                    <img src="{{ $ctg['image_url'] }}" style="max-width: 5em;max-height: 5em" class="img-thumbnail rounded float-start">
+                    <img src="{{ $ctg->image_url }}" style="max-width: 5em;max-height: 5em" class="img-thumbnail rounded float-start">
                 </td>
-                <td>{{ $ctg['name'] }}</td>
+                <td>{{ $ctg->name }}</td>
                 <td>
-                    <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#{{ "MUP{$ctg['id']}" }}">
-                        Изменить
-                    </button>
-                    <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#{{ "mdpc{$ctg['id']}" }}">
-                        Удалить
-                    </button>
+                    <a href="{{ route('products.byCategory', $ctg) }}" target="_blank" role="button" class="btn btn-outline-secondary btn-sm">Открыть</a>
+                    @if($ctg->id != 0)
+                        <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#{{ "MUP{$ctg->id}" }}">
+                            Изменить
+                        </button>
+                        <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#{{ "mdpc{$ctg->id}" }}">
+                            Удалить
+                        </button>
+                    @endif
                 </td>
             </tr>
         @endforeach
@@ -52,8 +55,10 @@
     </table>
 
     @foreach($categories as $ctg)
-        @include('admin.categories.partial.updateModal', [...$ctg])
-        @include('admin.partials.modalDelete', ['action' => route('admin.category.delete'), 'id' => $ctg['id'], 'category' => $ctg])
+        @if($ctg->id != 0)
+            @include('admin.categories.partial.updateModal', ['ctg' => $ctg])
+            @include('admin.partials.modalDelete', ['action' => route('admin.category.delete'), 'id' => $ctg['id'], 'category' => $ctg])
+        @endif
     @endforeach
 
     @include('admin.categories.partial.addModal')

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AddCategoriesRequest extends FormRequest
+class AddBrandRequest extends FormRequest
 {
 
     /**
@@ -15,14 +15,15 @@ class AddCategoriesRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['string', 'required', 'unique:categories,name'],
-            'slug' => ['string', 'required', 'min:1', 'unique:categories,slug'],
+            'name' => ['string', 'required', 'unique:brands,name'],
+            'slug' => ['string', 'required', 'min:1', 'unique:brands,slug'],
+            'description' => ['string', 'max:1024'],
             'image' => ['required', 'file', 'mimes:jpeg,jpg,png', 'max:5000']
         ];
     }
 
     public function getData(): array
     {
-        return $this->only('name', 'slug');
+        return $this->only(['name', 'slug', 'description', 'image']);
     }
 }
