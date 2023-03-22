@@ -37,10 +37,9 @@ class CategoriesController extends Controller
         return to_route('admin.categories.main');
     }
 
-    public function update(UpdateCategoriesRequest $request, Category $category)
+    public function update(UpdateCategoriesRequest $request)
     {
-        if($category->id != $request->getData()['id']) abort(404);
-
+        $category = Category::find($request->getData()['id']);
         $category->name = $request->getData()['name'];
         $category->slug = $request->getData()['slug'];
 
@@ -62,9 +61,9 @@ class CategoriesController extends Controller
         return to_route('admin.categories.main');
     }
 
-    public function delete(DeleteCategoriesRequest $request, Category $category)
+    public function delete(DeleteCategoriesRequest $request)
     {
-        if($category->id != $request->getId()) abort(404);
+        $category = Category::find($request->getId());
 
         if(str_starts_with($category->image_url, env('APP_URL', 'https://shop.slmatthew.ru').'/storage/')) {
             Storage::disk('public')->delete(mb_substr($category->image_url, 9));

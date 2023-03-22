@@ -57,7 +57,7 @@
     @foreach($categories as $ctg)
         @if($ctg->id != 0)
             @include('admin.categories.partial.updateModal', ['ctg' => $ctg])
-            @include('admin.partials.modalDelete', ['action' => route('admin.category.delete', $ctg['id']), 'id' => $ctg['id'], 'category' => $ctg])
+            @include('admin.partials.modalDelete', ['action' => route('admin.category.delete'), 'id' => $ctg['id'], 'category' => $ctg])
         @endif
     @endforeach
 

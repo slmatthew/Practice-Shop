@@ -33,13 +33,15 @@ Auth::routes([
     'confirm' => false
 ]);
 
-Route::view('/', 'welcome')->name('main');
+Route::get('/', [ MainController::class, 'main' ])->name('main');
+Route::get('/products', [ MainController::class, 'products' ])->name('products');
 
 Route::get('/products/categories', [ ProductsController::class, 'allCategories' ])->name('products.categories');
-Route::get('/products/{category}/{brand?}', [ ProductsController::class, 'byCategory' ])->withoutScopedBindings()->name('products.byCategory');
-Route::get('/product/{product}', [ ProductsController::class, 'product' ])->name('products.item');
+Route::get('/products/{category:slug}/{brand?}', [ ProductsController::class, 'byCategory' ])->name('products.byCategory');
+Route::get('/product/{product:slug}', [ ProductsController::class, 'product' ])->name('products.item');
 
-Route::get('/brand/{brand}', [ ProductsController::class, 'brand' ])->name('products.brand');
+Route::get('/brand/{brand:slug}', [ ProductsController::class, 'brand' ])->name('products.brand');
+// Route::get('/brand/{brand:name}', [ ProductsController::class, 'brand' ])->name('products.brand');
 
 Route::view('/about', 'about')->name('about');
 
@@ -105,7 +107,8 @@ Route::group(['middleware' => ['auth']], function() {
 
 });
 
-Route::get('/user/@{user}', [UserController::class, 'user'])->name('user.user');
+Route::get('/user/id{user:id}', [UserController::class, 'user'])->name('user.user');
+Route::get('/user/@{user:username}', [UserController::class, 'user'])->name('user.user');
 
 Route::group(['middleware' => ['auth', ValidateAdmin::class]], function() {
 
@@ -119,22 +122,22 @@ Route::group(['middleware' => ['auth', ValidateAdmin::class]], function() {
              */
             Route::get('/products', [ProductController::class, 'getProducts'])->name('products.main');
 
-            Route::get('/product/new', [ProductController::class, 'addProduct'])->name('product.add');
-            Route::put('/product', [ProductController::class, 'addProductAction'])->name('product.add.action');
+            Route::get('/product/add', [ProductController::class, 'addProduct'])->name('product.add');
+            Route::post('/product/add/action', [ProductController::class, 'addProductAction'])->name('product.add.action');
 
-            Route::get('/product/{product:id}', [ProductController::class, 'updateProduct'])->name('product');
+            Route::get('/product/{product}', [ProductController::class, 'updateProduct'])->name('product');
+            Route::post('/product/update', [ProductController::class, 'updateProductAction'])->name('product.update');
 
-            Route::post('/product/{product:id}', [ProductController::class, 'updateProductAction'])->name('product.update');
-            Route::delete('/product/{product:id}', [ProductController::class, 'deleteProductAction'])->name('product.delete');
+            Route::post('/product/delete', [ProductController::class, 'deleteProductAction'])->name('product.delete');
 
             /**
              * категории
              */
             Route::get('/categories', [CategoriesController::class, 'main'])->name('categories.main');
 
-            Route::put('/category', [CategoriesController::class, 'add'])->name('category.add');
-            Route::post('/category/{category:id}', [CategoriesController::class, 'update'])->name('category.update');
-            Route::delete('/category/{category:id}', [CategoriesController::class, 'delete'])->name('category.delete');
+            Route::post('/category/add', [CategoriesController::class, 'add'])->name('category.add');
+            Route::post('/category/update', [CategoriesController::class, 'update'])->name('category.update');
+            Route::post('/category/delete', [CategoriesController::class, 'delete'])->name('category.delete');
 
             /**
              * бренды
@@ -142,8 +145,8 @@ Route::group(['middleware' => ['auth', ValidateAdmin::class]], function() {
             Route::get('/brands', [BrandsController::class, 'main'])->name('brands.main');
 
             Route::put('/brand', [BrandsController::class, 'add'])->name('brand.add');
-            Route::post('/brand/{brand:id}', [BrandsController::class, 'update'])->name('brand.update');
-            Route::delete('/brand/{brand:id}', [BrandsController::class, 'delete'])->name('brand.delete');
+            Route::post('/brand', [BrandsController::class, 'update'])->name('brand.update');
+            Route::delete('/brand', [BrandsController::class, 'delete'])->name('brand.delete');
 
             /**
              * пользователи

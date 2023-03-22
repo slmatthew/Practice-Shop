@@ -40,7 +40,7 @@ class ProductsController extends Controller
         return view('products.allCategories', ['categories' => $categories]);
     }
 
-    public function byCategory(Category $category, ?Brand $brand = null) {
+    public function byCategory(Category $category, $brand = null) {
         $ctgName = '';
 
         $products = Product::sortable()->orderBy('category_id')->where('hidden', '=', 0);
@@ -51,6 +51,9 @@ class ProductsController extends Controller
         }
 
         if(!is_null($brand)) {
+            $brand = Brand::where('slug', '=', $brand)->first();
+            if(is_null($brand)) abort(404);
+
             $products = $products->where('brand_id', '=', $brand->id);
         }
 
