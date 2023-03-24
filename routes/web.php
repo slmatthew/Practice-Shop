@@ -120,21 +120,21 @@ Route::group(['middleware' => ['auth', ValidateAdmin::class]], function() {
             Route::get('/products', [ProductController::class, 'getProducts'])->name('products.main');
 
             Route::get('/product/add', [ProductController::class, 'addProduct'])->name('product.add');
-            Route::post('/product/add/action', [ProductController::class, 'addProductAction'])->name('product.add.action');
+            Route::put('/product/add/action', [ProductController::class, 'addProductAction'])->name('product.add.action');
 
             Route::get('/product/{product}', [ProductController::class, 'updateProduct'])->name('product');
             Route::post('/product/update', [ProductController::class, 'updateProductAction'])->name('product.update');
 
-            Route::post('/product/delete', [ProductController::class, 'deleteProductAction'])->name('product.delete');
+            Route::delete('/product/delete', [ProductController::class, 'deleteProductAction'])->name('product.delete');
 
             /**
              * категории
              */
             Route::get('/categories', [CategoriesController::class, 'main'])->name('categories.main');
 
-            Route::post('/category/add', [CategoriesController::class, 'add'])->name('category.add');
+            Route::put('/category/add', [CategoriesController::class, 'add'])->name('category.add');
             Route::post('/category/update', [CategoriesController::class, 'update'])->name('category.update');
-            Route::post('/category/delete', [CategoriesController::class, 'delete'])->name('category.delete');
+            Route::delete('/category/delete', [CategoriesController::class, 'delete'])->name('category.delete');
 
             /**
              * бренды

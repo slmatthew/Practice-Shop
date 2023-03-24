@@ -7,6 +7,7 @@
             </div>
             <form method="post" action="{{ route('admin.category.add') }}" enctype="multipart/form-data">
                 @csrf
+                @method('PUT')
 
                 <div class="modal-body">
                     <div class="mb-3">
