@@ -33,8 +33,7 @@ Auth::routes([
     'confirm' => false
 ]);
 
-Route::get('/', [ MainController::class, 'main' ])->name('main');
-Route::get('/products', [ MainController::class, 'products' ])->name('products');
+Route::view('/', 'welcome')->name('main');
 
 Route::get('/products/categories', [ ProductsController::class, 'allCategories' ])->name('products.categories');
 Route::get('/products/{category:slug}/{brand?}', [ ProductsController::class, 'byCategory' ])->name('products.byCategory');
