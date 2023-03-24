@@ -16,4 +16,9 @@ class Category extends Model
         'slug',
         'image_url'
     ];
+
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
 }

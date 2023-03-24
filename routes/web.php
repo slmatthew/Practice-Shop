@@ -36,11 +36,10 @@ Auth::routes([
 Route::view('/', 'welcome')->name('main');
 
 Route::get('/products/categories', [ ProductsController::class, 'allCategories' ])->name('products.categories');
-Route::get('/products/{category:slug}/{brand?}', [ ProductsController::class, 'byCategory' ])->name('products.byCategory');
-Route::get('/product/{product:slug}', [ ProductsController::class, 'product' ])->name('products.item');
+Route::get('/products/{category}/{brand?}', [ ProductsController::class, 'byCategory' ])->withoutScopedBindings()->name('products.byCategory');
+Route::get('/product/{product}', [ ProductsController::class, 'product' ])->name('products.item');
 
-Route::get('/brand/{brand:slug}', [ ProductsController::class, 'brand' ])->name('products.brand');
-// Route::get('/brand/{brand:name}', [ ProductsController::class, 'brand' ])->name('products.brand');
+Route::get('/brand/{brand}', [ ProductsController::class, 'brand' ])->name('products.brand');
 
 Route::view('/about', 'about')->name('about');
 
@@ -106,8 +105,7 @@ Route::group(['middleware' => ['auth']], function() {
 
 });
 
-Route::get('/user/id{user:id}', [UserController::class, 'user'])->name('user.user');
-Route::get('/user/@{user:username}', [UserController::class, 'user'])->name('user.user');
+Route::get('/user/@{user}', [UserController::class, 'user'])->name('user.user');
 
 Route::group(['middleware' => ['auth', ValidateAdmin::class]], function() {
 

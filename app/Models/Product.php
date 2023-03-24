@@ -31,4 +31,9 @@ class Product extends Model
         'price',
         'created_at'
     ];
+
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
 }
