@@ -10,6 +10,7 @@
             </div>
             <form method="post" action="{{ $action }}">
                 @csrf
+                @method('DELETE')
 
                 <input type="hidden" name="id" value="{{ $data['id'] }}" />
 

@@ -14,6 +14,7 @@
     <form method="post" action="{{ route('admin.product.add.action') }}" enctype="multipart/form-data">
 
         @csrf
+        @method('PUT')
 
         <div class="mb-3 row">
             <label class="col-sm-2 col-form-label" for="pName">Название</label>
