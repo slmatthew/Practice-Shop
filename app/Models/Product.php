@@ -72,6 +72,10 @@ class Product extends Model
         return $this->available && $this->getDiscount(false);
     }
 
+    public function formatPrice($price, bool $needRuble = true) {
+        return number_format($price, 2, ',', ' ') . ($needRuble ? ' ₽' : '');
+    }
+
     /**
      * Форматирует цену товара
      *
@@ -82,10 +86,7 @@ class Product extends Model
     public function getFormattedPrice(bool $realPrice = false, bool $needRuble = true) {
         $price = $realPrice ? $this->price : $this->getPrice();
 
-        $formatted = number_format($price, 2, ',', ' ');
-        $formatted = $needRuble ? $formatted.' ₽' : $formatted;
-
-        return $formatted;
+        return $this->formatPrice($price, $needRuble);
     }
 
     /**
@@ -93,14 +94,14 @@ class Product extends Model
      *
      * @return int
      */
-    public function getDiscountPercent() {
-        if(!$this->hasDiscount()) return 0;
+    public function getDiscountPercent(?Discount $discount = null) {
+        if(!$this->hasDiscount() && is_null($discount)) return 0;
 
-        $ad = $this->getActualDiscount();
-        if(!is_null($ad) && !$ad->isFixed()) return $ad->getAmount();
+        $discount = $discount ?? $this->getActualDiscount();
+        if(!is_null($discount) && !$discount->isFixed()) return $discount->getAmount();
 
         $price = $this->price;
-        $discounted = $this->getPrice();
+        $discounted = $discount->getAmount();
 
         $diff = $price - $discounted;
         $percent = (int)($discounted / $price * 100);
@@ -116,7 +117,7 @@ class Product extends Model
     private function getActualDiscount() {
         $discount = $this->discounts()->latest()->limit(1)->first();
         if(!is_null($discount)) {
-            if(is_null($discount->end_date) || Carbon::parse($discount->end_date)->gt(Carbon::now())) {
+            if(is_null($discount->end_date) || Carbon::parse($discount->end_date, 'Europe/Moscow')->gt(Carbon::now('Europe/Moscow'))) {
                 return $discount;
             }
         }
@@ -140,13 +141,19 @@ class Product extends Model
     private function getDiscount(bool $needPrice = true) {
         $discount = $this->getActualDiscount();
         if(!is_null($discount)) {
-            if($discount->type == 'price') {
-                return $needPrice ? $discount->getAmount() : true;
-            } else {
-                return $needPrice ? $this->price - ($this->price * $discount->getAmount() / 100) : true;
-            }
+            return $needPrice ? $this->getDiscountedPrice($discount) : true;
         }
 
         return $needPrice ? $this->price : false;
+    }
+
+    public function getDiscountedPrice(Discount $discount) {
+        if($discount->product_id != $this->id) return null;
+
+        if($discount->type == 'price') {
+            return $discount->getAmount();
+        } else {
+            return $this->price - ($this->price * $discount->getAmount() / 100);
+        }
     }
 }

@@ -77,6 +77,11 @@
             <label class="col-sm-2 col-form-label" for="pPrice">Стоимость</label>
             <div class="col-sm-10">
                 <input name="price" type="number" class="form-control" value="{{ $product['price'] }}" id="pPrice" step=".01" required>
+                @if($product->hasDiscount())
+                    <p class="text-danger">
+                        Не забудьте удалить скидки!
+                    </p>
+                @endif
             </div>
         </div>
 
@@ -154,23 +159,26 @@
                         @foreach($discounts as $discount)
 
                             @php($dlActive = $product->discounts()->latest()->get()[0]->id == $discount->id)
-                            @php($dlActual = !is_null($discount->end_date) && \Carbon\Carbon::parse($discount->end_date)->gt(\Carbon\Carbon::now()))
+                            @php($dlActual = !is_null($discount->end_date) && \Carbon\Carbon::parse($discount->end_date, 'Europe/Moscow')->gt(\Carbon\Carbon::now('Europe/Moscow')))
 
-                            <li class="list-group-item {{ $dlActive ? 'active' : '' }} d-flex justify-content-between align-items-start">
+                            <li class="list-group-item d-flex justify-content-between align-items-start">
                                 <div class="ms-2 me-auto">
                                     <div class="fw-bold">
-                                        {{ $discount->type == 'price' ? 'Фикс. скидка' : 'Скидка в процентах' }} #{{ $discount->id }}
+                                        {{ $discount->isFixed() ? 'Фиксированная' : 'Процентная' }} скидка #{{ $discount->id }}
                                     </div>
 
-                                    @if($discount->type == 'price')
-                                        Новая цена: {{ number_format($discount->getAmount(), 2, ',', ' ') }} ₽
-                                    @else
-                                        Скидка {{ $discount->getAmount() }}%, новая цена: {{ number_format($product->price - ($product->price * $discount->getAmount() / 100), 2, ',', ' ') }} ₽
-                                    @endif
+                                    Новая цена: {{ $product->formatPrice($product->getDiscountedPrice($discount)) }} ({{ $product->getDiscountPercent($discount) }}%)
                                 </div>
-                                <span class="badge text-bg-{{ $dlActual ? 'danger' : ($dlActive ? 'light' : 'secondary') }} rounded-pill">
+
+                                @if($dlActual || (is_null($discount->end_date) && $dlActive))
+                                    <span class="badge text-bg-primary rounded-pill me-1">
+                                        активна
+                                    </span>
+                                @endif
+
+                                <span class="badge text-bg-{{ $dlActual ? 'danger' : 'secondary' }} rounded-pill">
                                     @if(!is_null($discount->end_date))
-                                        до {{ \Carbon\Carbon::parse($discount->end_date)->format('d.m.Y H:i:s') }}
+                                        до {{ \Carbon\Carbon::parse($discount->end_date, 'Europe/Moscow')->format('d.m.Y') }}
                                     @else
                                         бессрочно
                                     @endif
