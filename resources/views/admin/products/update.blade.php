@@ -34,7 +34,7 @@
         </div>
     @endif
 
-    <form method="post" action="{{ route('admin.product.update') }}" enctype="multipart/form-data">
+    <form method="post" action="{{ route('admin.product.update', $product['id']) }}" enctype="multipart/form-data">
 
         @csrf
 
