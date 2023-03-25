@@ -17,9 +17,4 @@ class Brand extends Model
         'image',
         'slug'
     ];
-
-    public function getRouteKeyName(): string
-    {
-        return 'slug';
-    }
 }

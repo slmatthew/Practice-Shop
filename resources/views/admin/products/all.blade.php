@@ -72,7 +72,7 @@
                 <td>{{ $product->hidden ? 'да' : 'нет' }} / {{ $product->available ? 'да' : 'нет' }}</td>
                 <td>
                     <a href="{{ route('products.item', $product) }}" target="_blank" role="button" class="btn btn-outline-secondary btn-sm">Открыть</a>
-                    <a href="{{ route('admin.product', $product) }}" role="button" class="btn btn-outline-primary btn-sm">Изменить</a>
+                    <a href="{{ route('admin.product', $product->id) }}" role="button" class="btn btn-outline-primary btn-sm">Изменить</a>
                     <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#{{ "mdpc{$product->id}" }}">
                         Удалить
                     </button>
@@ -86,6 +86,6 @@
     {!! $products->appends(Request::except('page'))->render() !!}
 
     @foreach($products as $product)
-        @include('admin.partials.modalDelete', ['action' => route('admin.product.delete', $product), 'id' => $product->id, 'product' => $product->toArray()])
+        @include('admin.partials.modalDelete', ['action' => route('admin.product.delete'), 'id' => $product->id, 'product' => $product->toArray()])
     @endforeach
 @endsection

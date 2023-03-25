@@ -34,10 +34,9 @@ class BrandsController extends Controller
         return to_route('admin.brands.main');
     }
 
-    public function update(UpdateBrandRequest $request, Brand $brand)
+    public function update(UpdateBrandRequest $request)
     {
-        if($brand->id != $request->getData()['id']) abort(404);
-
+        $brand = Brand::find($request->getData()['id']);
         $brand->name = $request->getData()['name'];
         $brand->slug = $request->getData()['slug'];
         $brand->description = $request->getData()['description'];
@@ -60,9 +59,9 @@ class BrandsController extends Controller
         return to_route('admin.brands.main');
     }
 
-    public function delete(DeleteBrandRequest $request, Brand $brand)
+    public function delete(DeleteBrandRequest $request)
     {
-        if($brand->id != $request->getId()) abort(404);
+        $brand = Brand::find($request->getId());
 
         if(str_starts_with($brand->image_url, env('APP_URL', 'https://shop.slmatthew.ru').'/storage/')) {
             Storage::disk('public')->delete(mb_substr($brand->image_url, 9));
