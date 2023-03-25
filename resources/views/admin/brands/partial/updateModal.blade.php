@@ -5,7 +5,7 @@
                 <h1 class="modal-title fs-5" id="{{ "mBrandUpdL{$brand->id}" }}">{{ $brand->name }}</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
             </div>
-            <form method="post" action="{{ route('admin.brand.update') }}" enctype="multipart/form-data">
+            <form method="post" action="{{ route('admin.brand.update', $brand) }}" enctype="multipart/form-data">
                 @csrf
                 @method('POST')
 

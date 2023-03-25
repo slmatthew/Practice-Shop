@@ -44,21 +44,14 @@ class ProductController extends Controller
         return view('admin.products.all', ['products' => $products, 'deleteResult' => $deleteResult]);
     }
 
-    public function updateProduct(Request $request, $product_id)
+    public function updateProduct(Request $request, Product $product)
     {
-        $product_id = (int)$product_id;
-        $product = Product::find($product_id);
-
-        if(is_null($product)) {
-            abort(404);
-        }
-
         $nextPrev = [];
 
-        $nextPrev['next'] = Product::where('id', '>', $product_id)->orderBy('id')->first()->id ?? 0;
-        $nextPrev['prev'] = Product::where('id', '<', $product_id)->orderBy('id', 'desc')->first()->id ?? 0;
+        $nextPrev['next'] = Product::where('id', '>', $product->id)->orderBy('id')->first()->id ?? 0;
+        $nextPrev['prev'] = Product::where('id', '<', $product->id)->orderBy('id', 'desc')->first()->id ?? 0;
 
-        $data = ['product' => $product->toArray(), 'categories' => Category::get()->toArray(), 'brands' => Brand::get(), 'nextPrev' => $nextPrev];
+        $data = ['product' => $product, 'categories' => Category::get(), 'brands' => Brand::get(), 'nextPrev' => $nextPrev];
         if($request->has('success')) {
             $data['success'] = (bool)$request->get('success');
         }

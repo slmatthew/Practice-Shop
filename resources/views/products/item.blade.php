@@ -9,6 +9,9 @@
             @if($category)
                 <li class="breadcrumb-item"><a href="{{ route('products.byCategory', $category) }}">{{ $category->name }}</a></li>
             @endif
+            @if($brand)
+                <li class="breadcrumb-item"><a href="{{ route('products.byCategory', ['category' => $category, 'brand' => $brand]) }}">{{ $brand->name }}</a></li>
+            @endif
             <li class="breadcrumb-item active" aria-current="page">{{ $product->name }}</li>
         </ol>
     </nav>
