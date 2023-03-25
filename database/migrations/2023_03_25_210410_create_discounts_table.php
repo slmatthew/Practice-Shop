@@ -20,10 +20,10 @@ return new class extends Migration
             $table->foreignIdFor(Product::class)->constrained('products')->cascadeOnUpdate()->cascadeOnDelete();
             $table->enum('type', ['price', 'percent'])->default('price');
             $table->decimal('amount', 10);
-            $table->timestamp('end_date')->nullable()->default(DB::raw('DATE_ADD(CURRENT_TIMESTAMP, INTERVAL 1 WEEK)'));
+            $table->timestamp('end_date')->nullable()->default(DB::raw('NULL'));
 
-            $table->timestamp('created_at')->useCurrent()->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->useCurrentOnUpdate()->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrentOnUpdate();
         });
     }
 
