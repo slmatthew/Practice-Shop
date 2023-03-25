@@ -142,6 +142,55 @@
             </div>
         </div>
 
+        <hr class="my-4" />
+
+        @php($discounts = $product->discounts()->orderBy('id', 'desc')->limit(3)->get())
+
+        @if($discounts->count())
+            <div class="mb-3 row">
+                <label class="col-sm-2 col-form-label">Скидки</label>
+                <div class="col-sm-4">
+                    <ul class="list-group">
+                        @foreach($discounts as $discount)
+
+                            @php($dlActive = $product->discounts()->latest()->get()[0]->id == $discount->id)
+                            @php($dlActual = !is_null($discount->end_date) && \Carbon\Carbon::parse($discount->end_date)->gt(\Carbon\Carbon::now()))
+
+                            <li class="list-group-item {{ $dlActive ? 'active' : '' }} d-flex justify-content-between align-items-start">
+                                <div class="ms-2 me-auto">
+                                    <div class="fw-bold">
+                                        {{ $discount->type == 'price' ? 'Фикс. скидка' : 'Скидка в процентах' }} #{{ $discount->id }}
+                                    </div>
+
+                                    @if($discount->type == 'price')
+                                        Новая цена: {{ number_format($discount->getAmount(), 2, ',', ' ') }} ₽
+                                    @else
+                                        Скидка {{ $discount->getAmount() }}%, новая цена: {{ number_format($product->price - ($product->price * $discount->getAmount() / 100), 2, ',', ' ') }} ₽
+                                    @endif
+                                </div>
+                                <span class="badge text-bg-{{ $dlActual ? 'danger' : ($dlActive ? 'light' : 'secondary') }} rounded-pill">
+                                    @if(!is_null($discount->end_date))
+                                        до {{ \Carbon\Carbon::parse($discount->end_date)->format('d.m.Y H:i:s') }}
+                                    @else
+                                        бессрочно
+                                    @endif
+                                </span>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+        @endif
+
+        <div class="mb-3 row">
+            <div class="col-sm-2">{{ $discounts->count() ? '' : 'Скидки' }}</div>
+            <div class="col-sm-10">
+                <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="{{ "#m-ad-{$product['id']}" }}">Добавить</button>
+            </div>
+        </div>
+
+        <hr class="my-4" />
+
         <div class="d-grid gap-2">
             <button class="w-100 btn btn-lg btn-outline-primary" type="submit">Сохранить</button>
             <a href="{{ route('admin.products.main') }}" role="link" class="w-100 btn btn-lg btn-outline-danger" type="submit">Отменить</a>
@@ -154,4 +203,6 @@
             document.getElementById('pDescCounter').value = this.value.length;
         };
     </script>
+
+    @include('admin.products.partials.addDiscount', ['product' => $product])
 @endsection

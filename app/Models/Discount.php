@@ -17,4 +17,13 @@ class Discount extends Model
         'amount',
         'end_date'
     ];
+
+    public function getAmount()
+    {
+        if($this->isFixed()) return $this->amount;
+
+        return (int)$this->amount;
+    }
+
+    public function isFixed() { return $this->type == 'price'; }
 }
