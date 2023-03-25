@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\BrandsController;
 use App\Http\Controllers\Admin\OrdersController;
 use App\Http\Controllers\BasketController;
+use App\Http\Controllers\DiscountController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\UserController as UserController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
@@ -125,6 +126,12 @@ Route::group(['middleware' => ['auth', ValidateAdmin::class]], function() {
             Route::get('/product/{product:id}', [ProductController::class, 'updateProduct'])->name('product');
             Route::post('/product/{product:id}', [ProductController::class, 'updateProductAction'])->name('product.update');
             Route::delete('/product/{product:id}', [ProductController::class, 'deleteProductAction'])->name('product.delete');
+
+            /**
+             * Скидки
+             */
+            Route::put('/product/{product:id}/discount', [ DiscountController::class, 'add' ])->name('product.discount.add');
+            Route::delete('/product/{product:id}/discount/{discount:id}', [ DiscountController::class, 'delete' ])->name('product.discount.delete');
 
             /**
              * категории
