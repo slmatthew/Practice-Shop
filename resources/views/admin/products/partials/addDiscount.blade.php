@@ -24,6 +24,10 @@
                         <label class="form-label" for="pAmount">Скидка</label>
                         <input name="amount" type="number" class="form-control" value="{{ $product->price - ($product->price / 2) }}" id="pAmount" step=".01" required>
                     </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="pDate">Конец действия</label>
+                        <input name="end_date" type="date" class="form-control" id="pDate" value="" min="{{ \Carbon\Carbon::now('Europe/Moscow')->addDay()->format('Y-m-d') }}" max="{{ \Carbon\Carbon::now('Europe/Moscow')->addMonth()->format('Y-m-d') }}">
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Отмена</button>

@@ -32,17 +32,17 @@ class AddDiscountRequest extends FormRequest
                     }
                 }
             }],
-            /*'end_date' => ['nullable', 'date', function ($attribute, $value, $fail) {
-                $maxDate = Carbon::now()->addMonth();
-                if (Carbon::parse($value)->gt($maxDate)) {
+            'end_date' => ['nullable', 'date', function ($attribute, $value, $fail) {
+                $maxDate = Carbon::now('Europe/Moscow')->addMonth();
+                if (Carbon::parse($value, 'Europe/Moscow')->gt($maxDate)) {
                     $fail(__('validation.before', ['attribute' => $attribute, 'date' => $maxDate]));
                 }
-            }]*/
+            }]
         ];
     }
 
     public function getData()
     {
-        return $this->only(['product_id', 'type', 'amount']);
+        return $this->only(['product_id', 'type', 'amount', 'end_date']);
     }
 }
