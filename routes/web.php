@@ -133,8 +133,8 @@ Route::group(['middleware' => ['auth', ValidateAdmin::class]], function() {
             Route::get('/categories', [CategoriesController::class, 'main'])->name('categories.main');
 
             Route::put('/category', [CategoriesController::class, 'add'])->name('category.add');
-            Route::post('/category', [CategoriesController::class, 'update'])->name('category.update');
-            Route::delete('/category', [CategoriesController::class, 'delete'])->name('category.delete');
+            Route::post('/category/{category:id}', [CategoriesController::class, 'update'])->name('category.update');
+            Route::delete('/category/{category:id}', [CategoriesController::class, 'delete'])->name('category.delete');
 
             /**
              * бренды
@@ -142,8 +142,8 @@ Route::group(['middleware' => ['auth', ValidateAdmin::class]], function() {
             Route::get('/brands', [BrandsController::class, 'main'])->name('brands.main');
 
             Route::put('/brand', [BrandsController::class, 'add'])->name('brand.add');
-            Route::post('/brand', [BrandsController::class, 'update'])->name('brand.update');
-            Route::delete('/brand', [BrandsController::class, 'delete'])->name('brand.delete');
+            Route::post('/brand/{brand:id}', [BrandsController::class, 'update'])->name('brand.update');
+            Route::delete('/brand/{brand:id}', [BrandsController::class, 'delete'])->name('brand.delete');
 
             /**
              * пользователи

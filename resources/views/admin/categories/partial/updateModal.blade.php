@@ -5,7 +5,7 @@
                 <h1 class="modal-title fs-5" id="MUPLabel">{{ $ctg->name }}</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
             </div>
-            <form method="post" action="{{ route('admin.category.update') }}" enctype="multipart/form-data">
+            <form method="post" action="{{ route('admin.category.update', $ctg) }}" enctype="multipart/form-data">
                 @csrf
                 @method('POST')
 
