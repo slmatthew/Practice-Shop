@@ -22,8 +22,8 @@ return new class extends Migration
             $table->decimal('amount', 10);
             $table->timestamp('end_date')->nullable()->default(DB::raw('NULL'));
 
-            $table->timestamp('created_at')->useCurrent();
-            $table->timestamp('updated_at')->useCurrentOnUpdate();
+            $table->timestamp('created_at')->useCurrent()->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate()->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
         });
     }
 
