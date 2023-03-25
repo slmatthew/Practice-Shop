@@ -52,11 +52,9 @@ class LoginController extends Controller
      *
      * @param Request $request
      * @param Auth $user
-     *
-     * @return \Illuminate\Http\Response
      */
     protected function authenticated(Request $request, $user)
     {
-        return redirect(action([ MainController::class, 'main' ]));
+        return to_route('main');
     }
 }
