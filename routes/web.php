@@ -119,22 +119,22 @@ Route::group(['middleware' => ['auth', ValidateAdmin::class]], function() {
              */
             Route::get('/products', [ProductController::class, 'getProducts'])->name('products.main');
 
-            Route::get('/product/add', [ProductController::class, 'addProduct'])->name('product.add');
-            Route::put('/product/add/action', [ProductController::class, 'addProductAction'])->name('product.add.action');
+            Route::get('/product/new', [ProductController::class, 'addProduct'])->name('product.add');
+            Route::put('/product', [ProductController::class, 'addProductAction'])->name('product.add.action');
 
-            Route::get('/product/{product}', [ProductController::class, 'updateProduct'])->name('product');
-            Route::post('/product/update', [ProductController::class, 'updateProductAction'])->name('product.update');
+            Route::get('/product/{product:id}', [ProductController::class, 'updateProduct'])->name('product');
 
-            Route::delete('/product/delete', [ProductController::class, 'deleteProductAction'])->name('product.delete');
+            Route::post('/product/{product:id}', [ProductController::class, 'updateProductAction'])->name('product.update');
+            Route::delete('/product/{product:id}', [ProductController::class, 'deleteProductAction'])->name('product.delete');
 
             /**
              * категории
              */
             Route::get('/categories', [CategoriesController::class, 'main'])->name('categories.main');
 
-            Route::put('/category/add', [CategoriesController::class, 'add'])->name('category.add');
-            Route::post('/category/update', [CategoriesController::class, 'update'])->name('category.update');
-            Route::delete('/category/delete', [CategoriesController::class, 'delete'])->name('category.delete');
+            Route::put('/category', [CategoriesController::class, 'add'])->name('category.add');
+            Route::post('/category', [CategoriesController::class, 'update'])->name('category.update');
+            Route::delete('/category', [CategoriesController::class, 'delete'])->name('category.delete');
 
             /**
              * бренды
