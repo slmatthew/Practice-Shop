@@ -20,7 +20,7 @@ class Discount extends Model
 
     public function getAmount()
     {
-        if($this->isFixed()) return $this->amount;
+        if($this->isFixed()) return (float)$this->amount;
 
         return (int)$this->amount;
     }
