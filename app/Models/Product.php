@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Kyslik\ColumnSortable\Sortable;
 
 class Product extends Model
@@ -155,5 +156,41 @@ class Product extends Model
         } else {
             return $this->price - ($this->price * $discount->getAmount() / 100);
         }
+    }
+
+    /**
+     * Возвращает самый дешевый товар в категории с учетом скидок
+     *
+     * @param Category $category
+     * @return Product|null
+     */
+    public static function getCheapestInCategory(Category $category)
+    {
+        $request = DB::table('products')
+            ->leftJoin('discounts', 'products.id', '=', 'discounts.product_id')
+            ->where('products.category_id', $category->id)
+            ->where(function ($query) {
+                $query->where('discounts.end_date', '>', Carbon::now('Europe/Moscow'))
+                    ->orWhereNull('discounts.end_date');
+            })
+            ->selectRaw('products.*, COALESCE(
+                    MIN(
+                        CASE
+                            WHEN discounts.type = "price" THEN discounts.amount
+                            WHEN discounts.type = "percent" THEN products.price * ((100 - discounts.amount) / 100)
+                            ELSE products.price
+                        END
+                    ),
+                    products.price
+                ) AS min_price')
+            ->groupBy('products.id')
+            ->orderBy('min_price');
+
+        if(!$request->get()->count()) return null;
+
+        $product = $request->first();
+        $product->min_price = bcdiv($product->min_price, 1, 2);
+
+        return $product;
     }
 }
