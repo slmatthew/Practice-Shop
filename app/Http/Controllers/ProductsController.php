@@ -18,7 +18,7 @@ class ProductsController extends Controller
                 continue;
             }
 
-            $min_price = Product::getCheapestInCategory($ctg);
+            $min_price = Product::getCheapestInGroup($ctg);
             $ctg['min_price'] = $min_price ? $min_price->min_price : 0;
         }
 
@@ -82,8 +82,8 @@ class ProductsController extends Controller
                 continue;
             }
 
-
-            $ctg->min_price = Product::select('price')->where('category_id', '=', $ctg->id)->where('brand_id', '=', $brand->id)->where('hidden', '<>', 1)->min('price');
+            $min_price = Product::getCheapestInGroup($ctg, $brand);
+            $ctg->min_price = $min_price ? $min_price->min_price : 0;
         }
 
         return view('products.brand', compact('brand', 'categories'));
