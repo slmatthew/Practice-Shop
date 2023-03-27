@@ -67,12 +67,12 @@
                             @method('POST')
 
                             <th scope="row">
-                                <a href="{{ route('products.item', $item['product']['id']) }}" target="_blank">
+                                <a href="{{ route('products.item', $item['product']['slug']) }}" target="_blank">
                                     <img src="{{ $item['product']['image_url'] }}" style="max-width: 5em;max-height: 5em" class="img-thumbnail rounded float-start">
                                 </a>
                             </th>
                             <td class="align-middle">
-                                <a href="{{ route('products.item', $item['product']['id']) }}" target="_blank">
+                                <a href="{{ route('products.item', $item['product']['slug']) }}" target="_blank">
                                     {{ $item['product']['name'] }}
                                 </a>
                             </td>
