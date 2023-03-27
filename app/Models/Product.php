@@ -161,14 +161,20 @@ class Product extends Model
     /**
      * Возвращает самый дешевый товар в категории с учетом скидок
      *
-     * @param Category $category
+     * @param ?Category $category
+     * @param ?Brand $brand
      * @return Product|null
      */
-    public static function getCheapestInCategory(Category $category)
+    public static function getCheapestInGroup(?Category $category = null, ?Brand $brand = null)
     {
         $request = DB::table('products')
             ->leftJoin('discounts', 'products.id', '=', 'discounts.product_id')
-            ->where('products.category_id', $category->id)
+            ->where('hidden', 0);
+
+        $request = $category ? $request->where('products.category_id', $category->id) : $request;
+        $request = $brand ? $request->where('products.brand_id', $brand->id) : $request;
+
+        $request = $request
             ->where(function ($query) {
                 $query->where('discounts.end_date', '>', Carbon::now('Europe/Moscow'))
                     ->orWhereNull('discounts.end_date');
