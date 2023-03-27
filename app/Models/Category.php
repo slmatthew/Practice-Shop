@@ -17,6 +17,18 @@ class Category extends Model
         'image_url'
     ];
 
+    public function getCheapestProductAttribute()
+    {
+        return Product::getCheapestInGroup($this);
+    }
+
+    public function getMinPriceAttribute()
+    {
+        $cheapest = $this->cheapest_product;
+
+        return is_null($cheapest) ? 0 : $cheapest->min_price;
+    }
+
     public function getRouteKeyName(): string
     {
         return 'slug';

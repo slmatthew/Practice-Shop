@@ -15,11 +15,7 @@ class ProductsController extends Controller
         foreach($categories as $i => &$ctg) {
             if(!$ctg->products()->count()) {
                 unset($categories[$i]);
-                continue;
             }
-
-            $min_price = Product::getCheapestInGroup($ctg);
-            $ctg['min_price'] = $min_price ? $min_price->min_price : 0;
         }
 
         return view('products.allCategories', ['categories' => $categories]);
@@ -79,11 +75,7 @@ class ProductsController extends Controller
         foreach($categories as $i => &$ctg) {
             if(Product::where('category_id', '=', $ctg->id)->where('brand_id', '=', $brand->id)->where('hidden', '<>', 1)->count() == 0) {
                 unset($categories[$i]);
-                continue;
             }
-
-            $min_price = Product::getCheapestInGroup($ctg, $brand);
-            $ctg->min_price = $min_price ? $min_price->min_price : 0;
         }
 
         return view('products.brand', compact('brand', 'categories'));
