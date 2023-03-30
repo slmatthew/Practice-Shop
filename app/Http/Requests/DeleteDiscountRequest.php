@@ -9,7 +9,7 @@ class DeleteDiscountRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'product_id' => ['required', 'exists:products,id']
         ];
     }
 }

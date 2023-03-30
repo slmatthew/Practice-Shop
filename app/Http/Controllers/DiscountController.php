@@ -6,20 +6,25 @@ use App\Http\Requests\AddDiscountRequest;
 use App\Http\Requests\DeleteDiscountRequest;
 use App\Models\Discount;
 use App\Models\Product;
-use Illuminate\Http\Request;
 
 class DiscountController extends Controller
 {
     public function add(AddDiscountRequest $request, Product $product)
     {
+        $product->discounts()->each(function ($item, $_) {
+            $item->delete();
+        });
+
         $product->discounts()->save(new Discount($request->getData()));
 
         return to_route('admin.product', $product);
     }
 
-    public function delete(DeleteDiscountRequest $request, Product $product, Discount $discount)
+    public function clear(DeleteDiscountRequest $request, Product $product)
     {
-        $discount->delete();
+        $product->discounts()->each(function ($item, $_) {
+            $item->delete();
+        });
 
         return to_route('admin.product', $product);
     }

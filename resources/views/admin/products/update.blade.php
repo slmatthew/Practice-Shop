@@ -164,7 +164,7 @@
                             <li class="list-group-item d-flex justify-content-between align-items-start">
                                 <div class="ms-2 me-auto">
                                     <div class="fw-bold">
-                                        {{ $discount->isFixed() ? 'Фиксированная' : 'Процентная' }} скидка #{{ $discount->id }}
+                                        {{ $discount->isFixed() ? 'Фиксированная' : 'Процентная' }} скидка
                                     </div>
 
                                     Новая цена: {{ $product->formatPrice($product->getDiscountedPrice($discount)) }} ({{ $product->getDiscountPercent($discount) }}%)
@@ -194,6 +194,9 @@
             <div class="col-sm-2">{{ $discounts->count() ? '' : 'Скидки' }}</div>
             <div class="col-sm-10">
                 <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="{{ "#m-ad-{$product['id']}" }}">Добавить</button>
+                @if($discounts->count())
+                    <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="{{ "#m-cd-{$product['id']}" }}">Очистить</button>
+                @endif
             </div>
         </div>
 
@@ -213,4 +216,5 @@
     </script>
 
     @include('admin.products.partials.addDiscount', ['product' => $product])
+    @include('admin.products.partials.clearDiscount', ['product' => $product])
 @endsection

@@ -131,7 +131,7 @@ Route::group(['middleware' => ['auth', ValidateAdmin::class]], function() {
              * Скидки
              */
             Route::put('/product/{product:id}/discount', [ DiscountController::class, 'add' ])->name('product.discount.add');
-            Route::delete('/product/{product:id}/discount/{discount:id}', [ DiscountController::class, 'delete' ])->name('product.discount.delete');
+            Route::delete('/product/{product:id}/discount', [ DiscountController::class, 'clear' ])->name('product.discount.clear');
 
             /**
              * категории
