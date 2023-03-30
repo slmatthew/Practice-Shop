@@ -13,7 +13,7 @@
             $total_cost = 0;
             foreach($basketItems as $item) {
                 if($item['product']['available']) {
-                    $total_cost += $item['product']['price'] * $item['quantity'];
+                    $total_cost += $item['product']->getPrice() * $item['quantity'];
                     $count += $item['quantity'];
                 }
             }
@@ -30,11 +30,15 @@
                         @if($item['product']['available'])
                             <li class="list-group-item d-flex justify-content-between lh-sm">
                                 <div>
-                                    <h6 class="my-0">{{ $item['product']['name'] }}</h6>
-                                    <small class="text-muted">{{ mb_strlen($item['product']['description']) > 25 ? mb_substr($item['product']['description'], 0, 25).'...' : $item['product']['description'] }}</small>
+                                    <h6 class="my-0">
+                                        {{ mb_strlen($item['product']->name) > 30 ? mb_substr($item['product']->name, 0, 27).'...' : $item['product']->name }}
+                                    </h6>
+                                    <small class="text-muted">
+                                        {{ mb_strlen($item['product']['description']) > 25 ? mb_substr($item['product']['description'], 0, 25).'...' : $item['product']['description'] }}
+                                    </small>
                                 </div>
                                 <span class="text-muted">
-                                    {{ number_format($item['product']['price'] * $item['quantity'], 2, ',', ' ') }} ₽
+                                    {{ App\Models\Product::formatPrice($item['product']->getPrice() * $item['quantity']) }}
                                 </span>
                             </li>
                         @endif
@@ -48,7 +52,7 @@
 {{--                    </li>--}}
                     <li class="list-group-item d-flex justify-content-between">
                         <span>Всего</span>
-                        <strong>{{ number_format($total_cost, 2, ',', ' ') }} ₽</strong>
+                        <strong>{{ App\Models\Product::formatPrice($total_cost) }}</strong>
                     </li>
                 </ul>
 

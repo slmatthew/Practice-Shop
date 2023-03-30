@@ -73,7 +73,7 @@ class Product extends Model
         return $this->available && $this->getDiscount(false);
     }
 
-    public function formatPrice($price, bool $needRuble = true) {
+    public static function formatPrice($price, bool $needRuble = true) {
         return number_format($price, 2, ',', ' ') . ($needRuble ? ' ₽' : '');
     }
 

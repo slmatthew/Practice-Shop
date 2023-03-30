@@ -58,7 +58,7 @@
                     @foreach($basketItems as $item)
                         @php
                             if($item['product']['available']) {
-                                $total_cost += $item['product']['price'] * $item['quantity'];
+                                $total_cost += $item['product']->getPrice() * $item['quantity'];
                                 $total_quantity += $item['quantity'];
                             }
                         @endphp
@@ -67,30 +67,26 @@
                             @method('POST')
 
                             <th scope="row">
-                                <a href="{{ route('products.item', $item['product']['slug']) }}" target="_blank">
-                                    <img src="{{ $item['product']['image_url'] }}" style="max-width: 5em;max-height: 5em" class="img-thumbnail rounded float-start">
+                                <a href="{{ route('products.item', $item['product']) }}" target="_blank">
+                                    <img src="{{ $item['product']->image_url }}" style="max-width: 5em;max-height: 5em" class="img-thumbnail rounded float-start">
                                 </a>
                             </th>
                             <td class="align-middle">
-                                <a href="{{ route('products.item', $item['product']['slug']) }}" target="_blank">
-                                    {{ $item['product']['name'] }}
+                                <a href="{{ route('products.item', $item['product']) }}" target="_blank">
+                                    {{ $item['product']->name }}
                                 </a>
                             </td>
                             <td class="align-middle">
                                 {{ $item['quantity'] }}
                             </td>
                             <td class="align-middle">
-                                @if($item['product']['available'])
-                                    <span>{{ number_format($item['product']['price'] * $item['quantity'], 2, ',', ' ') }} ₽</span>
-                                @else
-                                    <span>нет в наличии</span>
-                                @endif
+                                <span>{{ $item['product']->available ? App\Models\Product::formatPrice($item['product']->getPrice() * $item['quantity']) : 'нет в наличии' }}</span>
                             </td>
                             <td class="align-middle">
-                                <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalQuantity{{ $item['product']['id'] }}">
+                                <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalQuantity{{ $item['product']->id }}">
                                     Изменить
                                 </button>
-                                <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modalDelete{{ $item['product']['id'] }}">
+                                <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modalDelete{{ $item['product']->id }}">
                                     Удалить
                                 </button>
                             </td>
@@ -105,7 +101,7 @@
                             {{ $total_quantity }}
                         </td>
                         <td>
-                            {{ number_format($total_cost, 2, ',', ' ') }} ₽
+                            {{ App\Models\Product::formatPrice($total_cost) }}
                         </td>
                         <td>
                             <a href="{{ route('basket.checkout') }}" role="button" class="btn btn-outline-primary btn-sm">Оформить заказ</a>
