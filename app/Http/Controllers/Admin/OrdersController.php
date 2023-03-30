@@ -9,6 +9,7 @@ use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class OrdersController extends Controller
 {
@@ -82,5 +83,16 @@ class OrdersController extends Controller
         $order->delete();
 
         return redirect()->to(route('admin.orders.main'));
+    }
+
+    public function clear() {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
+        OrderItem::truncate();
+        Order::truncate();
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
+        return to_route('admin.home');
     }
 }
