@@ -1,14 +1,15 @@
-<div class="modal fade" id="modalDelete{{ $item['product']['id'] }}" tabindex="-1" aria-labelledby="MDHeader" aria-hidden="true">
+<div class="modal fade" id="modalDelete{{ $item['id'] }}" tabindex="-1" aria-labelledby="MDHeader{{ $item['id'] }}" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="MDHeader">{{ $item['product']['name'] }}</h1>
+                <h1 class="modal-title fs-5" id="MDHeader{{ $item['id'] }}">{{ $item['product']['name'] }}</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
             </div>
             <form method="post" action="{{ route('basket.deleteProduct') }}">
                 @csrf
                 @method('DELETE')
 
+                <input type="hidden" name="id" value="{{ $item['id'] }}" />
                 <input type="hidden" name="product_id" value="{{ $item['product']['id'] }}" />
 
                 <div class="modal-body">

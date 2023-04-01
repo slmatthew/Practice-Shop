@@ -35,7 +35,7 @@
             @foreach($orderItems as $item)
                 @php
                     if($item['product']['available']) {
-                        $total_cost += $item['product']['price'] * $item['quantity'];
+                        $total_cost += $item['price'] * $item['quantity'];
                         $total_quantity += $item['quantity'];
                     }
                 @endphp
@@ -54,21 +54,13 @@
                         </a>
                     </td>
                     <td class="align-middle">
-                        @if($item['product']['available'])
-                            <span>{{ number_format($item['product']['price'], 2, ',', ' ') }} ₽</span>
-                        @else
-                            <span>нет в наличии</span>
-                        @endif
+                        {{ $item['product']['available'] ? App\Models\Product::formatPrice($item['price']) : 'нет в наличии' }}
                     </td>
                     <td class="align-middle">
                         {{ $item['quantity'] }}
                     </td>
                     <td class="align-middle">
-                        @if($item['product']['available'])
-                            <span>{{ number_format($item['product']['price'] * $item['quantity'], 2, ',', ' ') }} ₽</span>
-                        @else
-                            <span>нет в наличии</span>
-                        @endif
+                        {{ $item['product']['available'] ? App\Models\Product::formatPrice($item['price'] * $item['quantity']) : 'нет в наличии' }}
                     </td>
                 </tr>
             @endforeach
@@ -82,7 +74,7 @@
                     {{ $total_quantity }}
                 </td>
                 <td>
-                    {{ number_format($total_cost, 2, ',', ' ') }} ₽
+                    {{ App\Models\Product::formatPrice($total_cost) }}
                 </td>
             </tr>
             </tbody>

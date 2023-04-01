@@ -39,7 +39,7 @@
                         {{ $order->name }} {{ mb_substr($order->surname, 0, 1) }}.
                     </td>
                     <td>
-                        {{ number_format($prices[$order->id], 2, ',', ' ') }} ₽
+                        {{ App\Models\Product::formatPrice($prices[$order->id]) }}
                     </td>
                     <td>
                         {{ date('d.m.Y H:i:s', strtotime($order->submitted_at)) }}

@@ -16,6 +16,26 @@ class OrderItem extends Model
     protected $fillable = [
         'order_id',
         'product_id',
+        'price',
         'quantity'
     ];
+
+    public function isPriceActual()
+    {
+        return (float)$this->price == (float)Product::find($this->product_id)->getPrice();
+    }
+
+    public function hasDiscountedPrice()
+    {
+        $product = Product::find($this->product_id);
+        return (float)$this->price != (float)$product->price && $product->available;
+    }
+
+    public function getDiscountPercent()
+    {
+        if(!$this->hasDiscountedPrice()) return 0;
+
+        $product = Product::find($this->product_id);
+        return 100 - (int)($this->price / $product->price * 100);
+    }
 }

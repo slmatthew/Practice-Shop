@@ -15,4 +15,9 @@ class Order extends Model
         'user_id',
         'checkout'
     ];
+
+    public function items()
+    {
+        return $this->hasMany(OrderItem::class);
+    }
 }

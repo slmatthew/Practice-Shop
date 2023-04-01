@@ -54,13 +54,16 @@
                     @php
                         $total_cost = 0;
                         $total_quantity = 0;
+                        $has_discounted = false;
                     @endphp
                     @foreach($basketItems as $item)
                         @php
                             if($item['product']['available']) {
-                                $total_cost += $item['product']->getPrice() * $item['quantity'];
+                                $total_cost += $item['price'] * $item['quantity'];
                                 $total_quantity += $item['quantity'];
                             }
+
+                            if(!$has_discounted && !$item->isPriceActual()) $has_discounted = true;
                         @endphp
                         <tr>
                             @csrf
@@ -72,6 +75,7 @@
                                 </a>
                             </th>
                             <td class="align-middle">
+                                {{ Auth::user()->isAdmin() ? $item['id'] : '' }}
                                 <a href="{{ route('products.item', $item['product']) }}" target="_blank">
                                     {{ $item['product']->name }}
                                 </a>
@@ -80,13 +84,18 @@
                                 {{ $item['quantity'] }}
                             </td>
                             <td class="align-middle">
-                                <span>{{ $item['product']->available ? App\Models\Product::formatPrice($item['product']->getPrice() * $item['quantity']) : 'нет в наличии' }}</span>
+                                {{ $item['product']->available ? App\Models\Product::formatPrice($item['price'] * $item['quantity']) : 'нет в наличии' }}
+                                @if($item->hasDiscountedPrice())
+                                    <span class="badge rounded-pill bg-danger me-1">
+                                        -{{ $item->getDiscountPercent() }}%
+                                    </span>
+                                @endif
                             </td>
                             <td class="align-middle">
-                                <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalQuantity{{ $item['product']->id }}">
+                                <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalQuantity{{ $item['id'] }}">
                                     Изменить
                                 </button>
-                                <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modalDelete{{ $item['product']->id }}">
+                                <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modalDelete{{ $item['id'] }}">
                                     Удалить
                                 </button>
                             </td>
@@ -111,6 +120,13 @@
                     </tbody>
                 </table>
             </div>
+
+            @if($has_discounted)
+                <div class="alert alert-warning" role="alert">
+                    <h4 class="alert-heading">Обратите внимание!</h4>
+                    Цены на некоторые товары в вашей корзине изменились. Однако, вы все еще можете приобрести эти товары по старой цене. Будьте внимательны: любые изменения в количестве товаров приведут к обновлению цен
+                </div>
+            @endif
         @endif
     </div>
 

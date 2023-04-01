@@ -31,11 +31,11 @@ class OrdersController extends Controller
         $prices = [];
 
         foreach($orders as $order) {
-            $products = OrderItem::select('product_id', 'quantity')->where('order_id', '=', $order->id)->orderBy('updated_at', 'desc')->get()->toArray();
+            $products = OrderItem::select('product_id', 'price', 'quantity')->where('order_id', '=', $order->id)->orderBy('updated_at', 'desc')->get()->toArray();
             foreach($products as $product) {
-                $product_db = Product::find($product['product_id']);
+                //$product_db = Product::find($product['product_id']);
 
-                isset($prices[$order->id]) ? $prices[$order->id] += $product_db->price * $product['quantity'] : $prices[$order->id] = $product_db->price * $product['quantity'];
+                isset($prices[$order->id]) ? $prices[$order->id] += $product['price'] * $product['quantity'] : $prices[$order->id] = $product['price'] * $product['quantity'];
             }
         }
 
