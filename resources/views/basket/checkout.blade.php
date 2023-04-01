@@ -1,6 +1,8 @@
 @extends('app', ['navbar' => 'basket'])
 
 @section('content')
+    <script src="{{ asset('js/jquery.min.js') }}"></script>
+
     <div class="container">
         <div class="py-5 text-center">
 {{--            <img class="d-block mx-auto mb-4" src="../assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">--}}
@@ -43,31 +45,53 @@
                             </li>
                         @endif
                     @endforeach
-{{--                    <li class="list-group-item d-flex justify-content-between bg-light">--}}
-{{--                        <div class="text-success">--}}
-{{--                            <h6 class="my-0">Promo code</h6>--}}
-{{--                            <small>EXAMPLECODE</small>--}}
-{{--                        </div>--}}
-{{--                        <span class="text-success">−$5</span>--}}
-{{--                    </li>--}}
+                    <li id="pc-li-loaded" class="list-group-item d-flex justify-content-between bg-light" style="display:none!important">
+                        <div class="text-success">
+                            <h6 class="my-0" id="pc-li-header">Промокод</h6>
+                            <small id="pc-li-pc">EXAMPLECODE</small>
+                        </div>
+                        <span class="text-success" id="pc-li-amount">−$5</span>
+                    </li>
+
+                    <li id="pc-li-loaded-error" class="list-group-item d-flex justify-content-between bg-light" style="display:none!important">
+                        <div class="text-danger">
+                            <h6 class="my-0">Промокод не действителен!</h6>
+                            <small id="pc-error-text"></small>
+                        </div>
+                    </li>
+
+                    <li id="pc-li-loading" class="list-group-item bg-light" style="display: none;">
+                        <div>
+                            <h6 class="my-0 placeholder-glow">
+                                <span class="placeholder col-6"></span>
+                            </h6>
+
+                            <small class="placeholder-glow">
+                                <span class="placeholder placeholder-sm col-7"></span>
+                            </small>
+                        </div>
+                        <span></span>
+                    </li>
+
                     <li class="list-group-item d-flex justify-content-between">
                         <span>Всего</span>
-                        <strong>{{ App\Models\Product::formatPrice($total_cost) }}</strong>
+                        <strong id="totalCostText">{{ App\Models\Product::formatPrice($total_cost) }}</strong>
+                        <input type="hidden" id="hidden-total-cost" value="{{ $total_cost }}">
                     </li>
                 </ul>
 
-{{--                <form class="card p-2">--}}
-{{--                    <div class="input-group">--}}
-{{--                        <input type="text" class="form-control" placeholder="Promo code">--}}
-{{--                        <button type="submit" class="btn btn-secondary">Redeem</button>--}}
-{{--                    </div>--}}
-{{--                </form>--}}
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Промокод" id="pc-input">
+                    <button type="submit" class="btn btn-secondary" id="pc-button">Сохранить</button>
+                </div>
             </div>
             <div class="col-md-7 col-lg-8">
                 <h4 class="mb-3">Контактная информация</h4>
                 <form action="{{ route('basket.doCheckout') }}" method="post" class="needs-validation {{ $errors->any() ? 'was-validated' : '' }}" novalidate>
                     @csrf
                     @method('POST')
+
+                    <input type="hidden" id="pc-form-value" name="promocode" value="" />
 
                     <div class="row g-3">
                         <div class="col-sm-6">
@@ -112,4 +136,83 @@
             </div>
         </div>
     </div>
+
+    <script defer>
+        const hideLoaded = () => $('#pc-li-loaded').attr('style', 'display: none !important');
+        const showLoaded = () => $('#pc-li-loaded').show();
+
+        const hideLoadedError = () => $('#pc-li-loaded-error').attr('style', 'display: none !important');
+        const showLoadedError = () => $('#pc-li-loaded-error').show();
+
+        const hideLoading = () => $('#pc-li-loading').hide();
+        const showLoading = () => $('#pc-li-loading').show();
+
+        const startTotalCost = {{ $total_cost }};
+
+        const changeTotalCost = (newCost = null) => {
+            if(newCost === null) {
+                $('#totalCostText').html(startTotalCost.toLocaleString('ru-RU', { style: 'currency', currency: 'RUB' }));
+            } else {
+                $('#totalCostText').html(newCost.toLocaleString('ru-RU', { style: 'currency', currency: 'RUB' }));
+            }
+        };
+
+        const changePCInputVal = (promocode = null) => {
+            if(promocode === null) {
+                $('#pc-form-value').val('');
+            } else {
+                $('#pc-form-value').val(promocode);
+            }
+        };
+
+        function checkPromocode(promocode) {
+            $.ajax({
+                url: '/basket/check/' + promocode,
+                type: 'GET',
+                success: function(response) {
+                    // Обновляем информацию о скидке на странице
+                    console.log(response.ok)
+                    if (response.ok) {
+                        $('#pc-li-amount').html('-' + response.discount.toLocaleString('ru-RU', { style: 'currency', currency: 'RUB' }));
+                        $('#pc-li-pc').html(promocode);
+
+                        changePCInputVal(promocode);
+
+                        showLoaded();
+                        hideLoading();
+
+                        changeTotalCost(startTotalCost - response.discount);
+                    } else {
+                        hideLoading();
+
+                        $('#pc-error-text').html(response.reason);
+
+                        changePCInputVal();
+                        changeTotalCost();
+
+                        showLoadedError();
+                    }
+                },
+                error: function(response) {
+                    hideLoading();
+
+                    $('#pc-error-text').html('Проверьте соединение с интернетом');
+
+                    changePCInputVal();
+                    changeTotalCost();
+
+                    showLoadedError();
+                }
+            });
+        }
+
+        $('#pc-button').click(function() {
+            hideLoaded();
+            hideLoadedError();
+            showLoading();
+
+            var promocode = $('#pc-input').val();
+            checkPromocode(promocode);
+        });
+    </script>
 @endsection

@@ -101,6 +101,8 @@ Route::group(['middleware' => ['auth']], function() {
             Route::post('/edit', [BasketController::class, 'editProduct'])->name('editProduct');
             Route::delete('/delete', [BasketController::class, 'deleteProduct'])->name('deleteProduct');
 
+            Route::get('/check/{promocode}', [BasketController::class, 'checkPromocode'])->name('checkPromocode');
+
         });
     });
 

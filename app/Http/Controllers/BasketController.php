@@ -182,4 +182,9 @@ class BasketController extends Controller
 
         return to_route('basket.index');
     }
+
+    public function checkPromocode(string $promocode)
+    {
+        return response()->json(['ok' => mt_rand(0, 100) > 50, 'discount' => 35, 'reason' => 'бла-бла-бла!']);
+    }
 }
