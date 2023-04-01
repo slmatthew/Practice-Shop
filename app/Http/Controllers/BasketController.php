@@ -13,41 +13,41 @@ use Illuminate\Support\Facades\Auth;
 
 class BasketController extends Controller
 {
-    private function findOrCreate() {
-        $user_id = Auth::user()->id;
+    private function findOrCreate(): Order
+    {
+        $query = Auth::user()->orders()->where('checkout', 0)->orderBy('id', 'desc');
+        $order = $query->first();
 
-        $order = Order::where('user_id', '=', $user_id)->orderBy('id', 'desc')->limit(1)->get();
-        if(!$order->count()) {
-            return Order::create([
-                'user_id' => $user_id,
-                'checkout' => 0
-            ]);
+        if(!$order) {
+            Auth::user()->orders()->save(new Order());
+            return $query->first();
         }
 
-        return $order[0];
+        return $order;
     }
 
-    private function getProducts($order) {
-        $orderItems = OrderItem::where('order_id', '=', $order->id)->orderBy('updated_at', 'desc')->get();
+    private function getProducts(Order $order): \Illuminate\Database\Eloquent\Collection
+    {
+        $orderItems = $order->items()->orderBy('updated_at', 'desc')->get();
         if(count($orderItems) > 0) {
-            foreach($orderItems as $n => $item) {
-                $orderItems[$n]->product = Product::find($item->product_id);
+            foreach($orderItems as $n => &$item) {
+                $item->product = Product::find($item->product_id);
             }
         }
 
         return $orderItems;
     }
 
-    private function hasProduct($order, $product_id) {
-        return count(
-                OrderItem::where('order_id', '=', $order->id)
-                    ->where('product_id', '=', $product_id)
-                    ->get()
-                    ->toArray()
-            ) > 0;
+    private function hasProduct(Order $order, $product_id): bool
+    {
+        return $order->items()
+                ->where('product_id', '=', $product_id)
+                ->get()
+                ->count() > 0;
     }
 
-    private function getBasket() {
+    private function getBasket(): array
+    {
         $basket = $this->findOrCreate();
         return [
             'basket' => $basket,
@@ -55,15 +55,24 @@ class BasketController extends Controller
         ];
     }
 
-    public function index() {
+    public function index(): \Illuminate\Contracts\View\View
+    {
         return view('basket.index', $this->getBasket());
     }
 
-    public function checkout() {
-        return view('basket.checkout', $this->getBasket());
+    public function checkout(): \Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
+    {
+        $basket = $this->getBasket();
+        if(!$basket['basketItems']->count()) return to_route('basket.index');
+
+        return view('basket.checkout', $basket);
     }
 
-    public function doCheckout(CheckoutRequest $request) {
+    public function doCheckout(CheckoutRequest $request): \Illuminate\Http\RedirectResponse
+    {
+        $basket = $this->getBasket();
+        if(!$basket['basketItems']->count()) return to_route('basket.index');
+
         if($request->has('saveData')) {
             $user = User::find(Auth::user()->id);
 
@@ -84,15 +93,13 @@ class BasketController extends Controller
 
         $order->save();
 
-        Order::create([
-            'user_id' => Auth::user()->id,
-            'checkout' => 0
-        ]);
+        Auth::user()->orders()->save(new Order());
 
         return redirect()->to(route('basket.index', ['checkout' => $order->id]));
     }
 
-    public function clear() {
+    public function clear(): \Illuminate\Http\RedirectResponse
+    {
         $basket = $this->findOrCreate();
 
         foreach(OrderItem::where('order_id', '=', $basket->id)->get() as $item) {
@@ -102,12 +109,13 @@ class BasketController extends Controller
         return redirect()->to(route('basket.index'));
     }
 
-    public function addProduct(ProductRequest $request) {
+    public function addProduct(ProductRequest $request): \Illuminate\Http\RedirectResponse
+    {
         $product = Product::find($request->product_id);
         $basket = $this->findOrCreate();
 
-        if($this->hasProduct($basket, $request->product_id)) {
-            $basketItem = OrderItem::where('order_id', '=', $basket->id)->where('product_id', '=', $request->product_id)->get();
+        if($this->hasProduct($basket, $product->id)) {
+            $basketItem = $basket->items()->where('product_id', '=', $product->id)->get();
 
             foreach($basketItem as &$item) {
                 if($product->getPrice() == $item->price) {
@@ -119,7 +127,7 @@ class BasketController extends Controller
 
                     $item->save();
 
-                    return redirect()->to(route('basket.index'));
+                    return to_route('basket.index');
                 }
             }
         }
@@ -129,18 +137,19 @@ class BasketController extends Controller
         $data['order_id'] = $basket->id;
         $data['price'] = $product->getPrice();
 
-        OrderItem::create($data);
+        $basket->items()->save(new OrderItem($data));
 
-        return redirect()->to(route('basket.index'));
+        return to_route('basket.index');
     }
 
-    public function editProduct(ExistingProductRequest $request) {
+    public function editProduct(ExistingProductRequest $request): \Illuminate\Http\RedirectResponse
+    {
         $product = Product::findOrFail($request->product_id);
         $basket = $this->findOrCreate();
 
-        if($this->hasProduct($basket, $request->product_id)) {
+        if($this->hasProduct($basket, $product->id)) {
             $basketItem = OrderItem::findOrFail($request->id);
-            if($basketItem->order_id != $basket->id || $basketItem->product_id != $request->product_id) abort(403);
+            if($basketItem->order_id != $basket->id || $basketItem->product_id != $product->id) abort(403);
 
             $basketItem->quantity = $request->quantity;
             $basketItem->price = $product->getPrice();
@@ -160,24 +169,17 @@ class BasketController extends Controller
                 $basketItem->quantity = $quantity;
 
                 $basketItem->save();
-
-//                $query->get()->each(fn($item, $_) => $item->delete());
-//
-//                $basket->items()->save(new OrderItem([
-//                    'product_id' => $product->id,
-//                    'price' => $product->getPrice(),
-//                    'quantity' => $quantity
-//                ]));
             }
         }
 
-        return redirect()->to(route('basket.index'));
+        return to_route('basket.index');
     }
 
-    public function deleteProduct(ExistingProductRequest $request) {
+    public function deleteProduct(ExistingProductRequest $request): \Illuminate\Http\RedirectResponse
+    {
         $basket = $this->findOrCreate();
         $basket->items()->find($request->id)->delete();
 
-        return redirect()->to(route('basket.index'));
+        return to_route('basket.index');
     }
 }
