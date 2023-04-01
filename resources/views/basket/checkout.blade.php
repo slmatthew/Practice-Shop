@@ -38,7 +38,7 @@
                                     </small>
                                 </div>
                                 <span class="text-muted">
-                                    {{ App\Models\Product::formatPrice($item['product']->getPrice() * $item['quantity']) }}
+                                    {{ App\Models\Product::formatPrice($item['price'] * $item['quantity']) }}
                                 </span>
                             </li>
                         @endif
