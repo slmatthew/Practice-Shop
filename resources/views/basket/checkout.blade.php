@@ -15,7 +15,7 @@
             $total_cost = 0;
             foreach($basketItems as $item) {
                 if($item['product']['available']) {
-                    $total_cost += $item['product']->getPrice() * $item['quantity'];
+                    $total_cost += $item['price'] * $item['quantity'];
                     $count += $item['quantity'];
                 }
             }
