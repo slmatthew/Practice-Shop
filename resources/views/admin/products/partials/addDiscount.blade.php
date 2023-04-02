@@ -17,7 +17,7 @@
                         <label class="form-label" for="pType">Тип скидки</label>
                         <select name="type" class="form-select" id="pType">
                             <option value="price" selected>Новая цена</option>
-{{--                            <option value="percent">В процентах</option>--}}
+                            <option value="percent" disabled>В процентах</option>
                         </select>
                     </div>
                     <div class="mb-3">
