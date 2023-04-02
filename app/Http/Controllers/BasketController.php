@@ -8,7 +8,10 @@ use App\Http\Requests\Basket\ProductRequest;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
+use App\Models\Promocode;
 use App\Models\User;
+use App\Models\UserPromocode;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
 
 class BasketController extends Controller
@@ -28,6 +31,14 @@ class BasketController extends Controller
 
     private function getProducts(Order $order): \Illuminate\Database\Eloquent\Collection
     {
+        $order->items()->orderBy('updated_at', 'desc')->each(function ($item, $_) {
+            $product = Product::find($item->product_id);
+
+            if($product->hidden || !$product->available) {
+                $item->delete();
+            }
+        });
+
         $orderItems = $order->items()->orderBy('updated_at', 'desc')->get();
         if(count($orderItems) > 0) {
             foreach($orderItems as $n => &$item) {
@@ -73,6 +84,27 @@ class BasketController extends Controller
         $basket = $this->getBasket();
         if(!$basket['basketItems']->count()) return to_route('basket.index');
 
+        $final_price = 0;
+
+        foreach($basket['basketItems'] as &$basketItem) {
+            $final_price += $basketItem->product->getPrice();
+        }
+
+        if(!is_null($request->get('promocode'))) {
+            try {
+                $promocode = Promocode::where('promocode', $request->get('promocode'))->firstOrFail();
+
+                if(
+                    !$promocode->expired &&
+                    !$promocode->limit_exceeded &&
+                    !Auth::user()->usedPromocode($promocode)
+                ) {
+                    $final_price = $final_price - ($final_price * ($promocode->discount / 100));
+                    Auth::user()->usersPromocodes()->save(new UserPromocode(['promocode_id' => $promocode->id]));
+                }
+            } catch(ModelNotFoundException $e) {}
+        }
+
         if($request->has('saveData')) {
             $user = User::find(Auth::user()->id);
 
@@ -90,6 +122,7 @@ class BasketController extends Controller
         $order->surname = $request->get('surname');
         $order->phone = $request->get('phone');
         $order->submitted_at = \Carbon\Carbon::now('Europe/Moscow')->toDateTimeString();
+        $order->final_price = (float)$final_price;
 
         $order->save();
 
@@ -185,6 +218,26 @@ class BasketController extends Controller
 
     public function checkPromocode(string $promocode)
     {
-        return response()->json(['ok' => mt_rand(0, 100) > 50, 'discount' => 35, 'reason' => 'бла-бла-бла!']);
+        try {
+
+            $promocode = Promocode::where('promocode', $promocode)->firstOrFail();
+
+            if($promocode->expired) {
+                return response()->json(['ok' => false, 'reason' => 'Срок активации завершен']);
+            }
+
+            if($promocode->limit_exceeded) {
+                return response()->json(['ok' => false, 'reason' => 'Активации кончились']);
+            }
+
+            if(Auth::user()->usedPromocode($promocode)) {
+                return response()->json(['ok' => false, 'reason' => 'Вы уже применяли этот промокод']);
+            }
+
+            return response()->json(['ok' => true, 'discount' => $promocode->discount]);
+
+        } catch(ModelNotFoundException $e) {
+            return response()->json(['ok' => false, 'reason' => 'Такого промокода не существует']);
+        }
     }
 }
