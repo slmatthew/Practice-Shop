@@ -104,4 +104,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Order::class);
     }
+
+    public function userPromocodes()
+    {
+        return $this->hasMany(UserPromocode::class);
+    }
 }
