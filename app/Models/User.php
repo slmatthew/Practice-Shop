@@ -105,8 +105,13 @@ class User extends Authenticatable
         return $this->hasMany(Order::class);
     }
 
-    public function userPromocodes()
+    public function usersPromocodes()
     {
         return $this->hasMany(UserPromocode::class);
+    }
+
+    public function usedPromocode(Promocode $promocode)
+    {
+        return $this->usersPromocodes()->where('promocode_id', $promocode->id)->exists();
     }
 }

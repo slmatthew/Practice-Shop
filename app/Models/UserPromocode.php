@@ -11,6 +11,13 @@ class UserPromocode extends Model
 
     protected $table = 'users_promocodes';
 
+    public $timestamps = false;
+
+    protected $fillable = [
+        'user_id',
+        'promocode_id'
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
