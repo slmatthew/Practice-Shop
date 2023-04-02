@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\BrandsController;
 use App\Http\Controllers\Admin\OrdersController;
+use App\Http\Controllers\Admin\PromocodesController;
 use App\Http\Controllers\BasketController;
 use App\Http\Controllers\DiscountController;
 use App\Http\Controllers\ProductsController;
@@ -174,6 +175,13 @@ Route::group(['middleware' => ['auth', ValidateAdmin::class]], function() {
             Route::get('/order/clear', [OrdersController::class, 'clear'])->name('orders.clear');
 
             Route::get('/order/{order}', [OrdersController::class, 'item'])->name('orders.item');
+
+            /**
+             * промокоды
+             */
+            Route::get('/promocodes', [PromocodesController::class, 'main'])->name('promocodes.main');
+
+            Route::put('/promocodes', [PromocodesController::class, 'create'])->name('promocodes.add');
 
         });
     });
