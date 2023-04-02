@@ -19,9 +19,6 @@ return new class extends Migration
         Schema::create('users_promocodes', function (Blueprint $table) {
             $table->foreignIdFor(User::class)->constrained('users')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignIdFor(Promocode::class)->constrained('promocodes')->cascadeOnUpdate()->cascadeOnDelete();
-
-            $table->timestamp('created_at')->useCurrent()->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->useCurrentOnUpdate()->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
         });
     }
 
