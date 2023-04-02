@@ -39,7 +39,12 @@ class Order extends Model
 
     protected $fillable = [
         'user_id',
-        'checkout'
+        'checkout',
+        'name',
+        'surname',
+        'phone',
+        'final_price',
+        'submitted_at'
     ];
 
     public function items()
