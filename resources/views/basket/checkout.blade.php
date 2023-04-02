@@ -173,7 +173,7 @@
                     // Обновляем информацию о скидке на странице
                     console.log(response.ok)
                     if (response.ok) {
-                        $('#pc-li-amount').html('-' + response.discount.toLocaleString('ru-RU', { style: 'currency', currency: 'RUB' }));
+                        $('#pc-li-amount').html('-' + (startTotalCost * (response.discount / 100)).toLocaleString('ru-RU', { style: 'currency', currency: 'RUB' }));
                         $('#pc-li-pc').html(promocode);
 
                         changePCInputVal(promocode);
@@ -181,7 +181,7 @@
                         showLoaded();
                         hideLoading();
 
-                        changeTotalCost(startTotalCost - response.discount);
+                        changeTotalCost(startTotalCost - (startTotalCost * (response.discount / 100)));
                     } else {
                         hideLoading();
 
