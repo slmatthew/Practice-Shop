@@ -25,7 +25,7 @@ return new class extends Migration
             $table->timestamp('created_at')->useCurrent()->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate()->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
 
-            $table->timestamp('expires_at')->default(DB::raw('NULL'));
+            $table->timestamp('expires_at')->nullable()->default(DB::raw('NULL'));
         });
     }
 
