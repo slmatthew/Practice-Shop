@@ -8,10 +8,10 @@
                     <div class="card">
                         <div class="rounded-top text-white d-flex flex-row" style="background-color: {{ $user['id'] == 1 ? '#957DAD' : '#000' }}; height:200px;">
                             <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px;">
-                                <img src="{{ $user['image'] }}"
-                                     alt="{{ "@{$user['username']}" }} image" class="img-fluid img-thumbnail mt-4 mb-2"
+                                <img src="{{ $user->image }}"
+                                     alt="{{ "@{$user->username}" }} image" class="img-fluid img-thumbnail mt-4 mb-2"
                                      style="width: 150px; z-index: 1">
-                                @if(Auth::check() && auth()->user()->toArray()['id'] == $user['id'])
+                                @if(Auth::check() && Auth::user()->id == $user->id)
                                     <a role="button" href="{{ route('user.edit') }}" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
                                             style="z-index: 1;">
                                         Редактировать
@@ -19,36 +19,36 @@
                                 @endif
                             </div>
                             <div class="ms-3" style="margin-top: 130px;">
-                                <h5>{{ "{$user['name']}  {$user['surname']}" }}</h5>
-                                <p>{{ "@{$user['username']}" }}</p>
+                                <h5>{{ "{$user->name}  {$user->surname}" }}</h5>
+                                <p>{{ "@{$user->username}" }}</p>
                             </div>
                         </div>
                         <div class="p-4 text-black" style="background-color: #f8f9fa;">
                             <div class="d-flex justify-content-end text-center py-1">
-                                @if(Auth::check() && $user['id'] == Auth::user()->id)
+                                @if(Auth::check() && $user->id == Auth::user()->id)
                                     <a href="{{ route('user.orders') }}" style="text-decoration: none; color: inherit">
                                         <div>
-                                            <p class="mb-1 h5">{{ number_format($orders['count'], 0, '', ' ') }}</p>
-                                            <p class="small text-muted mb-0">{{ trans_choice('заказ|заказа|заказов', $orders['count']) }}</p>
+                                            <p class="mb-1 h5">{{ number_format($orders->count(), 0, '', ' ') }}</p>
+                                            <p class="small text-muted mb-0">{{ trans_choice('заказ|заказа|заказов', $orders->count()) }}</p>
                                         </div>
                                     </a>
                                 @elseif(Auth::check() && Auth::user()->isAdmin())
-                                    <a href="{{ route('admin.orders.main', ['user_id' => $user['id']]) }}" style="text-decoration: none; color: inherit">
+                                    <a href="{{ route('admin.orders.main', ['user_id' => $user->id]) }}" style="text-decoration: none; color: inherit">
                                         <div>
-                                            <p class="mb-1 h5">{{ number_format($orders['count'], 0, '', ' ') }}</p>
-                                            <p class="small text-muted mb-0">{{ trans_choice('заказ|заказа|заказов', $orders['count']) }}</p>
+                                            <p class="mb-1 h5">{{ number_format($orders->count(), 0, '', ' ') }}</p>
+                                            <p class="small text-muted mb-0">{{ trans_choice('заказ|заказа|заказов', $orders->count()) }}</p>
                                         </div>
                                     </a>
                                 @else
                                     <div>
-                                        <p class="mb-1 h5">{{ number_format($orders['count'], 0, '', ' ') }}</p>
-                                        <p class="small text-muted mb-0">{{ trans_choice('заказ|заказа|заказов', $orders['count']) }}</p>
+                                        <p class="mb-1 h5">{{ number_format($orders->count(), 0, '', ' ') }}</p>
+                                        <p class="small text-muted mb-0">{{ trans_choice('заказ|заказа|заказов', $orders->count()) }}</p>
                                     </div>
                                 @endif
                             </div>
                         </div>
 
-                        @if(!empty($orders['items']))
+                        @if($orders->count())
                             <div class="card-body p-4 text-black">
                                 <div>
                                     <p class="lead fw-normal mb-1">Недавние заказы</p>
@@ -63,19 +63,29 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach($orders['items'] as $order)
+                                                @foreach($orders as $i => $order)
+                                                    @if($i == 3)
+                                                        <tr>
+                                                            <td colspan="4" class="text-center">
+                                                                <a href="{{ route('user.orders') }}" target="_blank">
+                                                                    Посмотреть еще
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                        @break
+                                                    @endif
                                                     <tr>
                                                         <th scope="row">
-                                                            {{ $order['id'] }}
+                                                            {{ $order->id }}
                                                         </th>
                                                         <td>
-                                                            {{ number_format($orders['prices'][$order['id']], 2, ',', ' ') }} ₽
+                                                            {{ App\Models\Product::formatPrice($order->final_price) }}
                                                         </td>
                                                         <td>
-                                                            {{ date('d.m.Y H:i:s', strtotime($order['updated_at'])) }}
+                                                            {{ \Carbon\Carbon::parse($order->submitted_at, 'Europe/Moscow')->locale('ru-RU')->format('d.m.Y в H:i') }}
                                                         </td>
                                                         <td>
-                                                            <a href="{{ route('user.order', ['order' => $order['id']]) }}" target="_blank" role="button" class="btn btn-outline-secondary btn-sm">
+                                                            <a href="{{ route('user.order', $order) }}" target="_blank" role="button" class="btn btn-outline-secondary btn-sm">
                                                                 Открыть
                                                             </a>
                                                         </td>

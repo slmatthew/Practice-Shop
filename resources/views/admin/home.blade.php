@@ -15,7 +15,8 @@
             border-color: var(--bs-secondary-color);
         }
     </style>
-    <div class="col-md-10 ">
+
+    <div class="col-md-10">
         <div class="row mb-3">
             <div class="col-xl-3 col-lg-6">
                 <a href="{{ route('admin.users.main') }}" class="card-link-custom">
@@ -100,4 +101,28 @@
             </p>
         </div>
     </div>
+
+    <h2>База данных</h2>
+
+    <div class="col-md-10">
+        <div class="row">
+            <div class="col-xl-3 col-lg-6">
+                <p>
+                    Имя БД: {{ env('DB_DATABASE') }}
+                </p>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-xl-3 col-lg-6">
+                <a href="{{ route('admin.orders.clear') }}" class="btn btn-danger btn-sm" data-bs-toggle="tooltip" data-bs-title="Очистить orders и orders_items">
+                    Удалить все заказы
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script defer>
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    </script>
 @endsection

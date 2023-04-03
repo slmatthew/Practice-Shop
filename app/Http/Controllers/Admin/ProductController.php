@@ -78,14 +78,14 @@ class ProductController extends Controller
             $product->image_url = $product->image_url ?? '/img/camera_200.png';
 
             if(!is_null($request->get('delete_image')) && str_starts_with($product->image_url, env('APP_URL', 'https://shop.slmatthew.ru').'/storage/')) {
-                Storage::disk('public')->delete(mb_substr($product->image_url, 9));
+                Storage::disk('public')->delete(mb_substr($product->image_url, mb_strlen(env('APP_URL', 'https://shop.slmatthew.ru').'/storage/')));
                 $product->image_url = '/img/camera_200.png';
             }
 
             $file = $request->file('image');
             if($file) {
                 if(str_starts_with($product->image_url, env('APP_URL', 'https://shop.slmatthew.ru').'/storage/')) {
-                    Storage::disk('public')->delete(mb_substr($product->image_url, 9));
+                    Storage::disk('public')->delete(mb_substr($product->image_url, mb_strlen(env('APP_URL', 'https://shop.slmatthew.ru').'/storage/')));
                 }
 
                 $product->image_url = ImageSaver::upload($file, 'products', width: 1500);
@@ -108,7 +108,7 @@ class ProductController extends Controller
         $product_data = $product->toArray();
 
         if(str_starts_with($product_data['image_url'], env('APP_URL', 'https://shop.slmatthew.ru').'/storage/')) {
-            Storage::disk('public')->delete(mb_substr($product_data['image_url'], 9));
+            Storage::disk('public')->delete(mb_substr($product_data['image_url'], mb_strlen(env('APP_URL', 'https://shop.slmatthew.ru').'/storage/')));
         }
 
         return redirect()->route('admin.products.main', [

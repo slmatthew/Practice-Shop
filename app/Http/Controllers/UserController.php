@@ -15,32 +15,10 @@ use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
-    public function user(User $user): \Illuminate\Contracts\View\View
-    {
-        $orders_count = Order::select('id')->where('user_id', '=', $user->id)->where('checkout', '>', 0)->count();
-        $orders_items = [];
-        $orders_prices = [];
+    public function user(User $user) {
+        $orders = $user->orders()->orderBy('submitted_at', 'desc')->where('checkout', '>', 0)->where('checkout', '<', 3)->get();
 
-        if(Auth::check() && Auth::user()->id == $user->id) {
-            $orders_items = Order::where('checkout', '>', 0)->where('user_id', '=', $user->id)->orderBy('updated_at', 'desc')->limit(3)->get()->toArray();
-
-            foreach($orders_items as $order) {
-                $products = OrderItem::select('product_id', 'quantity')->where('order_id', '=', $order['id'])->orderBy('updated_at', 'desc')->get()->toArray();
-                foreach($products as $product) {
-                    $product_db = Product::find($product['product_id']);
-
-                    isset($orders_prices[$order['id']]) ? $orders_prices[$order['id']] += $product_db->price * $product['quantity'] : $orders_prices[$order['id']] = $product_db->price * $product['quantity'];
-                }
-            }
-        }
-
-        return view('user.user', [
-            'user' => $user->toArray(),
-            'orders' => [
-                'items' => $orders_items,
-                'prices' => $orders_prices,
-                'count' => $orders_count
-            ]]);
+        return view('user.user', compact(['user', 'orders']));
     }
 
     public function orders() {

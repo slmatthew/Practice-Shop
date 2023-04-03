@@ -13,10 +13,11 @@
                 @endif
             </p>
             <p class="card-text">
-                @if((bool)$product->available)
-                    {{ number_format($product->price, 2, ',', ' ') }} ₽
-                @else
-                    Нет в наличии
+                {{ $product->available ? $product->getFormattedPrice() : 'Нет в наличии' }}
+                @if($product->hasDiscountAndAvailable())
+                    <span class="badge rounded-pill bg-danger me-1">
+                        -{{ $product->getDiscountPercent() }}%
+                    </span>
                 @endif
             </p>
             <div>

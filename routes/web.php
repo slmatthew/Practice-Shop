@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\Admin\BrandsController;
 use App\Http\Controllers\Admin\OrdersController;
+use App\Http\Controllers\Admin\PromocodesController;
 use App\Http\Controllers\BasketController;
+use App\Http\Controllers\DiscountController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\UserController as UserController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
@@ -100,6 +102,8 @@ Route::group(['middleware' => ['auth']], function() {
             Route::post('/edit', [BasketController::class, 'editProduct'])->name('editProduct');
             Route::delete('/delete', [BasketController::class, 'deleteProduct'])->name('deleteProduct');
 
+            Route::get('/check/{promocode}', [BasketController::class, 'checkPromocode'])->name('checkPromocode');
+
         });
     });
 
@@ -125,6 +129,12 @@ Route::group(['middleware' => ['auth', ValidateAdmin::class]], function() {
             Route::get('/product/{product:id}', [ProductController::class, 'updateProduct'])->name('product');
             Route::post('/product/{product:id}', [ProductController::class, 'updateProductAction'])->name('product.update');
             Route::delete('/product/{product:id}', [ProductController::class, 'deleteProductAction'])->name('product.delete');
+
+            /**
+             * Скидки
+             */
+            Route::put('/product/{product:id}/discount', [ DiscountController::class, 'add' ])->name('product.discount.add');
+            Route::delete('/product/{product:id}/discount', [ DiscountController::class, 'clear' ])->name('product.discount.clear');
 
             /**
              * категории
@@ -162,7 +172,19 @@ Route::group(['middleware' => ['auth', ValidateAdmin::class]], function() {
             Route::post('/order/cancel', [OrdersController::class, 'cancel'])->name('orders.cancel');
             Route::delete('/order/delete', [OrdersController::class, 'delete'])->name('orders.delete');
 
+            Route::get('/order/clear', [OrdersController::class, 'clear'])->name('orders.clear');
+
             Route::get('/order/{order}', [OrdersController::class, 'item'])->name('orders.item');
+
+            /**
+             * промокоды
+             */
+            Route::get('/promocodes', [PromocodesController::class, 'main'])->name('promocodes.main');
+
+            Route::put('/promocodes', [PromocodesController::class, 'create'])->name('promocodes.add');
+
+            Route::delete('/promocodes', [PromocodesController::class, 'clear'])->name('promocodes.clear');
+            Route::delete('/promocodes/{promocode:id}', [PromocodesController::class, 'delete'])->name('promocodes.delete');
 
         });
     });
