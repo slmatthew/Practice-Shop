@@ -64,6 +64,19 @@
                     </td>
                 </tr>
             @endforeach
+            @if($order->discounted)
+                <tr>
+                    <th scope="row"></th>
+                    <td>
+                        Промокод
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        -{{ App\Models\Product::formatPrice($total_cost - $order->final_price) }}
+                    </td>
+                </tr>
+            @endif
             <tr>
                 <th scope="row"></th>
                 <td>
@@ -74,7 +87,7 @@
                     {{ $total_quantity }}
                 </td>
                 <td>
-                    {{ App\Models\Product::formatPrice($total_cost) }}
+                    {{ App\Models\Product::formatPrice($order->final_price) }}
                 </td>
             </tr>
             </tbody>

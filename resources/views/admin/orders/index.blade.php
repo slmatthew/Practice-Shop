@@ -39,7 +39,10 @@
                         {{ $order->name }} {{ mb_substr($order->surname, 0, 1) }}.
                     </td>
                     <td>
-                        {{ App\Models\Product::formatPrice($prices[$order->id]) }}
+                        {{ App\Models\Product::formatPrice($order->final_price) }}
+                        @if($order->discounted)
+                            <span class="badge rounded-pill text-bg-dark">ПК</span>
+                        @endif
                     </td>
                     <td>
                         {{ date('d.m.Y H:i:s', strtotime($order->submitted_at)) }}
