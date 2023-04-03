@@ -4,7 +4,7 @@
     <div class="container">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('user.user', ['user' => Auth::user()->id]) }}">{{ Auth::user()->username }}</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('user.user', ['user' => Auth::user()]) }}">{{ Auth::user()->username }}</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Заказы</li>
             </ol>
         </nav>
