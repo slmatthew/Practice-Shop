@@ -49,7 +49,7 @@ class BrandsController extends Controller
         $file = $request->file('image');
         if($file) {
             if(str_starts_with($brand->image_url, env('APP_URL', 'https://shop.slmatthew.ru').'/storage/')) {
-                Storage::disk('public')->delete(mb_substr($brand->image_url, 9));
+                Storage::disk('public')->delete(mb_substr($brand->image_url, mb_strlen(env('APP_URL', 'https://shop.slmatthew.ru').'/storage/')));
             }
 
             $brand->image = ImageSaver::upload($file, 'brands', false, 1920, 1200);
@@ -65,7 +65,7 @@ class BrandsController extends Controller
         if($brand->id != $request->getData()['id']) abort(404);
 
         if(str_starts_with($brand->image_url, env('APP_URL', 'https://shop.slmatthew.ru').'/storage/')) {
-            Storage::disk('public')->delete(mb_substr($brand->image_url, 9));
+            Storage::disk('public')->delete(mb_substr($brand->image_url, mb_strlen(env('APP_URL', 'https://shop.slmatthew.ru').'/storage/')));
         }
 
         $brand->delete();

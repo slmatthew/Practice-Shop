@@ -94,7 +94,7 @@
             </div>
         </div>
 
-        @if(mb_strlen($product['image_url']) > 0 && str_starts_with($product['image_url'], '/storage/'))
+        @if(mb_strlen($product['image_url']) > 0 && str_starts_with($product['image_url'], env('APP_URL', 'https://shop.slmatthew.ru').'/storage/'))
             <div class="mb-3 row">
                 <label class="col-sm-2 col-form-label form-check-label" for="pDeleteImage">
                     Удалить загруженное изображение

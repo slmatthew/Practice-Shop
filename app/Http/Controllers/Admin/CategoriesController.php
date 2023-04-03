@@ -51,7 +51,7 @@ class CategoriesController extends Controller
         $file = $request->file('image');
         if($file) {
             if(str_starts_with($category->image_url, env('APP_URL', 'https://shop.slmatthew.ru').'/storage/')) {
-                Storage::disk('public')->delete(mb_substr($category->image_url, 9));
+                Storage::disk('public')->delete(mb_substr($category->image_url, mb_strlen(env('APP_URL', 'https://shop.slmatthew.ru').'/storage/')));
             }
 
             $category->image_url = ImageSaver::upload($file, 'categories', false, 1920, 1200);
@@ -67,7 +67,7 @@ class CategoriesController extends Controller
         if($category->id != $request->getData()['id']) abort(404);
 
         if(str_starts_with($category->image_url, env('APP_URL', 'https://shop.slmatthew.ru').'/storage/')) {
-            Storage::disk('public')->delete(mb_substr($category->image_url, 9));
+            Storage::disk('public')->delete(mb_substr($category->image_url, mb_strlen(env('APP_URL', 'https://shop.slmatthew.ru').'/storage/')));
         }
 
         $category->delete();
