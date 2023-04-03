@@ -20,11 +20,11 @@ class UserController extends Controller
         $alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
         $pass = [];
         $alphaLength = strlen($alphabet) - 1;
-        for ($i = 0; $i < 8; $i++) {
+        for ($i = 0; $i < 12; $i++) {
             $n = rand(0, $alphaLength);
             $pass[] = $alphabet[$n];
         }
-        return implode($pass);
+        return trim(implode($pass));
     }
 
     public function main(): \Illuminate\Contracts\View\View
@@ -61,10 +61,11 @@ class UserController extends Controller
 
         $password = $this->randomPassword();
 
-        $user->setPasswordAttribute($password);
+        $user->password = $password;
         $user->logout = 1;
 
         $user->save();
+        $user = $user->refresh();
 
         return view('admin.users.newPassword', ['user' => $user, 'password' => $password]);
     }
