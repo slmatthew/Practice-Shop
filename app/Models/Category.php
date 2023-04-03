@@ -40,7 +40,7 @@ class Category extends Model
         'slug',
         'image_url'
     ];
-
+    
     public function getCheapestProductAttribute()
     {
         return Product::getCheapestInGroup($this);
@@ -52,12 +52,12 @@ class Category extends Model
 
         return is_null($cheapest) ? 0 : $cheapest->min_price;
     }
-
+    
     public function getRouteKeyName(): string
     {
         return 'slug';
     }
-
+    
     public function products()
     {
         return $this->hasMany(Product::class);
