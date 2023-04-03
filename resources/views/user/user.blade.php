@@ -79,7 +79,7 @@
                                                             {{ $order->id }}
                                                         </th>
                                                         <td>
-                                                            {{ number_format($order->final_price, 2, ',', ' ') }} ₽
+                                                            {{ App\Models\Product::formatPrice($order->final_price) }}
                                                         </td>
                                                         <td>
                                                             {{ \Carbon\Carbon::parse($order->submitted_at, 'Europe/Moscow')->locale('ru-RU')->format('d.m.Y в H:i') }}
