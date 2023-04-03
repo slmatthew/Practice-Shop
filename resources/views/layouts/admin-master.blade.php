@@ -112,17 +112,23 @@
                             'text' => 'Бренды'
                         ],
                         [
-                            'navItem' => 'users',
-                            'route' => 'admin.users.main',
-                            'feather' => 'users',
-                            'text' => 'Пользователи'
-                        ],
-                        [
                             'navItem' => 'orders',
                             'route' => 'admin.orders.main',
                             'feather' => 'file',
                             'text' => 'Заказы'
                         ],
+                        [
+                            'navItem' => 'promocodes',
+                            'route' => 'admin.promocodes.main',
+                            'feather' => 'gift',
+                            'text' => 'Промокоды'
+                        ],
+                        [
+                            'navItem' => 'users',
+                            'route' => 'admin.users.main',
+                            'feather' => 'users',
+                            'text' => 'Пользователи'
+                        ]
                     ] as $navItem)
                         <li class="nav-item">
                             <a class="nav-link {{ $navbar == $navItem['navItem'] ? 'active' : '' }}" aria-current="page" href="{{ route($navItem['route']) }}">

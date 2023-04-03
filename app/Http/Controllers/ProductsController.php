@@ -13,28 +13,9 @@ class ProductsController extends Controller
         $categories = Category::get();
 
         foreach($categories as $i => &$ctg) {
-            $products = Product::select('image_url')->
-                where('category_id', '=', $ctg->id)->
-                where('hidden', '=', 0)->
-                limit(3)->
-                get()->
-                toArray();
-
-            if(empty($products)) {
+            if(!$ctg->products()->count()) {
                 unset($categories[$i]);
-                continue;
             }
-
-            $min_price = Product::select('price')->
-                where('category_id', '=', $ctg->id)->
-                where('hidden', '=', 0)->
-                orderBy('price', 'asc')->
-                limit(1)->
-                get()->
-                toArray();
-
-            $ctg['products'] = $products;
-            $ctg['min_price'] = $min_price[0]['price'] ?? $min_price['price'] ?? 0;
         }
 
         return view('products.allCategories', ['categories' => $categories]);
@@ -94,11 +75,7 @@ class ProductsController extends Controller
         foreach($categories as $i => &$ctg) {
             if(Product::where('category_id', '=', $ctg->id)->where('brand_id', '=', $brand->id)->where('hidden', '<>', 1)->count() == 0) {
                 unset($categories[$i]);
-                continue;
             }
-
-
-            $ctg->min_price = Product::select('price')->where('category_id', '=', $ctg->id)->where('brand_id', '=', $brand->id)->where('hidden', '<>', 1)->min('price');
         }
 
         return view('products.brand', compact('brand', 'categories'));

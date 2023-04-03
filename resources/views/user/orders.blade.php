@@ -9,7 +9,7 @@
             </ol>
         </nav>
 
-        @if($orders->count() > 0)
+        @if($orders->count())
             <style>
                 .feather {
                     width: 16px;
@@ -33,10 +33,10 @@
                             {{ $order->id }}
                         </th>
                         <td>
-                            {{ number_format($prices[$order->id], 2, ',', ' ') }} ₽
+                            {{ App\Models\Product::formatPrice($order->final_price) }}
                         </td>
                         <td>
-                            {{ date('d.m.Y H:i:s', strtotime($order->submitted_at)) }}
+                            {{ \Carbon\Carbon::parse($order->submitted_at, 'Europe/Moscow')->locale('ru-RU')->format('d.m.Y в H:i') }}
                         </td>
                         <td>
                             <div class="align-items-center">

@@ -47,17 +47,21 @@
                             Новинка!
                         </span>
                     @endif
+
+                    @if($product->hasDiscountAndAvailable())
+                        <span class="badge bg-danger me-1">
+                            Скидка -{{ $product->getDiscountPercent() }}%
+                        </span>
+                    @endif
                 </div>
 
                 <p class="lead">
-                    @if($product->available)
-                        <span>{{ number_format($product->price, 2, ',', ' ') }} ₽</span>
-                    @else
+                    @if(!$product->available || $product->hasDiscountAndAvailable())
                         <span class="me-1">
-                            <del>{{ number_format($product->price, 2, ',', ' ') }} ₽</del>
+                            <del>{{ $product->available ? $product->getFormattedPrice(true) : $product->getFormattedPrice() }}</del>
                         </span>
-                        <span>нет в наличии</span>
                     @endif
+                    <span>{{ $product->available ? $product->getFormattedPrice() : 'нет в наличии' }}</span>
                 </p>
 
                 <strong><p style="font-size: 20px;">{{ $product->name }}</p></strong>

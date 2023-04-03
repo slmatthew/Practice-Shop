@@ -34,7 +34,7 @@
         </div>
     @endif
 
-    <form method="post" action="{{ route('admin.product.update') }}" enctype="multipart/form-data">
+    <form method="post" action="{{ route('admin.product.update', $product['id']) }}" enctype="multipart/form-data">
 
         @csrf
 
@@ -77,6 +77,11 @@
             <label class="col-sm-2 col-form-label" for="pPrice">Стоимость</label>
             <div class="col-sm-10">
                 <input name="price" type="number" class="form-control" value="{{ $product['price'] }}" id="pPrice" step=".01" required>
+                @if($product->hasDiscount())
+                    <p class="text-danger">
+                        Не забудьте удалить скидки!
+                    </p>
+                @endif
             </div>
         </div>
 
@@ -142,6 +147,61 @@
             </div>
         </div>
 
+        <hr class="my-4" />
+
+        @php($discounts = $product->discounts()->orderBy('id', 'desc')->limit(3)->get())
+
+        @if($discounts->count())
+            <div class="mb-3 row">
+                <label class="col-sm-2 col-form-label">Скидки</label>
+                <div class="col-sm-4">
+                    <ul class="list-group">
+                        @foreach($discounts as $discount)
+
+                            @php($dlActive = $product->discounts()->latest()->get()[0]->id == $discount->id)
+                            @php($dlActual = !is_null($discount->end_date) && \Carbon\Carbon::parse($discount->end_date, 'Europe/Moscow')->gt(\Carbon\Carbon::now('Europe/Moscow')))
+
+                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                                <div class="ms-2 me-auto">
+                                    <div class="fw-bold">
+                                        {{ $discount->isFixed() ? 'Фиксированная' : 'Процентная' }} скидка
+                                    </div>
+
+                                    Новая цена: {{ $product->formatPrice($product->getDiscountedPrice($discount)) }} ({{ $product->getDiscountPercent($discount) }}%)
+                                </div>
+
+                                @if($dlActual || (is_null($discount->end_date) && $dlActive))
+                                    <span class="badge text-bg-primary rounded-pill me-1">
+                                        активна
+                                    </span>
+                                @endif
+
+                                <span class="badge text-bg-{{ $dlActual ? 'danger' : 'secondary' }} rounded-pill">
+                                    @if(!is_null($discount->end_date))
+                                        до {{ \Carbon\Carbon::parse($discount->end_date, 'Europe/Moscow')->format('d.m.Y') }}
+                                    @else
+                                        бессрочно
+                                    @endif
+                                </span>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+        @endif
+
+        <div class="mb-3 row">
+            <div class="col-sm-2">{{ $discounts->count() ? '' : 'Скидки' }}</div>
+            <div class="col-sm-10">
+                <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="{{ "#m-ad-{$product['id']}" }}">Добавить</button>
+                @if($discounts->count())
+                    <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="{{ "#m-cd-{$product['id']}" }}">Очистить</button>
+                @endif
+            </div>
+        </div>
+
+        <hr class="my-4" />
+
         <div class="d-grid gap-2">
             <button class="w-100 btn btn-lg btn-outline-primary" type="submit">Сохранить</button>
             <a href="{{ route('admin.products.main') }}" role="link" class="w-100 btn btn-lg btn-outline-danger" type="submit">Отменить</a>
@@ -154,4 +214,7 @@
             document.getElementById('pDescCounter').value = this.value.length;
         };
     </script>
+
+    @include('admin.products.partials.addDiscount', ['product' => $product])
+    @include('admin.products.partials.clearDiscount', ['product' => $product])
 @endsection

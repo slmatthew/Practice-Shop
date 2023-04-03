@@ -12,7 +12,8 @@ class CheckoutRequest extends FormRequest
             'name' => ['required', 'string', 'min:1', 'max:45'],
             'surname' => ['required', 'string', 'min:1', 'max:45'],
             'phone' => ['required', 'regex:/[0-9]{10}/'],
-            'saveData' => ['boolean']
+            'saveData' => ['boolean'],
+            'promocode' => ['nullable', 'exists:promocodes,promocode']
         ];
     }
 }

@@ -14,9 +14,11 @@
         "laravel/helpers": "^1.6",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
-        "laravel/ui": "^4.2"
+        "laravel/ui": "^4.2",
+        "ext-bcmath": "*"
     },
     "require-dev": {
+        "barryvdh/laravel-ide-helper": "^2.13",
         "fakerphp/faker": "^1.9.1",
         "laravel-lang/common": "^3.1",
         "laravel/pint": "^1.0",

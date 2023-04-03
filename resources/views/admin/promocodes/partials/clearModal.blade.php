@@ -1,19 +1,17 @@
-<div class="modal fade" id="modalDelete{{ $item['id'] }}" tabindex="-1" aria-labelledby="MDHeader{{ $item['id'] }}" aria-hidden="true">
+<div class="modal fade" id="mTruncatePC" tabindex="-1" aria-labelledby="mTruncatePCH" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="MDHeader{{ $item['id'] }}">{{ $item['product']['name'] }}</h1>
+                <h1 class="modal-title fs-5" id="mTruncatePCH">Удалить промокоды</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
             </div>
-            <form method="post" action="{{ route('basket.deleteProduct') }}">
+            <form method="post" action="{{ route('admin.promocodes.clear') }}">
+
                 @csrf
                 @method('DELETE')
 
-                <input type="hidden" name="id" value="{{ $item['id'] }}" />
-                <input type="hidden" name="product_id" value="{{ $item['product']['id'] }}" />
-
                 <div class="modal-body">
-                    Вы действительно хотите удалить этот товар из корзины?
+                    Вы действительно хотите удалить все промокоды?
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Отмена</button>

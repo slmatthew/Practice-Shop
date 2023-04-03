@@ -9,6 +9,7 @@ use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class OrdersController extends Controller
 {
@@ -30,11 +31,11 @@ class OrdersController extends Controller
         $prices = [];
 
         foreach($orders as $order) {
-            $products = OrderItem::select('product_id', 'quantity')->where('order_id', '=', $order->id)->orderBy('updated_at', 'desc')->get()->toArray();
+            $products = OrderItem::select('product_id', 'price', 'quantity')->where('order_id', '=', $order->id)->orderBy('updated_at', 'desc')->get()->toArray();
             foreach($products as $product) {
-                $product_db = Product::find($product['product_id']);
+                //$product_db = Product::find($product['product_id']);
 
-                isset($prices[$order->id]) ? $prices[$order->id] += $product_db->price * $product['quantity'] : $prices[$order->id] = $product_db->price * $product['quantity'];
+                isset($prices[$order->id]) ? $prices[$order->id] += $product['price'] * $product['quantity'] : $prices[$order->id] = $product['price'] * $product['quantity'];
             }
         }
 
@@ -82,5 +83,16 @@ class OrdersController extends Controller
         $order->delete();
 
         return redirect()->to(route('admin.orders.main'));
+    }
+
+    public function clear() {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
+        OrderItem::truncate();
+        Order::truncate();
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
+        return to_route('admin.home');
     }
 }
