@@ -183,6 +183,9 @@ Route::group(['middleware' => ['auth', ValidateAdmin::class]], function() {
 
             Route::put('/promocodes', [PromocodesController::class, 'create'])->name('promocodes.add');
 
+            Route::delete('/promocodes', [PromocodesController::class, 'clear'])->name('promocodes.clear');
+            Route::delete('/promocodes/{promocode:id}', [PromocodesController::class, 'delete'])->name('promocodes.delete');
+
         });
     });
 
