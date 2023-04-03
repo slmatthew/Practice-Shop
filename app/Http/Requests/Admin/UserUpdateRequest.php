@@ -12,7 +12,7 @@ class UserUpdateRequest extends FormRequest
             'id' => ['required', 'exists:users,id'],
             'name' => ['required', 'string', 'min:1', 'max:45'],
             'surname' => ['required', 'string', 'min:1', 'max:45'],
-            'phone' => ['regex:/[0-9]{10}/'],
+            'phone' => ['nullable', 'regex:/[0-9]{10}/'],
             'role' => ['in:user,admin'],
             'deleteImage' => ['boolean']
         ];
