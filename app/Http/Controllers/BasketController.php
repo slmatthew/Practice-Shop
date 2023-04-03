@@ -84,6 +84,8 @@ class BasketController extends Controller
         $basket = $this->getBasket();
         if(!$basket['basketItems']->count()) return to_route('basket.index');
 
+        $order = Order::find($this->findOrCreate()->id);
+
         $final_price = 0;
 
         foreach($basket['basketItems'] as &$basketItem) {
@@ -99,6 +101,7 @@ class BasketController extends Controller
                     !$promocode->limit_exceeded &&
                     !Auth::user()->usedPromocode($promocode)
                 ) {
+                    $order->discounted = 1;
                     $final_price = $final_price - ($final_price * ($promocode->discount / 100));
                     Auth::user()->usersPromocodes()->save(new UserPromocode(['promocode_id' => $promocode->id]));
                 }
@@ -114,8 +117,6 @@ class BasketController extends Controller
 
             $user->save();
         }
-
-        $order = Order::find($this->findOrCreate()->id);
 
         $order->checkout = 1;
         $order->name = $request->get('name');

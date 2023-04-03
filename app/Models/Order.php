@@ -44,7 +44,8 @@ class Order extends Model
         'surname',
         'phone',
         'final_price',
-        'submitted_at'
+        'submitted_at',
+        'discounted'
     ];
 
     public function items()
