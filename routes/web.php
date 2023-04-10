@@ -58,6 +58,8 @@ Route::group(['middleware' => ['guest']], function() {
     Route::get('/login', [LoginController::class, 'show'])->name('login.show');
     Route::post('/login', [LoginController::class, 'login'])->name('login.perform');
 
+    Route::post('/login/vk', [LoginController::class, 'loginVk'])->name('login.vk');
+
 });
 
 Route::group(['middleware' => ['auth']], function() {

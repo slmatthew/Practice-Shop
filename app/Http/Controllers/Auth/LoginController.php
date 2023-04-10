@@ -7,6 +7,7 @@ use App\Http\Controllers\MainController;
 use App\Http\Controllers\Renderable;
 use App\Http\Requests\LoginRequest;
 use App\Models\User;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -45,6 +46,17 @@ class LoginController extends Controller
         Auth::login($user);
 
         return $this->authenticated($request, $user);
+    }
+
+    public function loginVk(Request $request) {
+        if($request->has('vk_data')) {
+            $vk_data = $request->get('vk_data');
+            $vk_data = @json_decode($vk_data, true);
+
+            if(!is_null($vk_data)) return json_encode($vk_data);
+        }
+
+        return 'not ok';
     }
 
     /**
